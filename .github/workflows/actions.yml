@@ -2,77 +2,135 @@ name: Epitech Classic CD/CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+        - "main"
   pull_request:
-    branches: [ "main" ]
+    branches:
+        - "main"
 
 env:
-  PROJECT_NAME: Minishell2
-  PROJECT_FILE: mysh
+  PROJECT_NAME: 42sh
+  MIRROR_URL: git@github.com:EpitechPGEPromo2029/B-DOP-200-MAR-2-1-chocolatine-liam.colle.git
+  EXECUTABLES: 42sh
+  LIBRARIES: libmy.a,libfsutils.a,libargparser.a,libstatutils.a
 
 jobs:
-  build:
-    timeout-minutes: 10
+  check_requirements:
+    timeout-minutes: 1
     runs-on: self-hosted
-    container:
-      image: epitechcontent/epitest-docker
+    if: ${{ github.repository != '<N/A>' }}
 
     steps:
-    - uses: actions/checkout@v4
+      - name: "[REQUIREMENTS]: Confirm requirements"
+        run: "echo 'Requirements met | Running on Repo: ${{ github.repository }}.'"
 
-    - name: Make Project
-      run: make
-
-    - name: Check if image exists
-      run: ./tests/action_utils/exists.sh ./${PROJECT_FILE}
-
-  tests:
-    timeout-minutes: 10
+  check_coding_style:
+    timeout-minutes: 5
     runs-on: self-hosted
-    container:
-      image: epitechcontent/epitest-docker
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Run tests
-      run: make tests_run
-
-  clean:
-    timeout-minutes: 10
-    runs-on: self-hosted
-    container:
-      image: epitechcontent/epitest-docker
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Make workspace
-      run: make
-
-    - name: Clean workspace
-      run: make fclean
-
-    - name: Check if workspace has been cleaned
-      run: ./tests/action_utils/n_exists.sh ./${PROJECT_FILE}
-
-  style:
-    timeout-minutes: 10
-    runs-on: self-hosted
+    needs: check_requirements
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: "[GITHUB] Checkout code from GitHub"
+      uses: actions/checkout@v4
 
-    - name: Make workspace
-      run: make
-
-    - name: Make style
-      run: make fclean
-
-    - name: Check for coding style warnings
+    - name: "[CHECK] Check for coding style errors"
       run: check.sh $(pwd) $(pwd)
 
-    - name: Check for coding style warnings2
-      run: ./tests/action_utils/cs_check.sh
+    - name: "[CHECK] Convert errors to annotations if any"
+      shell: bash
+      run: |
+            while IFS=': '; read -r -a array;\
+              do echo "::error file=${array[0]},line=${array[1]},endLine=${array[1]},title=${array[2]} coding style error::${array[3]}" >> cs_report;\
+            done < coding-style-reports.log;
+            [ -f cs_report ] && cat cs_report 2> /dev/null;
+            if [ -s cs_report ]; then
+              rm -f cs_report; exit 1; fi
+            rm -f cs_report;
+
+    - name: "[POST-RUN] Clean workspace"
+      run: "rm -f coding-style-reports.log"
+
+  check_program_compilation:
+    timeout-minutes: 5
+    runs-on: self-hosted
+    needs: check_requirements
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - name: "[GITHUB] Checkout code from GitHub"
+      uses: actions/checkout@v4
+
+    - name: "[COMPILATION] Compile program"
+      timeout-minutes: 3
+      run: make
+
+    - name: "[CHECK] Check if executables exists"
+      shell: bash
+      if: success() || failure()
+      run: |
+            for i in $(echo $EXECUTABLES | sed 's/,/ /g'); do if [ -e $i ]; then
+              echo ::notice file=$i,title=Library file present::$i does exist >> libcheck_n; else
+              echo ::error file=$i,title=Library file missing::$i does not exist >> libcheck_e; fi
+            done;
+            [ -f  libcheck_n ] && cat libcheck_n 2> /dev/null;
+            [ -f libcheck_e ] && cat libcheck_e 2> /dev/null;
+            if [ -s libcheck_e ]; then
+              rm -f libcheck_n libcheck_e; exit 1; fi
+            rm -f libcheck_n libcheck_e;
+
+    - name: "[CHECK] Check if libraries exists"
+      shell: bash
+      if: success() || failure()
+      run: |
+            for i in $(echo $LIBRARIES | sed 's/,/ /g'); do if [ -e $i ]; then
+              echo ::notice file=$i,title=Library file present::$i does exist >> libcheck_n; else
+              echo ::error file=$i,title=Library file missing::$i does not exist >> libcheck_e; fi
+            done;
+            [ -f  libcheck_n ] && cat libcheck_n 2> /dev/null;
+            [ -f libcheck_e ] && cat libcheck_e 2> /dev/null;
+            if [ -s libcheck_e ]; then
+              rm -f libcheck_n libcheck_e; exit 1; fi
+            rm -f libcheck_n libcheck_e;
+
+    - name: "[POST-RUN] Clean workspace"
+      run: "make fclean"
+
+  run_unit_tests:
+    timeout-minutes: 5
+    runs-on: self-hosted
+    needs: check_program_compilation
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - name: "[GITHUB] Checkout code from GitHub"
+      uses: actions/checkout@v4
+
+    - name: "[TESTS] Execute tests"
+      timeout-minutes: 2
+      run: make tests_run
+
+    - name: "[POST-RUN] Clean workspace"
+      run: "make fclean"
+
+  update_versioning:
+    timeout-minutes: 5
+    runs-on: self-hosted
+    needs: [check_coding_style, run_unit_tests]
+
+    steps:
+    - name: "[GITHUB] Checkout code from GitHub"
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: paulhatch/semantic-version@v5.4.0
+      with:
+        tag_prefix: "v"
+        major_pattern: "BREAKING CHANGE:"
+        minor_pattern: "feat:"
+        version_format: "${major}.${minor}.${patch}.${increment}"
+        search_commit_body: true

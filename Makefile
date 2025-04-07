@@ -8,9 +8,9 @@
 ## //> Project Data
 ## * Names
 
-NAME = mysh
+NAME = 42sh
 
-DEBUG = mysh_dbg
+DEBUG = 42sh_dbg
 
 TNAME = unit_tests
 
