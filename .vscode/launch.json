@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/mysh_dbg",
+            "program": "${workspaceFolder}/42sh_dbg",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
