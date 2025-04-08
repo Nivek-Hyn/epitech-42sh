@@ -27,6 +27,7 @@ typedef struct {
     #define SH_BLTN_ENV "env", sh_builtin_env
     #define SH_BLTN_SETENV "setenv", sh_builtin_setenv
     #define SH_BLTN_UNSETENV "unsetenv", sh_builtin_unsetenv
+    #define SH_BLTN_SHELLCUSTOM "shellcustom", sh_builtin_shellcustom
 
 extern const sh_builtin_conf_t sh_builtins[];
 
