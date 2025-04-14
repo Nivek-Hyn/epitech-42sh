@@ -30,6 +30,7 @@ typedef struct {
     #define SH_BLTN_SHELLCUSTOM "shellcustom", sh_builtin_shellcustom
     #define SH_BLTN_BG "bg", sh_builtin_bg
     #define SH_BLTN_FG "fg", sh_builtin_fg
+    #define SH_BLTN_ALIAS "alias", sh_builtin_alias
 
 extern const sh_builtin_conf_t sh_builtins[];
 

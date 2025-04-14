@@ -18,5 +18,6 @@ const sh_builtin_conf_t sh_builtins[] = {
     {SH_BLTN_BG},
     {SH_BLTN_FG},
     {SH_BLTN_SHELLCUSTOM},
+    {SH_BLTN_ALIAS},
     {SH_BLTN_BLANK}
 };
