@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "my.h"
+#include "my_printf.h"
 #include "shell/shell.h"
 #include "shell/parser.h"
 
@@ -22,18 +23,20 @@ static char *get_final_quote(char *line, char **last_stop, int i)
     return my_strptrdup(&line[1], &line[i]);
 }
 
-static char *get_doublequote_shard(char *line, char **last_stop)
+static char *get_quote_shard(char *line, char **last_stop, char quote)
 {
     if (line == NULL || last_stop == NULL)
         return NULL;
     if (line[0] == '\0')
         return NULL;
     for (int i = 1; line[i] != '\0'; i++) {
-        if (line[i] == '"') {
+        if (line[i] == quote) {
             return get_final_quote(line, last_stop, i);
         }
-        if (line[i] == '\0')
+        if (line[i] == '\0') {
+            my_printf("Unmatched '%c'.", quote);
             return my_strdup(line);
+        }
     }
     *last_stop = "";
     return my_strdup(line);
@@ -56,8 +59,8 @@ static char *get_shard(char *line, char **last_stop)
                 &line[i + 1] : &line[i];
             return my_strptrdup(line, &line[i]);
         }
-        if (line[i] == '"')
-            return get_doublequote_shard(line, last_stop);
+        if (line[i] == '"' || line[i] == '\'')
+            return get_quote_shard(line, last_stop, line[i]);
     }
     *last_stop = "";
     return my_strdup(line);
