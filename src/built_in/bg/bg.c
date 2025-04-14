@@ -13,7 +13,6 @@
 
 int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task)
 {
-    char *value = NULL;
     sh_bltin_verify_t prerequisites = {-1, 1};
 
     if (shell_data == NULL || task == NULL)
@@ -22,5 +21,5 @@ int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     my_putstr("[WIP]: Background Activated!\n");
     task = NULL;
-    return sh_builtin_success(shell_data, my_getnbr(value));
+    return sh_builtin_success(shell_data, EXIT_SUCCESS);
 }
