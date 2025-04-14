@@ -11,9 +11,7 @@
 #ifndef SH_PIPES_H
     #define SH_PIPES_H
 
-bool_t sh_pipe_is_redirect(char *shard);
-bool_t sh_pipe_is_stop(char *shard);
-bool_t sh_pipe_is_background(char *shard);
+bool_t sh_pipe_is(const char *shard, sh_prsent_type_t type);
 
 int sh_pipes_interpret(sh_tasker_t *task, char *shard,
     char *next_argument);
