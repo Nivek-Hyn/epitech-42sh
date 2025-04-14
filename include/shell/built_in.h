@@ -36,6 +36,8 @@ int sh_builtin_env_bypass(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_setenv(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_unsetenv(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_shellcustom(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_fg(shell_data_t *shell_data, sh_tasker_t *task);
 
 #endif
 
