@@ -102,14 +102,14 @@ typedef struct {
     char *stdout_fn;
     int stderr_fd;
     char *stderr_fn;
-} sh_tasker_redirect_t;
+} sh_tasker_pipes_t;
 
 typedef struct sh_tasker_s {
     sh_tasker_type_t type;
     char *program;
     char **args;
     int (*exec_fnc)(shell_data_t *, struct sh_tasker_s *);
-    sh_tasker_redirect_t pipes;
+    sh_tasker_pipes_t pipes;
     shell_data_t *shell_data;
     sh_prsent_t *parser_entry;
     struct sh_tasker_s *prog_pipes;
