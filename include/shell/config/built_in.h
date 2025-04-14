@@ -35,7 +35,4 @@ typedef struct {
 
 extern const sh_builtin_conf_t sh_builtins[];
 
-// Deprecated. Causes 'unknown' instructions
-sh_builtin_conf_t **sh_return_builtin_fptr(void);
-
 #endif
