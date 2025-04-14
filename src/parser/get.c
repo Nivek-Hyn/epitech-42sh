@@ -20,6 +20,8 @@ sh_prsent_type_t sh_get_pipe_type(char *shard)
     if (my_strcmp(shard, ";") == CMP_EXACT
     || my_strcmp(shard, "&&") == CMP_EXACT)
         return SH_PARSER_STOP_PIPE;
+    if (my_strcmp(shard, "&") == CMP_EXACT)
+            return SH_PARSER_BACKGROUND_PIPE;
     if (my_strcmp(shard, "|") == CMP_EXACT
         || my_strcmp(shard, "||") == CMP_EXACT)
         return SH_PARSER_PROG_PIPE;

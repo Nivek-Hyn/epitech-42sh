@@ -24,5 +24,9 @@ int sh_pipes_interpret(sh_tasker_t *task, char *shard,
         if (sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f != NULL)
             return sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f(task,
                 shard, next_argument);
+    if (sh_pipe_is_background(shard) == TRUE)
+        if (sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f != NULL)
+            return sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f(
+                task, shard, next_argument);
     return FUNC_SUCCESS;
 }

@@ -15,6 +15,7 @@ typedef enum {
     SH_PARSER_PIPE,
     SH_PARSER_PROG_PIPE,
     SH_PARSER_STOP_PIPE,
+    SH_PARSER_BACKGROUND_PIPE,
     SH_PARSER_COMMAND
 } sh_prsent_type_t;
 
@@ -94,6 +95,7 @@ typedef enum {
 typedef struct {
     sh_tasker_pipe_type_t pipe_type;
     sh_tasker_exec_type_t exec_type;
+    bool_t background;
     int stdin_fd;
     char *stdin_fn;
     int stdout_fd;
@@ -123,7 +125,7 @@ typedef struct {
 } sh_tasker_pre_data_t;
 
     #define SH_TASKER_DEF_PREDAT  NULL, STDIN, STDERR, STDOUT
-    #define SH_TSKPIPE_DEF SH_TPIPE_UNKNOWN, 0, -1, NULL, -1, NULL, -1, NULL
+    #define SH_TSKPIPE_DEF -1, 0, FALSE, -1, NULL, -1, NULL, -1, NULL
     #define SH_STDIN_REX(rd_data) (rd_data->stdin_fn != NULL)
     #define SH_STDIN_RFD(rd_data) (rd_data->stdin_fd)
     #define SH_STDIN_RFN(rd_data) (rd_data->stdin_fn)

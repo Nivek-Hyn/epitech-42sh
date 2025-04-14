@@ -29,5 +29,7 @@ bool_t sh_parser_is_anypipe(sh_prsent_t *entry)
         return TRUE;
     if (entry->type == SH_PARSER_STOP_PIPE)
         return TRUE;
+    if (entry->type == SH_PARSER_BACKGROUND_PIPE)
+        return TRUE;
     return FALSE;
 }

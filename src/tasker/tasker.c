@@ -64,6 +64,8 @@ static int consume_pipe(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
         if (sh_pipes_interpret(tasker, curr_ent->entry, curr_ent->next
             != NULL ? curr_ent->next->entry : NULL) == FUNC_FAILED)
             return FUNC_FAILED;
+        if (curr_ent->type == SH_PARSER_BACKGROUND_PIPE)
+            break;
         *parser_ent = curr_ent->next != NULL ? curr_ent->next->next : NULL;
         curr_ent = curr_ent->next != NULL ? curr_ent->next : curr_ent;
         }

@@ -13,12 +13,15 @@
 
 bool_t sh_pipe_is_redirect(char *shard);
 bool_t sh_pipe_is_stop(char *shard);
+bool_t sh_pipe_is_background(char *shard);
 
 int sh_pipes_interpret(sh_tasker_t *task, char *shard,
     char *next_argument);
 int sh_tsk_intprt_std_pipe(sh_tasker_t *task, char *shard,
     char *next_argument);
 int sh_tsk_intprt_stop_pipe(sh_tasker_t *task, char *shard,
+    char *next_argument);
+int sh_tsk_intprt_bg_pipe(sh_tasker_t *task, char *shard,
     char *next_argument);
 
 extern const sh_pipe_info_t sh_pipe_info[];
