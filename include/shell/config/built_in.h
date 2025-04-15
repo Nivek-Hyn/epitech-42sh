@@ -27,10 +27,12 @@ typedef struct {
     #define SH_BLTN_ENV "env", sh_builtin_env
     #define SH_BLTN_SETENV "setenv", sh_builtin_setenv
     #define SH_BLTN_UNSETENV "unsetenv", sh_builtin_unsetenv
+    #define SH_BLTN_SHELLCUSTOM "shellcustom", sh_builtin_shellcustom
+    #define SH_BLTN_BG "bg", sh_builtin_bg
+    #define SH_BLTN_FG "fg", sh_builtin_fg
+    #define SH_BLTN_ALIAS "alias", sh_builtin_alias
+    #define SH_BLTN_HISTORY "history", sh_builtin_history
 
 extern const sh_builtin_conf_t sh_builtins[];
-
-// Deprecated. Causes 'unknown' instructions
-sh_builtin_conf_t **sh_return_builtin_fptr(void);
 
 #endif

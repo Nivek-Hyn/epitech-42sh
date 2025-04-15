@@ -15,5 +15,10 @@ const sh_builtin_conf_t sh_builtins[] = {
     {SH_BLTN_SETENV},
     {SH_BLTN_UNSETENV},
     {SH_BLTN_RETURN},
+    {SH_BLTN_BG},
+    {SH_BLTN_FG},
+    {SH_BLTN_SHELLCUSTOM},
+    {SH_BLTN_ALIAS},
+    {SH_BLTN_HISTORY},
     {SH_BLTN_BLANK}
 };

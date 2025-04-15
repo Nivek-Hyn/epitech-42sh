@@ -336,6 +336,16 @@ char *my_strncat(char *dest, const char *src, int nb);
 */
 char *my_strdup(const char *src);
 
+
+/*
+** Copies character content from `src` to a malloc'd string
+**
+** @note This is a `String Transform Function`
+** @param src `const char`
+** @return `char *` (malloc'd)
+*/
+char *my_chrdup(const char src);
+
 /*
 ** Concat's string content between `src_1` and `src_2`
 ** and sends them to a malloc'd string

@@ -62,7 +62,7 @@ static int pipe_and_redirect(const char *filename,
     return dup2(fd, fd_to_replace);
 }
 
-static int assign_pipes(sh_tasker_redirect_t *rd, int p_fd[2])
+static int assign_pipes(sh_tasker_pipes_t *rd, int p_fd[2])
 {
     if (rd == NULL || p_fd == NULL)
         return FUNC_FAILED;

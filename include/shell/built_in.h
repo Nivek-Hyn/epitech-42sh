@@ -23,7 +23,6 @@ typedef struct {
     int maximum;
 } sh_bltin_verify_t;
 
-sh_blttin_exe_st_t sh_execute_builtin(shell_data_t *shell_data);
 int (*sh_get_builtin_exec(sh_prsent_t *parser_entry))(shell_data_t *,
     sh_tasker_t *);
 
@@ -35,6 +34,11 @@ int sh_builtin_env(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_env_bypass(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_setenv(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_unsetenv(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_shellcustom(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_fg(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_alias(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_history(shell_data_t *shell_data, sh_tasker_t *task);
 
 #endif
 

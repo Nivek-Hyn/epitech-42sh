@@ -16,13 +16,17 @@ int sh_pipes_interpret(sh_tasker_t *task, char *shard,
 {
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
-    if (sh_pipe_is_redirect(shard) == TRUE)
+    if (sh_pipe_is(shard, SH_PARSER_PIPE) == TRUE)
         if (sh_pipe_info[SH_PARSER_PIPE].tsk_interpret_f != NULL)
             return sh_pipe_info[SH_PARSER_PIPE].tsk_interpret_f(task,
                 shard, next_argument);
-    if (sh_pipe_is_stop(shard) == TRUE)
+    if (sh_pipe_is(shard, SH_PARSER_STOP_PIPE) == TRUE)
         if (sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f != NULL)
             return sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f(task,
                 shard, next_argument);
+    if (sh_pipe_is(shard, SH_PARSER_BACKGROUND_PIPE) == TRUE)
+        if (sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f != NULL)
+            return sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f(
+                task, shard, next_argument);
     return FUNC_SUCCESS;
 }
