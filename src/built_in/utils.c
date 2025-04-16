@@ -68,3 +68,15 @@ int sh_builtin_fail(shell_data_t *shell_data, int exit_code)
         shell_data->last_excode = exit_code;
     return FUNC_FAILED;
 }
+
+int sh_builtin_spestat(shell_data_t *shell_data, int exit_code,
+    int return_code)
+{
+    if (shell_data == NULL)
+        return return_code;
+    if (exit_code < 0)
+        shell_data->last_excode = 1;
+    else
+        shell_data->last_excode = exit_code;
+    return return_code;
+}

@@ -30,7 +30,7 @@ int sh_render_window(shell_data_t *shell_data)
 {
     if (shell_data == NULL)
         return FUNC_FAILED;
-    if (isatty(STDIN) == FALSE)
+    if (isatty(STDIN) == FALSE || shell_data->user_data == NULL)
         return FUNC_FAILED;
     update_datas(shell_data);
     my_printf("[%s@%s", shell_data->user_data->user,

@@ -10,5 +10,6 @@
 
 void sh_vclose(int n, ...);
 int sh_vclose_ret(int code, int n, ...);
+char **sh_tabreader(const char *filename, int *length);
 
 #endif

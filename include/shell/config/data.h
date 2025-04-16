@@ -37,6 +37,8 @@ typedef struct {
     char *user_homedir;
     char *hostname;
     char **path;
+    int history_len;
+    char **history;
 } shell_usr_data_t;
 
 typedef struct {
@@ -52,6 +54,7 @@ typedef struct {
 
     #define SH_DATA_DEFAULT NULL, NULL, NULL, -1, TRUE
     #define SH_DATA_DEFAULT_EC 0
+    #define SH_HISTORY_FILE ".42sh_history"
     #define SH_LSTEXC(shell_data)   (shell_data->last_excode)
     #define SH_EXEC_CCNT(shell_data)    (SH_LSTEXC(shell_data) == 0)
 
