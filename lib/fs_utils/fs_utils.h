@@ -9,11 +9,12 @@
     #define FS_HANDLER_H
 
 int fs_open_file(char const *filepath);
+int fs_fclose(FILE *stream);
 
 #endif
 
 #ifndef FS_CAT_H
-    #define FS_UTILS_H
+    #define FS_CAT_H
 
 char *fs_read_x_bytes(char const *filepath, int x);
 char *fs_read_entire_file(char const *filepath);

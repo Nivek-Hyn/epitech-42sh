@@ -18,7 +18,7 @@ char **my_tabdup(char **src)
 
     if (src == NULL)
         return NULL;
-    new_tab = malloc(sizeof(char **) * tab_len);
+    new_tab = malloc(sizeof(char **) * (tab_len + 1));
     if (new_tab == NULL)
         return NULL;
     for (int i = 0; src[i] != NULL; i++)

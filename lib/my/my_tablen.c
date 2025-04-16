@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** my_strlen
+** my_tablen
 ** File description:
 ** day 4, task 3
 ** my_strlen.c
