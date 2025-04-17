@@ -67,7 +67,6 @@ int shell(shell_data_t *shell_data)
         shell_data->last_excode = SH_DATA_DEFAULT_EC;
         if (parse_data(shell_data) == FUNC_FAILED)
             shell_data->is_active = FALSE;
-
     } while (shell_data->is_active);
     shelldata_reset(shell_data);
     return FUNC_SUCCESS;
