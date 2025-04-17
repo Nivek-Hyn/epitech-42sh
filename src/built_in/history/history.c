@@ -19,7 +19,7 @@ static int print_history(shell_usr_data_t *user_data)
     if (user_data->history == NULL)
         return FUNC_FAILED;
     for (int i = 0; user_data->history[i] != NULL; i++)
-        my_printf("    %d\t%s\n", i, user_data->history[i]);
+        my_printf("    %d\t%s\n", i + 1, user_data->history[i]);
     return FUNC_SUCCESS;
 }
 

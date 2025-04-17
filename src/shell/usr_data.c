@@ -24,6 +24,11 @@ static int load_user_data(shell_usr_data_t *user_data)
         return FUNC_FAILED;
     user_data->history = sh_tabreader(filepath, &user_data->history_len);
     user_data->history_len -= 1;
+    if (user_data->history == NULL) {
+        user_data->history = malloc(sizeof(char *) * 1);
+        user_data->history[0] = NULL;
+        user_data->history_len = 0;
+    }
     free(filepath);
     return FUNC_SUCCESS;
 }
