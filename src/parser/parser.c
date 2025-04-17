@@ -9,7 +9,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include "my.h"
+#include "my_printf.h"
 #include "shell/shell.h"
+#include "shell/built_in.h"
 #include "shell/parser.h"
 
 static char *get_final_quote(char *line, char **last_stop, int i)
@@ -22,26 +24,29 @@ static char *get_final_quote(char *line, char **last_stop, int i)
     return my_strptrdup(&line[1], &line[i]);
 }
 
-static char *get_doublequote_shard(char *line, char **last_stop)
+static char *get_quote_shard(char *line, char **last_stop, char quote,
+    bool_t *parser_run)
 {
-    if (line == NULL || last_stop == NULL)
+    int i = 1;
+
+    if (line == NULL || last_stop == NULL || quote == '\0' ||
+        parser_run == NULL)
         return NULL;
     if (line[0] == '\0')
         return NULL;
-    for (int i = 1; line[i] != '\0'; i++) {
-        if (line[i] == '"') {
+    for (; line[i] != '\0'; i++) {
+        if (line[i] == quote)
             return get_final_quote(line, last_stop, i);
-        }
-        if (line[i] == '\0')
-            return my_strdup(line);
     }
+    fprintf(stderr, "Unmatched '%c'.\n", quote);
+    *parser_run = FALSE;
     *last_stop = "";
-    return my_strdup(line);
+    return NULL;
 }
 
-static char *get_shard(char *line, char **last_stop)
+static char *get_shard(char *line, char **last_stop, bool_t *parser_run)
 {
-    if (line == NULL || last_stop == NULL)
+    if (line == NULL || last_stop == NULL || parser_run == NULL)
         return NULL;
     if (line[0] == '\0')
         return NULL;
@@ -56,8 +61,8 @@ static char *get_shard(char *line, char **last_stop)
                 &line[i + 1] : &line[i];
             return my_strptrdup(line, &line[i]);
         }
-        if (line[i] == '"')
-            return get_doublequote_shard(line, last_stop);
+        if (line[i] == '"' || line[i] == '\'')
+            return get_quote_shard(line, last_stop, line[i], parser_run);
     }
     *last_stop = "";
     return my_strdup(line);
@@ -85,9 +90,9 @@ static int get_arguments(sh_prsent_t **chain, char *line)
     if (chain == NULL || line == NULL)
         return FUNC_FAILED;
     while (argument_parser_run) {
-        shard = get_shard(last_stop, &last_stop);
+        shard = get_shard(last_stop, &last_stop, &argument_parser_run);
         if (shard == NULL)
-            return (*chain != NULL) ? FUNC_SUCCESS : FUNC_FAILED;
+            return (argument_parser_run) ? FUNC_SUCCESS : FUNC_SEMFAIL;
         if (is_supported_pipe(shard) == TRUE)
             curr_chain = sh_prsent_create(shard, sh_get_pipe_type(shard));
         else
@@ -101,6 +106,7 @@ static int get_arguments(sh_prsent_t **chain, char *line)
 
 int sh_parse_entry(shell_data_t *shell_data)
 {
+    int parse_status = FUNC_FAILED;
     char *line = NULL;
 
     if (shell_data == NULL)
@@ -113,8 +119,10 @@ int sh_parse_entry(shell_data_t *shell_data)
         shell_data->last_excode = EXIT_SUCCESS;
         return FUNC_SEMFAIL;
     }
-    if (get_arguments(&shell_data->command_chain, line) == FUNC_FAILED)
-        return FUNC_FAILED;
+    sh_write_into_history(shell_data, line);
+    parse_status = get_arguments(&shell_data->command_chain, line);
     free(line);
+    if (parse_status != FUNC_SUCCESS)
+        return sh_builtin_spestat(shell_data, EXIT_FAILURE, parse_status);
     return FUNC_SUCCESS;
 }

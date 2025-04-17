@@ -34,10 +34,13 @@ void sh_data_purge(shell_data_t *shell_data)
     if (shell_data == NULL)
         return;
     sh_prsent_destroy(shell_data->command_chain);
-    free(shell_data->user_data->user_homedir);
-    free(shell_data->user_data->hostname);
-    free(shell_data->user_data->user);
-    free(shell_data->user_data);
+    if (shell_data->user_data != NULL) {
+        free(shell_data->user_data->user_homedir);
+        free(shell_data->user_data->hostname);
+        free(shell_data->user_data->user);
+        my_tabfree((void **) shell_data->user_data->history);
+        free(shell_data->user_data);
+    }
     shell_data->tasks = NULL;
     my_chardict_free_ext(shell_data->env);
     free(shell_data);

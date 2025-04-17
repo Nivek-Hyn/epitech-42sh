@@ -50,5 +50,7 @@ int sh_builtin_verify(sh_prsent_t *chain,
     sh_bltin_verify_t verif);
 int sh_builtin_success(shell_data_t *shell_data, int exit_code);
 int sh_builtin_fail(shell_data_t *shell_data, int exit_code);
+int sh_builtin_spestat(shell_data_t *shell_data, int exit_code,
+    int return_code);
 
 #endif

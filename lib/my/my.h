@@ -5,6 +5,7 @@
 ** Header File for project
 */
 
+#include <stddef.h>
 #include "utils.h"
 
 #ifndef MY_H
@@ -84,6 +85,25 @@ int my_str_isalpha(const char *str);
 int my_str_isnum(const char *str);
 
 /*
+** Check if the string is a floating-point integer string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `bool_t`
+*/
+bool_t my_str_isfloat(const char *str);
+
+/*
+** Check if the string is a signed numeric string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+bool_t my_str_issnum(const char *str);
+
+
+/*
 ** Check if the string is a lower alphabetic string
 **
 ** @note This is a `String Compare Function`
@@ -140,6 +160,17 @@ int my_strcmp(const char *s1, const char *s2);
 ** @return `int`
 */
 int my_strncmp(const char *s1, const char *s2, int n);
+
+/*
+** Checks if the edges of string `str` equals to characters `start` and `end`
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @param start `const char`
+** @param end `const char`
+** @return `bool_t`
+*/
+bool_t my_str_edges(const char *str, const char start, const char end);
 
 /*
 ** Template function
@@ -393,6 +424,8 @@ char *my_strchrdup(const char *src, const char to_find);
 char *my_strstrdup(const char *src, const char *to_find);
 
 /*
+** //! ## `DEPRECATED` - `DO NOT USE`
+**
 ** Converts the string `str` into a board of sub-strings
 ** each containing a word
 **
@@ -402,6 +435,17 @@ char *my_strstrdup(const char *src, const char *to_find);
 ** @return `char **` (malloc'd)
 */
 char **my_str_to_word_array(char const *str, int count_lr);
+
+/*
+** Converts the string `str` into a board of sub-strings
+** each containing a word
+**
+** @note This is a `String Transform Function`
+** @param str `const char *`
+** @param sep `const char *`
+** @return `char **` (malloc'd)
+*/
+char **my_sepstr(char const *str, const char *sep);
 
 /*
 ** Converts an int to a malloc'd string
@@ -1048,6 +1092,30 @@ void my_swap(int *a, int *b);
 int my_tablen(const void **tab);
 
 /*
+** Obtains the length of a board, stops at a specific length if it finds
+** the occurence of one of the characters inside a substring. Returns full
+** length otherwise
+**
+** @note This is a `Pointer Function`
+** @param tab `const void **`
+** @param tab `const char`
+** @return `int`
+*/
+int my_tabchrlen(const void **tab, const char to_find);
+
+/*
+** Obtains the length of a board, stops at a specific length if it finds
+** the occurence of one of the strings inside a substring. Returns full
+** length otherwise
+**
+** @note This is a `Pointer Function`
+** @param tab `const void **`
+** @param tab `const char`
+** @return `int`
+*/
+int my_tabstrlen(const void **tab, const char *to_find);
+
+/*
 ** Frees the malloc'd contents of a board
 **
 ** @note This is a `Pointer Function`
@@ -1180,5 +1248,40 @@ char_dict_t *my_chardict_find_dict(char_dict_t *dict, void *value,
 ** @return `int`
 */
 int my_chardict_find_key(void *key, char_dict_t *dict);
+
+/*
+** Frees `n_free` arguments put inside the variadic function argument
+**
+** @note This is a `Pointer Function`
+** @param dict `char_dict_t *`
+** @param n_free `ìnt`
+** @param ... `void * (Variadic)`
+** @return `void`
+*/
+void my_vfree(int n_free, ...);
+
+/*
+** Frees `n_free` arguments put inside the variadic function argument
+**
+** @note This is a `Pointer Function`
+** @param dict `char_dict_t *`
+** @param n_free `ìnt`
+** @param ... `void * (Variadic)`
+** @return `void *`
+*/
+void *my_vfree_null(int n_free, ...);
+
+/*
+** Reallocates a `src` tab from `tab_size` to `new_size`
+**
+** @note This is a `Pointer Function`
+** @param src `void **`
+** @param tab_size `int`
+** @param new_size `int`
+** @param type_size `size_t`
+** @return `void ** (Malloc'd)`
+*/
+void **my_realloc_tab(void **src, int tab_size, int new_size,
+    size_t type_size);
 
 #endif

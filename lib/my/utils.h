@@ -17,6 +17,17 @@
 
 #endif
 
+#ifndef UTILS_TYPES_H
+    #define UTILS_TYPES_H
+
+/*
+* Unsigned int Dynamic
+*
+*/
+typedef unsigned int uint_t;
+
+#endif
+
 #ifndef UTILS_STDFD_H
     #define UTILS_STDFD_H
 

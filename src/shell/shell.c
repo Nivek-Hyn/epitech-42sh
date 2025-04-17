@@ -32,6 +32,29 @@ static int shell_tty_mode(shell_data_t *shell_data)
     return FUNC_SUCCESS;
 }
 
+static void shelldata_reset(shell_data_t *shell_data)
+{
+    if (shell_data == NULL)
+        return;
+    sh_tasker_destroy(shell_data->tasks);
+    sh_prsent_destroy(shell_data->command_chain);
+    shell_data->tasks = NULL;
+    shell_data->command_chain = NULL;
+}
+
+static int parse_data(shell_data_t *shell_data)
+{
+    if (sh_parse_entry(shell_data) == FUNC_FAILED) {
+        my_putstr("exit\n");
+        return FUNC_FAILED;
+    }
+    if (shell_data->last_excode == EXIT_FAILURE)
+        return FUNC_SEMFAIL;
+    sh_build_tasker(shell_data);
+    sh_tasker_execute(shell_data);
+    return FUNC_SUCCESS;
+}
+
 int shell(shell_data_t *shell_data)
 {
     if (shell_data == NULL)
@@ -39,16 +62,13 @@ int shell(shell_data_t *shell_data)
     if (isatty(STDIN) == FALSE)
         return shell_tty_mode(shell_data);
     do {
+        shelldata_reset(shell_data);
         sh_render_window(shell_data);
         shell_data->last_excode = SH_DATA_DEFAULT_EC;
-        if (sh_parse_entry(shell_data) == FUNC_FAILED)
+        if (parse_data(shell_data) == FUNC_FAILED)
             shell_data->is_active = FALSE;
-        sh_build_tasker(shell_data);
-        sh_tasker_execute(shell_data);
-        sh_tasker_destroy(shell_data->tasks);
-        sh_prsent_destroy(shell_data->command_chain);
-        shell_data->command_chain = NULL;
     } while (shell_data->is_active);
+    shelldata_reset(shell_data);
     return FUNC_SUCCESS;
 }
 
