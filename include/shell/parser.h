@@ -11,14 +11,17 @@
 #ifndef SH_PARSER_H
     #define SH_PARSER_H
 
+    #define MAX_LINE_SIZE 1024
+
 int sh_parse_entry(shell_data_t *shell_data);
+int my_stdin_getline(char **buf, int file);
 
 #endif
 
 #ifndef SH_PARSER_GET_H
     #define SH_PARSER_GET_H
 
-char *sh_get_entry(FILE *file);
+char *sh_get_entry(int file);
 int sh_get_prsent_len(sh_prsent_t *chain);
 int sh_get_prsent_eltslen(sh_prsent_t *chain);
 char *sh_get_prsent_index(sh_prsent_t *chain, int index);
