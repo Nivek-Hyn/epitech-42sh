@@ -51,11 +51,31 @@ static void write_char_cursor(char c, char **buffer, int *size, int *cursor)
         write(1, "\033[D", 3);
 }
 
-static void handle_arrow_keys(char seq[2], int *cursor, int size)
+static void handle_delete(int *cursor, int *size, char **buffer)
+{
+    char c = 0;
+    int i = 0;
+    
+    if (read(STDIN_FILENO, &c, 1) != 1 || *cursor >= *size || *cursor < 0)
+        return;
+    if (c == '~') {
+        if (*cursor >= *size)
+            return;
+        for (i = *cursor; i < *size - 1; i++)
+            (*buffer)[i] = (*buffer)[i + 1];
+        (*size)--;
+        write(1, (*buffer) + *cursor, *size - *cursor);
+        write(1, " ", 1);
+        for (i = 0; i <= (*size - *cursor); i++)
+            write(1, "\033[D", 3);
+    }
+}
+
+static void handle_arrow_keys(char seq[2], int *cursor, int *size, char **buffer)
 {
     if (seq[0] != '[')
         return;
-    if (seq[1] == 'C' && *cursor < size) {
+    if (seq[1] == 'C' && *cursor < *size) {
         write(1, "\033[C", 3);
         (*cursor)++;
     }
@@ -63,12 +83,12 @@ static void handle_arrow_keys(char seq[2], int *cursor, int size)
         write(1, "\033[D", 3);
         (*cursor)--;
     }
+    if (seq[1] == '3' && *cursor < *size)
+        handle_delete(cursor, size, buffer);
 }
 
 static void handle_backspace(char **buffer, int *size, int *cursor)
 {
-    int j = 0;
-
     if (*cursor > 0 && *size > 0) {
         for (int i = *cursor - 1; i < *size - 1; i++)
             (*buffer)[i] = (*buffer)[i + 1];
@@ -77,7 +97,7 @@ static void handle_backspace(char **buffer, int *size, int *cursor)
         write(1, "\b \b", 3);
         write(1, *buffer + *cursor, *size - *cursor);
         write(1, " ", 1);
-        for (j = 0; j <= (*size - *cursor); j++)
+        for (int j = 0; j <= (*size - *cursor); j++)
             write(1, "\033[D", 3);
     }
 }
@@ -103,7 +123,7 @@ static void handle_input_char(char c, char **buffer, int *size, int *cursor)
             return;
         if (read(STDIN_FILENO, &seq[1], 1) != 1)
             return;
-        handle_arrow_keys(seq, cursor, *size);
+        handle_arrow_keys(seq, cursor, size, buffer);
     }
     if (c == 8 || c == 127)
         handle_backspace(buffer, size, cursor);
