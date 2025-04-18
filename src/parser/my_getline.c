@@ -12,29 +12,6 @@
 #include <signal.h>
 #include <string.h>
 
-static void sigtstp_handler(int signo)
-{
-    (void)signo;
-    write(1, "test\n", 5);
-}
-
-static void enable_raw_mode(struct termios *oldt)
-{
-    struct termios newt;
-
-    tcgetattr(STDIN_FILENO, oldt);
-    newt = *oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    signal(SIGTSTP, sigtstp_handler);
-}
-
-static void disable_raw_mode(struct termios *oldt)
-{
-    tcsetattr(STDIN_FILENO, TCSANOW, oldt);
-    signal(SIGTSTP, SIG_DFL);
-}
-
 static void write_char_cursor(char c, char **buffer, int *size, int *cursor)
 {
     if (*size >= MAX_LINE_SIZE - 1)
@@ -55,7 +32,7 @@ static void handle_delete(int *cursor, int *size, char **buffer)
 {
     char c = 0;
     int i = 0;
-    
+
     if (read(STDIN_FILENO, &c, 1) != 1 || *cursor >= *size || *cursor < 0)
         return;
     if (c == '~') {
@@ -71,7 +48,7 @@ static void handle_delete(int *cursor, int *size, char **buffer)
     }
 }
 
-static void handle_arrow_keys(char seq[2], int *cursor, int *size, char **buffer)
+void handle_arrow_keys(char seq[2], int *cursor, int *size, char **buf)
 {
     if (seq[0] != '[')
         return;
@@ -84,10 +61,10 @@ static void handle_arrow_keys(char seq[2], int *cursor, int *size, char **buffer
         (*cursor)--;
     }
     if (seq[1] == '3' && *cursor < *size)
-        handle_delete(cursor, size, buffer);
+        handle_delete(cursor, size, buf);
 }
 
-static void handle_backspace(char **buffer, int *size, int *cursor)
+void handle_backspace(char **buffer, int *size, int *cursor)
 {
     if (*cursor > 0 && *size > 0) {
         for (int i = *cursor - 1; i < *size - 1; i++)
@@ -102,7 +79,7 @@ static void handle_backspace(char **buffer, int *size, int *cursor)
     }
 }
 
-static void handle_regular_char(char c, char **buffer, int *size, int *cursor)
+void handle_regular_char(char c, char **buffer, int *size, int *cursor)
 {
     if (*cursor != *size) {
         write_char_cursor(c, buffer, size, cursor);
@@ -114,7 +91,7 @@ static void handle_regular_char(char c, char **buffer, int *size, int *cursor)
     }
 }
 
-static void handle_input_char(char c, char **buffer, int *size, int *cursor)
+void handle_input_char(char c, char **buffer, int *size, int *cursor)
 {
     char seq[2];
 
@@ -133,7 +110,7 @@ static void handle_input_char(char c, char **buffer, int *size, int *cursor)
         handle_regular_char(c, buffer, size, cursor);
 }
 
-static int read_stdin(int *size, char **buffer, int file)
+int read_stdin(int *size, char **buffer, int file)
 {
     int cursor = 0;
     char c = 0;
@@ -150,24 +127,4 @@ static int read_stdin(int *size, char **buffer, int file)
         handle_input_char(c, buffer, size, &cursor);
     }
     return *size;
-}
-
-int my_stdin_getline(char **buf, int file)
-{
-    struct termios oldt;
-    char *buffer = malloc(sizeof(char) * MAX_LINE_SIZE);
-    int size = 0;
-    int res = 0;
-
-    enable_raw_mode(&oldt);
-    res = read_stdin(&size, &buffer, file);
-    disable_raw_mode(&oldt);
-    if (res <= 0) {
-        free(buffer);
-        return res;
-    }
-    *buf = realloc(buffer, size);
-    if (!*buf)
-        return -1;
-    return size;
 }

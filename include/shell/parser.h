@@ -14,6 +14,7 @@
     #define MAX_LINE_SIZE 1024
 
 int sh_parse_entry(shell_data_t *shell_data);
+int read_stdin(int *size, char **buffer, int file);
 int my_stdin_getline(char **buf, int file);
 
 #endif
