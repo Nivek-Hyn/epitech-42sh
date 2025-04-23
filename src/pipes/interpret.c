@@ -14,19 +14,13 @@
 int sh_pipes_interpret(sh_tasker_t *task, char *shard,
     char *next_argument)
 {
+    sh_prsent_type_t type = SH_PARSER_UNKNOWN;
+
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
-    if (sh_pipe_is(shard, SH_PARSER_PIPE) == TRUE)
-        if (sh_pipe_info[SH_PARSER_PIPE].tsk_interpret_f != NULL)
-            return sh_pipe_info[SH_PARSER_PIPE].tsk_interpret_f(task,
-                shard, next_argument);
-    if (sh_pipe_is(shard, SH_PARSER_STOP_PIPE) == TRUE)
-        if (sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f != NULL)
-            return sh_pipe_info[SH_PARSER_STOP_PIPE].tsk_interpret_f(task,
-                shard, next_argument);
-    if (sh_pipe_is(shard, SH_PARSER_BACKGROUND_PIPE) == TRUE)
-        if (sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f != NULL)
-            return sh_pipe_info[SH_PARSER_BACKGROUND_PIPE].tsk_interpret_f(
-                task, shard, next_argument);
+    type = sh_pipe_type(shard);
+    if (sh_pipe_info[type].tsk_interpret_f != NULL)
+        return sh_pipe_info[type].tsk_interpret_f(task,
+            shard, next_argument);
     return FUNC_SUCCESS;
 }

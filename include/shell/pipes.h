@@ -12,6 +12,7 @@
     #define SH_PIPES_H
 
 bool_t sh_pipe_is(const char *shard, sh_prsent_type_t type);
+sh_prsent_type_t sh_pipe_type(const char *shard);
 
 int sh_pipes_interpret(sh_tasker_t *task, char *shard,
     char *next_argument);
