@@ -10,11 +10,39 @@
 #include "utils.h"
 
 const sh_pipe_info_t sh_pipe_info[] = {
-    {SH_PARSER_PIPE, (char *[]) {">", ">>", "<", "<<", NULL},
-        sh_tsk_intprt_std_pipe},
-    {SH_PARSER_PROG_PIPE, (char *[]) {"|", "||"}, NULL},
-    {SH_PARSER_STOP_PIPE, (char *[]) {";", "&&", NULL},
-        sh_tsk_intprt_stop_pipe},
-    {SH_PARSER_BACKGROUND_PIPE, (char *[]) {"&"}, sh_tsk_intprt_bg_pipe},
-    {SH_PARSER_UNKNOWN, NULL, NULL}
+    {SH_PARSER_PIPE,
+        (char *[]) {
+            PIPE_R_REDIR, PIPE_R_AREDIR, PIPE_L_REDIR,
+            PIPE_L_AREDIR, NULL
+        },
+        sh_tsk_intprt_std_pipe
+    },
+    {SH_PARSER_PROG_PIPE,
+        (char *[]) {
+            PIPE_PROG, NULL
+        },
+        NULL
+    },
+    {SH_PARSER_STOP_PIPE,
+        (char *[]) {
+            PIPE_SEP, PIPE_AND, PIPE_OR, NULL
+        },
+        sh_tsk_intprt_stop_pipe
+    },
+    {SH_PARSER_BACKGROUND_PIPE,
+        (char *[]) {
+            PIPE_BG, NULL
+        },
+        sh_tsk_intprt_bg_pipe
+    },
+    {SH_PARSER_HISTORY_PIPE,
+        (char *[]) {
+            PIPE_HIST, PIPE_HIST_NUM, NULL
+        },
+        sh_tsk_intprt_history_pipe
+    },
+    {SH_PARSER_UNKNOWN,
+        NULL,
+        NULL
+    }
 };

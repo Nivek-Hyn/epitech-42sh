@@ -13,6 +13,7 @@
 #include "shell/shell.h"
 #include "shell/built_in.h"
 #include "shell/parser.h"
+#include "shell/pipes.h"
 
 static char *get_final_quote(char *line, char **last_stop, int i)
 {
@@ -70,14 +71,11 @@ static char *get_shard(char *line, char **last_stop, bool_t *parser_run)
 
 static bool_t is_supported_pipe(const char *shard)
 {
-    const char *supported_pipes[] = {";", ">", ">>", "<",
-        "<<", "|", "||", "&&", "&", NULL};
-
     if (shard == NULL)
         return FALSE;
     if (shard[0] == '0' || shard[0] == '1' || shard[0] == '2')
-        return my_isin(&shard[1], supported_pipes);
-    return my_isin(shard, supported_pipes);
+        return sh_is_pipe(&shard[1]);
+    return sh_is_pipe(shard);
 }
 
 static int get_arguments(sh_prsent_t **chain, char *line)
