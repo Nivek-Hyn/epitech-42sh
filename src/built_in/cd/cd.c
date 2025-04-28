@@ -29,6 +29,7 @@ static int update_path(shell_data_t *shell_data, char *path)
         my_vfree(2, pwd, path);
         return FUNC_FAILED;
     }
+    free(path);
     if (sh_env_set(shell_data->env, "OLDPWD", pwd)
         == FUNC_FAILED)
         return FUNC_FAILED;
@@ -49,7 +50,7 @@ static int bootstrap_cd(shell_data_t *shell_data, char *path)
     for (int i = 0; config[i].path != NULL; i++)
         if (my_strncmp(path, config[i].path, 2) == CMP_EXACT)
             return update_path(shell_data, config[i].cd_f(shell_data));
-    return update_path(shell_data, path);
+    return update_path(shell_data, my_strdup(path));
 }
 
 int sh_builtin_cd(shell_data_t *shell_data, sh_tasker_t *task)
