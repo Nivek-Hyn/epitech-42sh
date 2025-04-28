@@ -26,6 +26,7 @@ static int update_path(shell_data_t *shell_data, char *path)
     pwd = getcwd(pwd, 0);
     if (chdir(path) == FUNC_FAILED) {
         sh_builtin_perror(path, strerror(errno));
+        my_vfree(2, pwd, path);
         return FUNC_FAILED;
     }
     if (sh_env_set(shell_data->env, "OLDPWD", pwd)

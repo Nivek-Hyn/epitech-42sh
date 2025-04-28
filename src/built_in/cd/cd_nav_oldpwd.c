@@ -17,6 +17,6 @@ char *sh_cd_nav_oldpwd(shell_data_t *shell_data)
         return NULL;
     old_dir = sh_env_get(shell_data->env, "OLDPWD");
     if (old_dir == NULL)
-        return shell_data->pwd;
-    return old_dir;
+        return my_strdup(shell_data->pwd);
+    return my_strdup(old_dir);
 }
