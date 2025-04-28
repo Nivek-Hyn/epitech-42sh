@@ -93,6 +93,7 @@ TESTS=
   echo '/usr/bin/env'
   echo 'setenv var1 val1'
   echo 'setenv var2 val2'
+  echo 'env'
 [4-END]
 
 [5.1]
@@ -134,7 +135,7 @@ TESTS=
   echo 'pwd'
   echo 'cd -'
   echo 'pwd'
-  unsetenv OLDPWD
+  echo 'unsetenv OLDPWD'
   echo 'cd -'
   echo 'pwd'
 [5.3.1-END]
@@ -144,20 +145,20 @@ NAME="BUILTIN (CD): builtin cd (Go OLDPWD [Advanced 2])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'cd ..'
   echo 'pwd'
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'cd /usr'
   echo 'pwd'
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'cd -'
   echo 'pwd'
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'cd -'
   echo 'pwd'
   echo 'cd -'
@@ -169,8 +170,8 @@ NAME="BUILTIN (CD): builtin cd (Advanced)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'pwd'
   echo 'cd ..'
   echo 'pwd'
@@ -189,8 +190,8 @@ NAME="BUILTIN (CD): builtin cd (Advanced Continued)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  unsetenv PWD
-  unsetenv OLDPWD
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
   echo 'pwd'
   echo 'cd ..'
   echo 'pwd'
