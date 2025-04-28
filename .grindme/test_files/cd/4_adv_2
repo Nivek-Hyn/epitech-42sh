@@ -1,0 +1,19 @@
+unsetenv PWD
+unsetenv OLDPWD
+pwd
+cd ..
+pwd
+cd /usr
+pwd
+cd -
+pwd
+cd -
+pwd
+cd -
+pwd
+cd -
+pwd
+cd ..
+pw
+cd /usr
+pwd

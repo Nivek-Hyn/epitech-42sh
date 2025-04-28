@@ -1,0 +1,151 @@
+{
+  "suites": [
+    {
+      "name": "Shell Input",
+      "tests": [
+        {
+          "name": "Empty",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_empty"
+        }
+      ]
+    },
+    {
+      "name": "Execution",
+      "tests": [
+        {
+          "name": "One command",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_1command"
+        },
+        {
+          "name": "Two commands",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_2command"
+        },
+        {
+          "name": "Five commands",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_5command"
+        }
+      ]
+    },
+    {
+      "name": "Path Handling",
+      "tests": [
+        {
+          "name": "Path 'usr_bin'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_usr_bin"
+        },
+        {
+          "name": "Path 'bin'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_bin"
+        },
+        {
+          "name": "Incorrect path",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_incorrect"
+        }
+      ]
+    },
+    {
+      "name": "Environment",
+      "tests": [
+        {
+          "name": "setenv and unsetenv",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/environment/3_env"
+        }
+      ]
+    },
+    {
+      "name": "'cd' command",
+      "tests": [
+        {
+          "name": "Basic use",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_basic"
+        },
+        {
+          "name": "Oldpwd use",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd"
+        },
+        {
+          "name": "Advanced use (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_adv_1"
+        },
+        {
+          "name": "Advanced use (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_adv_2"
+        },
+        {
+          "name": "Advanced oldpwd use (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd_adv_1"
+        },
+        {
+          "name": "Advanced oldpwd use (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd_adv_2"
+        }
+      ]
+    },
+    {
+      "name": "Arguments handling",
+      "tests": [
+        {
+          "name": "Many tabs and spaces",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/args_handling/5_many_tab_and_space"
+        }
+      ]
+    },
+    {
+      "name": "Crash handling",
+      "tests": [
+        {
+          "name": "my_divzero",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/crash_handling/6_my_divzero"
+        }
+      ]
+    }
+  ]
+}

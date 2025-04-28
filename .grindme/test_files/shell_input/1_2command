@@ -1,0 +1,2 @@
+ls /etc
+cat /etc/resolv.conf

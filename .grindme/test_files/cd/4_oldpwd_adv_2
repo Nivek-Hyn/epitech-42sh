@@ -1,0 +1,18 @@
+unsetenv PWD
+unsetenv OLDPWD
+cd ..
+pwd
+unsetenv PWD
+unsetenv OLDPWD
+cd /usr
+pwd
+unsetenv PWD
+unsetenv OLDPWD
+cd -
+pwd
+unsetenv PWD
+unsetenv OLDPWD
+cd -
+pwd
+cd -
+pwd
