@@ -72,16 +72,34 @@ char *sh_get_prsent_index(sh_prsent_t *chain, int index)
     return NULL;
 }
 
+static int cust_getline(char **line, int file_no, FILE *file)
+{
+    size_t size = 0;
+
+    if (line == NULL || file_no < 0 || file == NULL)
+        return FUNC_FAILED;
+    if (isatty(STDIN) == TRUE) {
+        if (my_stdin_getline(line, file_no) == FUNC_FAILED) {
+            free(*line);
+            return FUNC_FAILED;
+        }
+    } else {
+        if (getline(line, &size, file) == FUNC_FAILED) {
+            free(*line);
+            return FUNC_FAILED;
+        }
+    }
+    return FUNC_SUCCESS;
+}
+
 char *sh_get_entry(int file)
 {
     char *line = NULL;
     char *ret_line = NULL;
     char *newline = NULL;
 
-    if (my_stdin_getline(&line, file) == FUNC_FAILED) {
-        free(line);
+    if (cust_getline(&line, file, stdin) == FUNC_FAILED)
         return NULL;
-    }
     newline = my_strstr(line, "\n");
     if (newline != NULL)
         *newline = '\0';

@@ -15,23 +15,6 @@
 #include "shell/tasker.h"
 #include "utils.h"
 
-static int shell_tty_mode(shell_data_t *shell_data)
-{
-    int exec_success = FUNC_SUCCESS;
-
-    if (shell_data == NULL)
-        return FUNC_FAILED;
-    while (sh_parse_entry(shell_data) != FUNC_FAILED
-        && exec_success == FUNC_SUCCESS) {
-        sh_build_tasker(shell_data);
-        exec_success = sh_tasker_execute(shell_data);
-        sh_tasker_destroy(shell_data->tasks);
-        sh_prsent_destroy(shell_data->command_chain);
-        shell_data->command_chain = NULL;
-    }
-    return FUNC_SUCCESS;
-}
-
 static void shelldata_reset(shell_data_t *shell_data)
 {
     if (shell_data == NULL)
@@ -42,6 +25,22 @@ static void shelldata_reset(shell_data_t *shell_data)
     shell_data->command_chain = NULL;
     free(shell_data->line);
     shell_data->line = NULL;
+}
+
+static int shell_tty_mode(shell_data_t *shell_data)
+{
+    int exec_success = FUNC_SUCCESS;
+
+    if (shell_data == NULL)
+        return FUNC_FAILED;
+    while (sh_parse_entry(shell_data) != FUNC_FAILED
+        && exec_success == FUNC_SUCCESS) {
+        sh_build_tasker(shell_data);
+        exec_success = sh_tasker_execute(shell_data);
+        shelldata_reset(shell_data);
+        shell_data->command_chain = NULL;
+    }
+    return FUNC_SUCCESS;
 }
 
 static int parse_data(shell_data_t *shell_data)
