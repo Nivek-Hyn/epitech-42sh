@@ -23,13 +23,12 @@ static int update_path(shell_data_t *shell_data, char *path)
 
     if (shell_data == NULL || path == NULL)
         return FUNC_FAILED;
+    pwd = getcwd(pwd, 0);
     if (chdir(path) == FUNC_FAILED) {
         sh_builtin_perror(path, strerror(errno));
         return FUNC_FAILED;
     }
-    free(path);
-    pwd = sh_env_get(shell_data->env, "PWD");
-    if (sh_env_set(shell_data->env, "OLDPWD", my_strdup(pwd))
+    if (sh_env_set(shell_data->env, "OLDPWD", pwd)
         == FUNC_FAILED)
         return FUNC_FAILED;
     if (sh_env_set(shell_data->env, "PWD", getcwd(cwd, 0)) == FUNC_FAILED)
@@ -49,7 +48,7 @@ static int bootstrap_cd(shell_data_t *shell_data, char *path)
     for (int i = 0; config[i].path != NULL; i++)
         if (my_strncmp(path, config[i].path, 2) == CMP_EXACT)
             return update_path(shell_data, config[i].cd_f(shell_data));
-    return update_path(shell_data, my_strdup(path));
+    return update_path(shell_data, path);
 }
 
 int sh_builtin_cd(shell_data_t *shell_data, sh_tasker_t *task)

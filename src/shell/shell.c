@@ -35,11 +35,12 @@ static int shell_tty_mode(shell_data_t *shell_data)
         return FUNC_FAILED;
     while (sh_parse_entry(shell_data) != FUNC_FAILED
         && exec_success == FUNC_SUCCESS) {
+        shelldata_reset(shell_data);
         sh_build_tasker(shell_data);
         exec_success = sh_tasker_execute(shell_data);
-        shelldata_reset(shell_data);
         shell_data->command_chain = NULL;
     }
+    shelldata_reset(shell_data);
     return FUNC_SUCCESS;
 }
 
