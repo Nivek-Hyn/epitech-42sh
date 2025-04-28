@@ -67,7 +67,6 @@ int sh_pipe_consume(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
         if (curr_ent->type == SH_PARSER_BACKGROUND_PIPE)
             break;
         *parser_ent = curr_ent->next != NULL ? curr_ent->next->next : NULL;
-        curr_ent = curr_ent->next != NULL ? curr_ent->next : curr_ent;
         }
     return FUNC_SUCCESS;
 }
