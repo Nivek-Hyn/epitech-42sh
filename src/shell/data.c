@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "shell/shell.h"
+#include "shell/env.h"
 #include "shell/parser.h"
 #include "my.h"
 
@@ -26,7 +27,9 @@ shell_data_t *sh_data_init(char_dict_t *env)
     shell_data->user_data = sh_usrdata_init(env);
     shell_data->last_excode = SH_DATA_DEFAULT_EC;
     shell_data->old_pwd = NULL;
-    shell_data->pwd = "~";
+    shell_data->pwd = NULL;
+    if (shell_data->user_data != NULL)
+        shell_data->pwd = shell_data->user_data->user_homedir;
     return shell_data;
 }
 
