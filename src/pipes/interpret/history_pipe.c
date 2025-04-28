@@ -49,6 +49,11 @@ static int patch_task(sh_tasker_t *task)
         return FUNC_FAILED;
     free(task->program);
     my_tabfree((void **) task->args);
+    if (task->shell_data != NULL) {
+        free(task->shell_data->line);
+        task->shell_data->line = sh_prsent_to_char_ptr(task->parser_entry);
+        task->shell_data->command_chain = task->parser_entry;
+    }
     task->program = my_strdup(sh_get_prsent_index(task->parser_entry, 0));
     task->args = sh_prsent_to_char_tab(task->parser_entry);
     return FUNC_SUCCESS;
@@ -68,11 +73,7 @@ int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char **shard_ptr,
         hist_shard = my_strdup("");
     override_parser(&task->parser_entry, sh_parse_string(hist_shard),
         shard_ptr);
-    if (task->shell_data != NULL) {
-        free(task->shell_data->line);
-        task->shell_data->line = hist_shard;
-        task->shell_data->command_chain = task->parser_entry;
-    }
+    free(hist_shard);
     patch_task(task);
     consume_next_argument(next_argument);
     return FUNC_SUCCESS;
