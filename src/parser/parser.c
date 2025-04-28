@@ -92,7 +92,7 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         if (shard == NULL)
             return (argument_parser_run) ? FUNC_SUCCESS : FUNC_SEMFAIL;
         if (is_supported_pipe(shard) == TRUE)
-            curr_chain = sh_prsent_create(shard, sh_get_pipe_type(shard));
+            curr_chain = sh_prsent_create(shard, sh_pipe_type(shard));
         else
             curr_chain = sh_prsent_create(shard, SH_PARSER_COMMAND);
         if (sh_prsent_chain(chain, curr_chain) == FUNC_FAILED)
@@ -100,6 +100,24 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         shard = last_stop;
     }
     return FUNC_FAILED;
+}
+
+sh_prsent_t *sh_parse_string(const char *string)
+{
+    int status = FUNC_FAILED;
+    char *line = NULL;
+    sh_prsent_t *entry = NULL;
+
+    if (string == NULL)
+        return NULL;
+    line = my_strdup(string);
+    if (line == NULL)
+        return NULL;
+    status = get_arguments(&entry, line);
+    free(line);
+    if (status == FUNC_FAILED)
+        return NULL;
+    return entry;
 }
 
 int sh_parse_entry(shell_data_t *shell_data)
