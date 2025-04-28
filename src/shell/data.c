@@ -18,6 +18,7 @@ shell_data_t *sh_data_init(char_dict_t *env)
     shell_data = malloc(sizeof(shell_data_t));
     if (shell_data == NULL)
         return NULL;
+    shell_data->line = NULL;
     shell_data->command_chain = NULL;
     shell_data->tasks = NULL;
     shell_data->env = env;

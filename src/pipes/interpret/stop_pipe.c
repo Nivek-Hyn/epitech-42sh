@@ -18,10 +18,12 @@ static void consume_argument(char *next_argument)
         return;
 }
 
-int sh_tsk_intprt_stop_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_stop_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument)
 {
-    if (task == NULL || shard == NULL)
+    char *shard = (shard_ptr != NULL) ? *shard_ptr : NULL;
+
+    if (task == NULL || shard == NULL || shard_ptr == NULL)
         return FUNC_FAILED;
     consume_argument(next_argument);
     if (my_strcmp(";", shard) == CMP_EXACT)

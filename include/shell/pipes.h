@@ -29,15 +29,15 @@ bool_t sh_pipe_is(const char *shard, sh_prsent_type_t type);
 sh_prsent_type_t sh_pipe_type(const char *shard);
 bool_t sh_is_pipe(const char *shard);
 
-int sh_pipes_interpret(sh_tasker_t *task, char *shard,
+int sh_pipes_interpret(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
-int sh_tsk_intprt_std_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_std_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
-int sh_tsk_intprt_stop_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_stop_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
-int sh_tsk_intprt_bg_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_bg_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
-int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
 
 extern const sh_pipe_info_t sh_pipe_info[];

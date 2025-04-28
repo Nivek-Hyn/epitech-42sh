@@ -117,9 +117,8 @@ int sh_parse_entry(shell_data_t *shell_data)
         shell_data->last_excode = EXIT_SUCCESS;
         return FUNC_SEMFAIL;
     }
-    sh_write_into_history(shell_data, line);
     parse_status = get_arguments(&shell_data->command_chain, line);
-    free(line);
+    shell_data->line = line;
     if (parse_status != FUNC_SUCCESS)
         return sh_builtin_spestat(shell_data, EXIT_FAILURE, parse_status);
     return FUNC_SUCCESS;

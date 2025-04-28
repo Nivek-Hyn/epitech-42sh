@@ -63,10 +63,12 @@ int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task)
     int fork_result = 0;
 
     if (shell_data == NULL || task == NULL)
-        return FUNC_FAILED;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    if (task->program == NULL || task->args == NULL)
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     fork_result = fork();
     if (fork_result == FUNC_FAILED)
-        return FUNC_FAILED;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (fork_result == 0)
         is_child(task);
     return is_dad(shell_data, fork_result);

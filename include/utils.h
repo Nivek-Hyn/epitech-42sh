@@ -219,6 +219,13 @@ typedef struct char_dict_s {
     #define IS_ALPHA(a)   ((IS_MAJ_ALPHA(a) && IS_LC_ALPHA(a)) ? (1) : (0))
 
     /*
+    * Is a numeric character
+    * Returns true if 'a' is in either maj or lowcase alphabetic range
+    *
+    */
+    #define IS_NUM(a)   (((a >= '0') && (a <= '9')) ? (1) : (0))
+
+    /*
     * Maj alphabetic character to lower case
     * Returns 'a + 32' if 'a' is in the maj alphabetic range,
     * returns 'a' if 'a' isn't in the maj alphabetic range
