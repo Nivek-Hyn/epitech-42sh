@@ -11,17 +11,19 @@
 #ifndef SH_PIPES_H
     #define SH_PIPES_H
 
-    #define PIPE_R_REDIR    ">"
-    #define PIPE_L_REDIR    "<"
-    #define PIPE_R_AREDIR   ">>"
-    #define PIPE_L_AREDIR   "<<"
-    #define PIPE_PROG       "\\|"
-    #define PIPE_SEP        ";"
-    #define PIPE_AND        "&&"
-    #define PIPE_OR         PIPE_PROG PIPE_PROG
-    #define PIPE_BG         "&"
-    #define PIPE_HIST       "^(!*)$"
-    #define PIPE_HIST_NUM   "^(.*[0-9])!$"
+    #define REG_START       "^"
+    #define REG_END         "$"
+    #define PIPE_R_REDIR    REG_START ">" REG_END
+    #define PIPE_L_REDIR    REG_START "<" REG_END
+    #define PIPE_R_AREDIR   REG_START ">>" REG_END
+    #define PIPE_L_AREDIR   REG_START "<<" REG_END
+    #define PIPE_PROG       REG_START "\\|" REG_END
+    #define PIPE_SEP        REG_START ";" REG_END
+    #define PIPE_AND        REG_START "&&" REG_END
+    #define PIPE_OR         REG_START PIPE_PROG PIPE_PROG REG_END
+    #define PIPE_BG         REG_START "&" REG_END
+    #define PIPE_HIST       REG_START "(.*[!])" REG_END
+    #define PIPE_HIST_NUM   REG_START "(.*[0-9])!" REG_END
 
 bool_t sh_pipe_is(const char *shard, sh_prsent_type_t type);
 sh_prsent_type_t sh_pipe_type(const char *shard);
