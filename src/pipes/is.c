@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "my.h"
 #include "shell/shell.h"
+#include "shell/misc.h"
 #include "shell/parser.h"
 #include "shell/pipes.h"
 #include "utils.h"
@@ -16,6 +17,26 @@ bool_t sh_pipe_is(const char *shard, sh_prsent_type_t type)
 {
     if (shard == NULL || type == SH_PARSER_UNKNOWN)
         return FALSE;
-    return my_isin(shard, (const char **)
+    return sh_regin(shard, (const char **)
         sh_pipe_info[type].symbol) == TRUE;
+}
+
+bool_t sh_is_pipe(const char *shard)
+{
+    if (shard == NULL)
+        return FALSE;
+    if (sh_pipe_type(shard) != SH_PARSER_UNKNOWN)
+        return TRUE;
+    return FALSE;
+}
+
+sh_prsent_type_t sh_pipe_type(const char *shard)
+{
+    if (shard == NULL)
+        return SH_PARSER_UNKNOWN;
+    for (int i = 0; sh_pipe_info[i].type != SH_PARSER_UNKNOWN; i++)
+        if (sh_regin(shard, (const char **)
+            sh_pipe_info[i].symbol) == TRUE)
+            return i;
+    return SH_PARSER_UNKNOWN;
 }

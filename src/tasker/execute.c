@@ -11,6 +11,7 @@
 #include "my.h"
 #include "statutils.h"
 #include "shell/shell.h"
+#include "shell/exec.h"
 #include "shell/env.h"
 #include "shell/tasker.h"
 
@@ -24,7 +25,7 @@ static char *is_program_in_path(char *path, char *executable)
     buffer = my_strcdup(path, "/");
     result = my_strcdup(buffer, executable);
     free(buffer);
-    if (stat_get_size(result) == FUNC_FAILED) {
+    if (access(result, X_OK) == FUNC_FAILED) {
         free(result);
         return NULL;
     }

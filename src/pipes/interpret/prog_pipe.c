@@ -13,10 +13,13 @@
 #include "shell/exec.h"
 #include "utils.h"
 
-int sh_tsk_intprt_prog_pipe(sh_tasker_t *task, char *shard,
+int sh_tsk_intprt_prog_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument)
 {
-    if (task == NULL || shard == NULL || next_argument == NULL)
+    char *shard = (shard_ptr != NULL) ? *shard_ptr : NULL;
+
+    if (task == NULL || shard == NULL ||
+        shard_ptr == NULL || next_argument == NULL)
         return FUNC_FAILED;
     return FUNC_SUCCESS;
 }

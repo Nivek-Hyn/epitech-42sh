@@ -16,6 +16,7 @@ typedef enum {
     SH_PARSER_PROG_PIPE,
     SH_PARSER_STOP_PIPE,
     SH_PARSER_BACKGROUND_PIPE,
+    SH_PARSER_HISTORY_PIPE,
     SH_PARSER_COMMAND
 } sh_prsent_type_t;
 
@@ -45,6 +46,7 @@ typedef struct {
     char *pwd;
     char *old_pwd;
     char_dict_t *env;
+    char *line;
     sh_prsent_t *command_chain;
     shell_usr_data_t *user_data;
     struct sh_tasker_s *tasks;
@@ -56,7 +58,10 @@ typedef struct {
     #define SH_DATA_DEFAULT_EC 0
     #define SH_HISTORY_FILE ".42sh_history"
     #define SH_LSTEXC(shell_data)   (shell_data->last_excode)
+    #define SH_USRDAT(shell_data)   (shell_data->user_data)
     #define SH_EXEC_CCNT(shell_data)    (SH_LSTEXC(shell_data) == 0)
+    #define SH_HIST(shell_data)    (SH_USRDAT(shell_data)->history)
+    #define SH_HIST_LEN(shell_data)    (SH_USRDAT(shell_data)->history_len)
 
 #endif
 
@@ -75,7 +80,7 @@ typedef enum {
 typedef struct {
     sh_prsent_type_t type;
     char **symbol;
-    int (*tsk_interpret_f)(struct sh_tasker_s *, char *, char *);
+    int (*tsk_interpret_f)(struct sh_tasker_s *, char **, char *);
 } sh_pipe_info_t;
 
 #endif

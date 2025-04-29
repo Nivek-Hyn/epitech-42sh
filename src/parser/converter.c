@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "my.h"
 #include "shell/parser.h"
@@ -22,6 +23,10 @@ static char *convert_to_char_ptr(char *result, sh_prsent_t *chain)
             return result;
         my_strcat(&result[index], chain->entry);
         index += my_strlen(chain->entry);
+        if (chain->next != NULL && result[index] != '\0') {
+            result[index] = ' ';
+            index++;
+        }
     }
     return result;
 }
@@ -54,6 +59,7 @@ char *sh_prsent_to_char_ptr(sh_prsent_t *chain)
     result = malloc(sizeof(char) * (chain_elts_len + chain_gaps + 1));
     if (result == NULL)
         return NULL;
+    memset(result, ' ', chain_elts_len + chain_gaps);
     result[chain_elts_len + chain_gaps] = '\0';
     return convert_to_char_ptr(result, chain);
 }

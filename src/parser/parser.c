@@ -13,6 +13,7 @@
 #include "shell/shell.h"
 #include "shell/built_in.h"
 #include "shell/parser.h"
+#include "shell/pipes.h"
 
 static char *get_final_quote(char *line, char **last_stop, int i)
 {
@@ -70,14 +71,11 @@ static char *get_shard(char *line, char **last_stop, bool_t *parser_run)
 
 static bool_t is_supported_pipe(const char *shard)
 {
-    const char *supported_pipes[] = {";", ">", ">>", "<",
-        "<<", "|", "||", "&&", "&", NULL};
-
     if (shard == NULL)
         return FALSE;
     if (shard[0] == '0' || shard[0] == '1' || shard[0] == '2')
-        return my_isin(&shard[1], supported_pipes);
-    return my_isin(shard, supported_pipes);
+        return sh_is_pipe(&shard[1]);
+    return sh_is_pipe(shard);
 }
 
 static int get_arguments(sh_prsent_t **chain, char *line)
@@ -94,7 +92,7 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         if (shard == NULL)
             return (argument_parser_run) ? FUNC_SUCCESS : FUNC_SEMFAIL;
         if (is_supported_pipe(shard) == TRUE)
-            curr_chain = sh_prsent_create(shard, sh_get_pipe_type(shard));
+            curr_chain = sh_prsent_create(shard, sh_pipe_type(shard));
         else
             curr_chain = sh_prsent_create(shard, SH_PARSER_COMMAND);
         if (sh_prsent_chain(chain, curr_chain) == FUNC_FAILED)
@@ -102,6 +100,24 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         shard = last_stop;
     }
     return FUNC_FAILED;
+}
+
+sh_prsent_t *sh_parse_string(const char *string)
+{
+    int status = FUNC_FAILED;
+    char *line = NULL;
+    sh_prsent_t *entry = NULL;
+
+    if (string == NULL)
+        return NULL;
+    line = my_strdup(string);
+    if (line == NULL)
+        return NULL;
+    status = get_arguments(&entry, line);
+    free(line);
+    if (status == FUNC_FAILED)
+        return NULL;
+    return entry;
 }
 
 int sh_parse_entry(shell_data_t *shell_data)
@@ -119,9 +135,8 @@ int sh_parse_entry(shell_data_t *shell_data)
         shell_data->last_excode = EXIT_SUCCESS;
         return FUNC_SEMFAIL;
     }
-    sh_write_into_history(shell_data, line);
     parse_status = get_arguments(&shell_data->command_chain, line);
-    free(line);
+    shell_data->line = line;
     if (parse_status != FUNC_SUCCESS)
         return sh_builtin_spestat(shell_data, EXIT_FAILURE, parse_status);
     return FUNC_SUCCESS;

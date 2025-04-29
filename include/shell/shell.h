@@ -14,6 +14,7 @@
     #define SH_H
 
 int sh_write_into_history(shell_data_t *shell_data, const char *string);
+char *sh_get_history_shard(const char *format, shell_data_t *shell_data);
 shell_data_t *init_shell_conf(char **env, sh_st_options_t *options);
 shell_data_t *sh_data_init(char_dict_t *env);
 shell_usr_data_t *sh_usrdata_init(char_dict_t *env);
