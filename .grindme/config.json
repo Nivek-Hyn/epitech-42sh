@@ -310,41 +310,6 @@
           "executable": "./42sh",
           "args": [],
           "input_file": ".grindme/test_files/error_handling/7_unsetenv_toomany"
-        },
-        {
-          "name": "'cd': Too few",
-          "description": "",
-          "executable": "./42sh",
-          "args": [],
-          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
-        },
-        {
-          "name": "'cd': Too few",
-          "description": "",
-          "executable": "./42sh",
-          "args": [],
-          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
-        },
-        {
-          "name": "'cd': Too few",
-          "description": "",
-          "executable": "./42sh",
-          "args": [],
-          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
-        },
-        {
-          "name": "'cd': Too few",
-          "description": "",
-          "executable": "./42sh",
-          "args": [],
-          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
-        },
-        {
-          "name": "'cd': Too few",
-          "description": "",
-          "executable": "./42sh",
-          "args": [],
-          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
         }
       ]
     }
