@@ -25,7 +25,7 @@ jobs:
         run: "echo 'Requirements met | Running on Repo: ${{ github.repository }}.'"
 
   check_coding_style:
-    timeout-minutes: 5
+    timeout-minutes: 10
     runs-on: self-hosted
     needs: check_requirements
     container:
@@ -53,7 +53,7 @@ jobs:
       run: "rm -f coding-style-reports.log"
 
   check_program_compilation:
-    timeout-minutes: 5
+    timeout-minutes: 10
     runs-on: self-hosted
     needs: check_requirements
     container:
@@ -99,7 +99,7 @@ jobs:
       run: "make fclean"
 
   run_unit_tests:
-    timeout-minutes: 5
+    timeout-minutes: 10
     runs-on: self-hosted
     needs: check_program_compilation
     container:
@@ -117,7 +117,7 @@ jobs:
       run: "make fclean"
 
   run_grind_me:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: self-hosted
     needs: check_program_compilation
     container:
