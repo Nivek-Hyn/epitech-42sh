@@ -18,6 +18,8 @@ jobs:
   check_requirements:
     timeout-minutes: 1
     runs-on: self-hosted
+    container:
+      image: alpine:latest
     if: ${{ github.repository != '<N/A>' }}
 
     steps:
@@ -153,7 +155,10 @@ jobs:
     - uses: paulhatch/semantic-version@v5.4.0
       with:
         tag_prefix: "v"
-        major_pattern: "BREAKING CHANGE:"
-        minor_pattern: "feat:"
+        major_pattern: "/^(BREAKING CHANGE|feat|(.*!))(.*):/"
+        major_regexp_flags: "gs"
+        minor_pattern: "/^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|merge)(.*):/"
+        minor_regexp_flags: "gs"
         version_format: "${major}.${minor}.${patch}.${increment}"
         search_commit_body: true
+        bump_each_commit: true
