@@ -116,6 +116,29 @@ jobs:
     - name: "[POST-RUN] Clean workspace"
       run: "make fclean"
 
+  run_grind_me:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    needs: check_program_compilation
+    container:
+      image: liamcollearchivist/grindme:epitech-latest
+      options: --ulimit nofile=1024:1024
+
+    steps:
+    - name: "[GITHUB] Checkout code from GitHub"
+      uses: actions/checkout@v4
+
+    - name: "[COMPILATION] Compile program and tests"
+      timeout-minutes: 3
+      run: make unit_tests
+
+    - name: "[TESTS] Execute GrindMe tests"
+      timeout-minutes: 5
+      run: grindme --github-action
+
+    - name: "[POST-RUN] Clean workspace"
+      run: "make fclean"
+
   update_versioning:
     timeout-minutes: 5
     runs-on: self-hosted

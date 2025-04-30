@@ -102,6 +102,8 @@ style: fclean
 
 tests_run: unit_tests
 	@./unit_tests
+	@cd ./tests/shell_tester/; $(MAKE) test\
+		--no-print-directory
 
 unit_tests: re
 	@cp $(NAME) ./tests/shell_tester/
