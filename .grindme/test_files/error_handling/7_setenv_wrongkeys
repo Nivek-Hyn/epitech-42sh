@@ -1,0 +1,13 @@
+setenv 42SH
+setenv SH42-
+setenv SH450$*ùù:2+7/
+setenv SH42
+setenv SH42_SH
+setenv I am 42SH
+setenv 42SH
+setenv SH42-2
+setenv SH450$*ùù:2+7/2
+setenv SH42'
+setenv SH42_SH
+setenv "I am 42SH2"
+env

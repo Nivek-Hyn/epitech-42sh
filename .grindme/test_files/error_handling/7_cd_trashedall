@@ -1,0 +1,4 @@
+setenv HOME ""
+setenv PWD ""
+setenv OLDPWD ""
+cd -

@@ -144,6 +144,207 @@
           "executable": "./42sh",
           "args": [],
           "input_file": ".grindme/test_files/crash_handling/6_my_divzero"
+        },
+        {
+          "name": "my_segfault",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/crash_handling/6_my_segfault"
+        }
+      ]
+    },
+    {
+      "name": "Error handling",
+      "tests": [
+        {
+          "name": "'exec': Permissions denied",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_perms_denied"
+        },
+        {
+          "name": "'exec': Wrong executable",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_wrong_executable"
+        },
+        {
+          "name": "'cd': Invalid path",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_invalpath"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toomany"
+        },
+        {
+          "name": "'cd': Trashed home",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_trashedhome"
+        },
+        {
+          "name": "'cd': Trashed all",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_trashedall"
+        },
+        {
+          "name": "'cd': Segfault risk (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_1"
+        },
+        {
+          "name": "'cd': Segfault risk (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_2"
+        },
+        {
+          "name": "'cd': Segfault risk (3)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_3"
+        },
+        {
+          "name": "'cd': Segfault risk (4)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_4"
+        },
+        {
+          "name": "'pipe': Command invalid left",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_left"
+        },
+        {
+          "name": "'pipe': Command invalid right",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_right"
+        },
+        {
+          "name": "'pipe': Command invalid three",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_three"
+        },
+        {
+          "name": "'pipe': Command invalid two invalid one middle",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_twoinval_onemid"
+        },
+        {
+          "name": "'pipe': Command invalid both",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_both"
+        },
+        {
+          "name": "'pipe': Command invalid middle command failure",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_failmid"
+        },
+        {
+          "name": "'setenv': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_toofew"
+        },
+        {
+          "name": "'setenv': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_toomany"
+        },
+        {
+          "name": "'setenv': Wrong keys",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_wrongkeys"
+        },
+        {
+          "name": "'unsetenv': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_unsetenv_toofew"
+        },
+        {
+          "name": "'unsetenv': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_unsetenv_toomany"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
         }
       ]
     }
