@@ -142,7 +142,7 @@ jobs:
   update_versioning:
     timeout-minutes: 5
     runs-on: self-hosted
-    needs: [check_coding_style, run_unit_tests]
+    needs: [check_coding_style, run_unit_tests, run_grind_me]
 
     steps:
     - name: "[GITHUB] Checkout code from GitHub"
