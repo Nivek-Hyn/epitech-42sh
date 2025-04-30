@@ -1,0 +1,1 @@
+echo "hello world" | cut -c 2-4 | cut -c 3

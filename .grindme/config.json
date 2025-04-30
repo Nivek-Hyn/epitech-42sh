@@ -312,6 +312,90 @@
           "input_file": ".grindme/test_files/error_handling/7_unsetenv_toomany"
         }
       ]
+    },
+    {
+      "name": "exit",
+      "tests": [
+        {
+          "name": "Exit",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/exit/8_exit"
+        },
+        {
+          "name": "Exit with code",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/exit/8_exit_wcode"
+        }
+      ]
+    },
+    {
+      "name": "Redirections",
+      "tests": [
+        {
+          "name": "Simple redirection '>'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_right"
+        },
+        {
+          "name": "Simple redirection '>>'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_append_right"
+        },
+        {
+          "name": "Simple redirection '<'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_left"
+        }
+      ]
+    },
+    {
+      "name": "Pipes",
+      "tests": [
+        {
+          "name": "Simple (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_simple_1"
+        },
+        {
+          "name": "Simple (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_simple_2"
+        },
+        {
+          "name": "Multiple (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_1"
+        },
+        {
+          "name": "Multiple (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_2"
+        },        {
+          "name": "Multiple (3)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_3"
+        }
+      ]
     }
   ]
 }

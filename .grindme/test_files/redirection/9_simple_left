@@ -1,0 +1,3 @@
+echo "hello world" > out_test
+echo "pipes are annoying" >> out_test
+cat < out_test

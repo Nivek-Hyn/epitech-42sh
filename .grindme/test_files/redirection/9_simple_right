@@ -1,0 +1,2 @@
+echo "hello world" > out_test
+cat out_test
