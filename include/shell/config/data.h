@@ -68,6 +68,8 @@ typedef struct {
 #ifndef SH_PIPES_DATA_H
     #define SH_PIPES_DATA_H
 
+typedef int fd_t;
+
 typedef enum {
     SH_TPIPE_UNKNOWN = -1,
     SH_TPIPE_BRIDGE,
