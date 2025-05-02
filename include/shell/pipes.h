@@ -13,10 +13,10 @@
 
     #define REG_START       "^"
     #define REG_END         "$"
-    #define PIPE_R_REDIR    REG_START ">" REG_END
-    #define PIPE_L_REDIR    REG_START "<" REG_END
-    #define PIPE_R_AREDIR   REG_START ">>" REG_END
-    #define PIPE_L_AREDIR   REG_START "<<" REG_END
+    #define PIPE_R_REDIR    REG_START "([0-2]?)>" REG_END
+    #define PIPE_L_REDIR    REG_START "([0-2]?)<" REG_END
+    #define PIPE_R_AREDIR   REG_START "([0-2]?)>>" REG_END
+    #define PIPE_L_AREDIR   REG_START "([0-2]?)<<" REG_END
     #define PIPE_PROG       REG_START "\\|" REG_END
     #define PIPE_SEP        REG_START ";" REG_END
     #define PIPE_AND        REG_START "&&" REG_END
