@@ -12,86 +12,106 @@
 #include <signal.h>
 #include <string.h>
 
-static void write_char_cursor(char c, char **buffer, int *size, int *cursor)
+static void is_current(tty_t *tty, shell_data_t *data)
 {
-    if (*size >= MAX_LINE_SIZE - 1)
-        return;
-    for (int i = *size; i > *cursor; i--)
-        (*buffer)[i] = (*buffer)[i - 1];
-    (*buffer)[*cursor] = c;
-    write(1, &c, 1);
-    (*size)++;
-    (*cursor)++;
-    (*buffer)[*size] = '\0';
-    write(1, *buffer + *cursor, *size - *cursor);
-    for (int i = 0; i < (*size - *cursor); i++)
-        write(1, "\033[D", 3);
+    if (tty->history == data->user_data->history_len && tty->buffer[0]) {
+        free(tty->current);
+        tty->current = strdup(tty->buffer);
+    }
 }
 
-static void handle_delete(int *cursor, int *size, char **buffer)
+static void write_char_cursor(char c, tty_t *tty, shell_data_t *data)
+{
+    if (tty->size >= MAX_LINE_SIZE - 1)
+        return;
+    tty->buffer = realloc(tty->buffer, tty->size + 2);
+    for (int i = tty->size; i > tty->cursor; i--)
+        (tty->buffer)[i] = (tty->buffer)[i - 1];
+    (tty->buffer)[tty->cursor] = c;
+    write(1, &c, 1);
+    (tty->size)++;
+    (tty->cursor)++;
+    (tty->buffer)[tty->size] = '\0';
+    write(1, tty->buffer + tty->cursor, tty->size - tty->cursor);
+    for (int i = 0; i < (tty->size - tty->cursor); i++)
+        write(1, "\033[D", 3);
+    is_current(tty, data);
+}
+
+static void handle_delete(tty_t *tty, shell_data_t *data)
 {
     char c = 0;
     int i = 0;
 
-    if (read(STDIN_FILENO, &c, 1) != 1 || *cursor >= *size || *cursor < 0)
+    if (read(STDIN_FILENO, &c, 1) != 1 || tty->cursor >= tty->size ||
+        tty->cursor < 0)
         return;
     if (c == '~') {
-        if (*cursor >= *size)
+        if (tty->cursor >= tty->size)
             return;
-        for (i = *cursor; i < *size - 1; i++)
-            (*buffer)[i] = (*buffer)[i + 1];
-        (*size)--;
-        write(1, (*buffer) + *cursor, *size - *cursor);
+        for (i = tty->cursor; i < tty->size - 1; i++)
+            (tty->buffer)[i] = (tty->buffer)[i + 1];
+        (tty->size)--;
+        (tty->buffer)[tty->size] = '\0';
+        write(1, (tty->buffer) + tty->cursor, tty->size - tty->cursor);
         write(1, " ", 1);
-        for (i = 0; i <= (*size - *cursor); i++)
+        for (i = 0; i <= (tty->size - tty->cursor); i++)
             write(1, "\033[D", 3);
     }
+    is_current(tty, data);
 }
 
-void handle_arrow_keys(char seq[2], int *cursor, int *size, char **buf)
+void handle_arrow_keys(char seq[2], tty_t *tty, shell_data_t *shell_data)
 {
     if (seq[0] != '[')
         return;
-    if (seq[1] == 'C' && *cursor < *size) {
+    if (seq[1] == 'C' && tty->cursor < tty->size) {
         write(1, "\033[C", 3);
-        (*cursor)++;
+        (tty->cursor)++;
     }
-    if (seq[1] == 'D' && *cursor > 0) {
+    if (seq[1] == 'D' && tty->cursor > 0) {
         write(1, "\033[D", 3);
-        (*cursor)--;
+        (tty->cursor)--;
     }
-    if (seq[1] == '3' && *cursor < *size)
-        handle_delete(cursor, size, buf);
+    if (seq[1] == 'A' || seq[1] == 'B')
+        handle_history_arr(tty, shell_data, seq[1]);
+    if (seq[1] == '3' && tty->cursor < tty->size)
+        handle_delete(tty, shell_data);
 }
 
-void handle_backspace(char **buffer, int *size, int *cursor)
+void handle_backspace(tty_t *tty, shell_data_t *data)
 {
-    if (*cursor > 0 && *size > 0) {
-        for (int i = *cursor - 1; i < *size - 1; i++)
-            (*buffer)[i] = (*buffer)[i + 1];
-        (*size)--;
-        (*cursor)--;
+    if (tty->cursor > 0 && tty->size > 0) {
+        for (int i = tty->cursor - 1; i < tty->size - 1; i++)
+            (tty->buffer)[i] = (tty->buffer)[i + 1];
+        (tty->size)--;
+        (tty->cursor)--;
         write(1, "\b \b", 3);
-        write(1, *buffer + *cursor, *size - *cursor);
+        write(1, tty->buffer + tty->cursor, tty->size - tty->cursor);
         write(1, " ", 1);
-        for (int j = 0; j <= (*size - *cursor); j++)
+        for (int j = 0; j <= (tty->size - tty->cursor); j++)
             write(1, "\033[D", 3);
     }
+    (tty->buffer)[tty->size] = '\0';
+    is_current(tty, data);
 }
 
-void handle_regular_char(char c, char **buffer, int *size, int *cursor)
+void handle_regular_char(char c, tty_t *tty, shell_data_t *data)
 {
-    if (*cursor != *size) {
-        write_char_cursor(c, buffer, size, cursor);
+    if (tty->cursor != tty->size) {
+        write_char_cursor(c, tty, data);
     } else {
-        (*buffer)[*cursor] = c;
-        (*cursor)++;
-        (*size)++;
+        (tty->buffer) = realloc((tty->buffer), (tty->size) + 2);
+        (tty->buffer)[tty->cursor] = c;
+        (tty->cursor)++;
+        (tty->size)++;
+        (tty->buffer)[tty->size] = '\0';
         write(1, &c, 1);
     }
+    is_current(tty, data);
 }
 
-void handle_input_char(char c, char **buffer, int *size, int *cursor)
+void handle_input_char(char c, tty_t *tty, shell_data_t *shell_data)
 {
     char seq[2];
 
@@ -100,31 +120,32 @@ void handle_input_char(char c, char **buffer, int *size, int *cursor)
             return;
         if (read(STDIN_FILENO, &seq[1], 1) != 1)
             return;
-        handle_arrow_keys(seq, cursor, size, buffer);
+        handle_arrow_keys(seq, tty, shell_data);
     }
-    if (c == 8 || c == 127)
-        handle_backspace(buffer, size, cursor);
+    if ((c == 8 || c == 127) && tty->size > 0)
+        handle_backspace(tty, shell_data);
     if (c == 26)
         write(1, "test", 4);
     if (c != 27 && c != 8 && c != 127 && c != 26)
-        handle_regular_char(c, buffer, size, cursor);
+        handle_regular_char(c, tty, shell_data);
 }
 
-int read_stdin(int *size, char **buffer, int file)
+int read_stdin(tty_t *tty, int file, shell_data_t *shell_data)
 {
-    int cursor = 0;
     char c = 0;
 
-    while (*size < MAX_LINE_SIZE) {
+    tty->current[0] = '\0';
+    while (tty->size < MAX_LINE_SIZE) {
         if (read(file, &c, 1) <= 0 || c == 4)
             return -1;
         if (c == '\n') {
-            (*buffer)[*size] = '\0';
-            (*size)++;
+            (tty->buffer)[tty->size] = '\0';
+            (tty->size)++;
             write(1, "\n", 1);
-            return *size;
+            return tty->size;
         }
-        handle_input_char(c, buffer, size, &cursor);
+        handle_input_char(c, tty, shell_data);
     }
-    return *size;
+    free(tty->current);
+    return tty->size;
 }

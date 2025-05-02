@@ -111,7 +111,7 @@ int sh_parse_entry(shell_data_t *shell_data)
 
     if (shell_data == NULL)
         return FUNC_FAILED;
-    line = sh_get_entry(STDIN);
+    line = sh_get_entry(STDIN, shell_data);
     if (line == NULL)
         return FUNC_FAILED;
     if (line[0] == '\0') {

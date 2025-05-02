@@ -72,13 +72,13 @@ char *sh_get_prsent_index(sh_prsent_t *chain, int index)
     return NULL;
 }
 
-char *sh_get_entry(int file)
+char *sh_get_entry(int file, shell_data_t *shell_data)
 {
     char *line = NULL;
     char *ret_line = NULL;
     char *newline = NULL;
 
-    if (my_stdin_getline(&line, file) == FUNC_FAILED) {
+    if (my_stdin_getline(&line, file, shell_data) == FUNC_FAILED) {
         free(line);
         return NULL;
     }
