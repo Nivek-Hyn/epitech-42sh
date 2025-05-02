@@ -15,7 +15,7 @@
 #include "shell/tasker.h"
 #include "utils.h"
 
-static void shelldata_reset(shell_data_t *shell_data)
+void sh_shelldata_reset(shell_data_t *shell_data)
 {
     if (shell_data == NULL)
         return;
@@ -37,10 +37,10 @@ static int shell_tty_mode(shell_data_t *shell_data)
         && exec_success == FUNC_SUCCESS) {
         sh_build_tasker(shell_data);
         exec_success = sh_tasker_execute(shell_data);
-        shelldata_reset(shell_data);
+        sh_shelldata_reset(shell_data);
         shell_data->command_chain = NULL;
     }
-    shelldata_reset(shell_data);
+    sh_shelldata_reset(shell_data);
     return FUNC_SUCCESS;
 }
 
@@ -67,13 +67,13 @@ int shell(shell_data_t *shell_data)
     if (isatty(STDIN) == FALSE)
         return shell_tty_mode(shell_data);
     do {
-        shelldata_reset(shell_data);
+        sh_shelldata_reset(shell_data);
         sh_render_window(shell_data);
         shell_data->last_excode = SH_DATA_DEFAULT_EC;
         if (parse_data(shell_data) == FUNC_FAILED)
             shell_data->is_active = FALSE;
     } while (shell_data->is_active);
-    shelldata_reset(shell_data);
+    sh_shelldata_reset(shell_data);
     return FUNC_SUCCESS;
 }
 

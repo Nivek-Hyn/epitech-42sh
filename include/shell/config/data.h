@@ -54,13 +54,13 @@ typedef struct {
     bool_t is_active;
 } shell_data_t;
 
-    #define SH_DATA_DEFAULT NULL, NULL, NULL, -1, TRUE
-    #define SH_DATA_DEFAULT_EC 0
-    #define SH_HISTORY_FILE ".42sh_history"
-    #define SH_LSTEXC(shell_data)   (shell_data->last_excode)
-    #define SH_USRDAT(shell_data)   (shell_data->user_data)
-    #define SH_EXEC_CCNT(shell_data)    (SH_LSTEXC(shell_data) == 0)
-    #define SH_HIST(shell_data)    (SH_USRDAT(shell_data)->history)
+    #define SH_DATA_DEFAULT            NULL, NULL, NULL, -1, TRUE
+    #define SH_DATA_DEFAULT_EC         0
+    #define SH_HISTORY_FILE            ".42sh_history"
+    #define SH_LSTEXC(shell_data)      (shell_data->last_excode)
+    #define SH_USRDAT(shell_data)      (shell_data->user_data)
+    #define SH_EXEC_CCNT(shell_data)   (SH_LSTEXC(shell_data) == 0)
+    #define SH_HIST(shell_data)        (SH_USRDAT(shell_data)->history)
     #define SH_HIST_LEN(shell_data)    (SH_USRDAT(shell_data)->history_len)
 
 #endif
@@ -70,12 +70,16 @@ typedef struct {
 
 typedef enum {
     SH_TPIPE_UNKNOWN = -1,
-    SH_TPIPE_REDIR,
-    SH_TPIPE_REDIR_APPEND,
-    SH_TPIPE_IREDIR,
-    SH_TPIPE_IREDIR_APPEND,
     SH_TPIPE_BRIDGE,
 } sh_tasker_pipe_type_t;
+
+typedef enum {
+    SH_REDIR_UNKNOWN = -1,
+    SH_REDIR_RIGHT,
+    SH_REDIR_RIGHT_APPEND,
+    SH_REDIR_LEFT,
+    SH_REDIR_LEFT_APPEND,
+} sh_tasker_redir_type_t;
 
 typedef struct {
     sh_prsent_type_t type;
@@ -102,6 +106,7 @@ typedef enum {
 
 typedef struct {
     sh_tasker_pipe_type_t pipe_type;
+    sh_tasker_redir_type_t redir_type;
     sh_tasker_exec_type_t exec_type;
     bool_t background;
     int stdin_fd;
@@ -133,18 +138,18 @@ typedef struct {
 } sh_tasker_pre_data_t;
 
     #define SH_TASKER_DEF_PREDAT  NULL, STDIN, STDERR, STDOUT
-    #define SH_TSKPIPE_DEF -1, 0, FALSE, -1, NULL, -1, NULL, -1, NULL
-    #define SH_STDIN_REX(rd_data) (rd_data->stdin_fn != NULL)
-    #define SH_STDIN_RFD(rd_data) (rd_data->stdin_fd)
-    #define SH_STDIN_RFN(rd_data) (rd_data->stdin_fn)
+    #define SH_TSKPIPE_DEF -1, -1, 0, FALSE, -1, NULL, -1, NULL, -1, NULL
+    #define SH_STDIN_REX(rd_data)  (rd_data->stdin_fn != NULL)
+    #define SH_STDIN_RFD(rd_data)  (rd_data->stdin_fd)
+    #define SH_STDIN_RFN(rd_data)  (rd_data->stdin_fn)
     #define SH_STDOUT_REX(rd_data) (rd_data->stdout_fn != NULL)
     #define SH_STDOUT_RFD(rd_data) (rd_data->stdout_fd)
     #define SH_STDOUT_RFN(rd_data) (rd_data->stdout_fn)
     #define SH_STDERR_REX(rd_data) (rd_data->stderr_fn != NULL)
     #define SH_STDERR_RFD(rd_data) (rd_data->stderr_fd)
     #define SH_STDERR_RFN(rd_data) (rd_data->stderr_fn)
-    #define SH_EXEC_MODE(task) (task->pipes.exec_type)
+    #define SH_EXEC_MODE(task)       (task->pipes.exec_type)
     #define SH_EXEC_MSTRICT(rd_data) (SH_EXEC_MODE(rd_data) == SH_EXEC_STRICT)
-    #define SH_EXEC_MLAX(rd_data) (SH_EXEC_MODE(rd_data) == SH_EXEC_LAX)
+    #define SH_EXEC_MLAX(rd_data)    (SH_EXEC_MODE(rd_data) == SH_EXEC_LAX)
 
 #endif

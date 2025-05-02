@@ -29,7 +29,6 @@ static int assign_output(sh_tasker_t *task, int fd, char *argument)
         task->pipes.stderr_fd = STDERR;
         task->pipes.stderr_fn = argument;
     }
-    task->exec_fnc = sh_exec_program_pipe;
     return FUNC_SUCCESS;
 }
 
@@ -39,11 +38,11 @@ static int sh_tsk_check_positive_pipe(sh_tasker_t *task, char *shard,
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
     if (my_strcmp(">", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_REDIR;
+        task->pipes.redir_type = SH_REDIR_RIGHT;
         return assign_output(task, STDOUT, next_argument);
     }
     if (my_strcmp(">>", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_REDIR_APPEND;
+        task->pipes.redir_type = SH_REDIR_RIGHT_APPEND;
         return assign_output(task, STDOUT, next_argument);
     }
     return FUNC_FAILED;
@@ -55,11 +54,11 @@ static int sh_tsk_check_negative_pipe(sh_tasker_t *task, char *shard,
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
     if (my_strcmp("<", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_IREDIR;
+        task->pipes.redir_type = SH_REDIR_LEFT;
         return assign_output(task, STDIN, next_argument);
     }
     if (my_strcmp("<<", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_IREDIR_APPEND;
+        task->pipes.redir_type = SH_REDIR_LEFT_APPEND;
         return assign_output(task, STDIN, next_argument);
     }
     return FUNC_FAILED;
