@@ -29,22 +29,21 @@ static int assign_output(sh_tasker_t *task, int fd, char *argument)
         task->pipes.stderr_fd = STDERR;
         task->pipes.stderr_fn = argument;
     }
-    task->exec_fnc = sh_exec_program_pipe;
     return FUNC_SUCCESS;
 }
 
-static int sh_tsk_check_positive_pipe(sh_tasker_t *task, char *shard,
+static int sh_tsk_check_positive_pipe(sh_tasker_t *task, char *shard, fd_t fd,
     char *next_argument)
 {
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
     if (my_strcmp(">", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_REDIR;
-        return assign_output(task, STDOUT, next_argument);
+        task->pipes.redir_type = SH_REDIR_RIGHT;
+        return assign_output(task, fd, next_argument);
     }
     if (my_strcmp(">>", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_REDIR_APPEND;
-        return assign_output(task, STDOUT, next_argument);
+        task->pipes.redir_type = SH_REDIR_RIGHT_APPEND;
+        return assign_output(task, fd, next_argument);
     }
     return FUNC_FAILED;
 }
@@ -55,11 +54,11 @@ static int sh_tsk_check_negative_pipe(sh_tasker_t *task, char *shard,
     if (task == NULL || shard == NULL || next_argument == NULL)
         return FUNC_FAILED;
     if (my_strcmp("<", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_IREDIR;
+        task->pipes.redir_type = SH_REDIR_LEFT;
         return assign_output(task, STDIN, next_argument);
     }
     if (my_strcmp("<<", shard) == CMP_EXACT) {
-        task->pipes.pipe_type = SH_TPIPE_IREDIR_APPEND;
+        task->pipes.redir_type = SH_REDIR_LEFT_APPEND;
         return assign_output(task, STDIN, next_argument);
     }
     return FUNC_FAILED;
@@ -75,11 +74,12 @@ int sh_tsk_intprt_std_pipe(sh_tasker_t *task, char **shard_ptr,
         return FUNC_FAILED;
     if (shard[0] == '0' || shard[0] == '1' || shard[0] == '2') {
         if (shard[1] == '>')
-            return sh_tsk_check_positive_pipe(task, &shard[1], next_argument);
+            return sh_tsk_check_positive_pipe(task, &shard[1],
+                my_getnbr(shard), next_argument);
         else
             return sh_tsk_check_negative_pipe(task, &shard[1], next_argument);
     }
     if (shard[0] == '>')
-        return sh_tsk_check_positive_pipe(task, shard, next_argument);
+        return sh_tsk_check_positive_pipe(task, shard, STDOUT, next_argument);
     return sh_tsk_check_negative_pipe(task, shard, next_argument);
 }
