@@ -23,13 +23,14 @@ static int update_path(shell_data_t *shell_data, char *path)
 
     if (shell_data == NULL || path == NULL)
         return FUNC_FAILED;
+    pwd = getcwd(pwd, 0);
     if (chdir(path) == FUNC_FAILED) {
         sh_builtin_perror(path, strerror(errno));
+        my_vfree(2, pwd, path);
         return FUNC_FAILED;
     }
     free(path);
-    pwd = sh_env_get(shell_data->env, "PWD");
-    if (sh_env_set(shell_data->env, "OLDPWD", my_strdup(pwd))
+    if (sh_env_set(shell_data->env, "OLDPWD", pwd)
         == FUNC_FAILED)
         return FUNC_FAILED;
     if (sh_env_set(shell_data->env, "PWD", getcwd(cwd, 0)) == FUNC_FAILED)

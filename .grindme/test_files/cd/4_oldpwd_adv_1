@@ -1,0 +1,11 @@
+cd ..
+pwd
+cd /usr
+pwd
+cd -
+pwd
+cd -
+pwd
+unsetenv OLDPWD
+cd -
+pwd

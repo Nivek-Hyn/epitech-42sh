@@ -12,6 +12,8 @@ all:
 	@$(CC) $(PWD)/my_divzero_source/main.c -o $(PWD)/my_divzero -w
 	@cp $(PWD)/my_divzero $(PWD)/my_divzero_permfault
 	@chmod -x $(PWD)/my_divzero_permfault
+
+test: all
 	@./tester.sh > test_results
 	@echo === SUCCESSFUL TESTS ===
 	@grep --color=never "OK" test_results; true

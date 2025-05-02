@@ -1,0 +1,8 @@
+unsetenv PWD
+unsetenv OLDPWD
+cd ../
+cd /usr/bin
+cd -
+ls -l
+cd ..
+ls

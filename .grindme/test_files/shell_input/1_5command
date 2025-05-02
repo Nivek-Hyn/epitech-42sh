@@ -1,0 +1,5 @@
+cat /etc/resolv.conf
+sleep 0.5
+ls -l /etc
+sleep 0.5
+pwd

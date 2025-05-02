@@ -1,0 +1,401 @@
+{
+  "suites": [
+    {
+      "name": "Shell Input",
+      "tests": [
+        {
+          "name": "Empty",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_empty"
+        }
+      ]
+    },
+    {
+      "name": "Execution",
+      "tests": [
+        {
+          "name": "One command",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_1command"
+        },
+        {
+          "name": "Two commands",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_2command"
+        },
+        {
+          "name": "Five commands",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/shell_input/1_5command"
+        }
+      ]
+    },
+    {
+      "name": "Path Handling",
+      "tests": [
+        {
+          "name": "Path 'usr_bin'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_usr_bin"
+        },
+        {
+          "name": "Path 'bin'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_bin"
+        },
+        {
+          "name": "Incorrect path",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/path_handling/2_with_incorrect"
+        }
+      ]
+    },
+    {
+      "name": "Environment",
+      "tests": [
+        {
+          "name": "setenv and unsetenv",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/environment/3_env"
+        }
+      ]
+    },
+    {
+      "name": "'cd' command",
+      "tests": [
+        {
+          "name": "Basic use",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_basic"
+        },
+        {
+          "name": "Oldpwd use",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd"
+        },
+        {
+          "name": "Advanced use (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_adv_1"
+        },
+        {
+          "name": "Advanced use (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_adv_2"
+        },
+        {
+          "name": "Advanced oldpwd use (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd_adv_1"
+        },
+        {
+          "name": "Advanced oldpwd use (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/cd/4_oldpwd_adv_2"
+        }
+      ]
+    },
+    {
+      "name": "Arguments handling",
+      "tests": [
+        {
+          "name": "Many tabs and spaces",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/args_handling/5_many_tab_and_space"
+        }
+      ]
+    },
+    {
+      "name": "Crash handling",
+      "tests": [
+        {
+          "name": "my_divzero",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/crash_handling/6_my_divzero"
+        },
+        {
+          "name": "my_segfault",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/crash_handling/6_my_segfault"
+        }
+      ]
+    },
+    {
+      "name": "Error handling",
+      "tests": [
+        {
+          "name": "'exec': Permissions denied",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_perms_denied"
+        },
+        {
+          "name": "'exec': Wrong executable",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_wrong_executable"
+        },
+        {
+          "name": "'cd': Invalid path",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_invalpath"
+        },
+        {
+          "name": "'cd': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toofew"
+        },
+        {
+          "name": "'cd': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_toomany"
+        },
+        {
+          "name": "'cd': Trashed home",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_trashedhome"
+        },
+        {
+          "name": "'cd': Trashed all",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_trashedall"
+        },
+        {
+          "name": "'cd': Segfault risk (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_1"
+        },
+        {
+          "name": "'cd': Segfault risk (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_2"
+        },
+        {
+          "name": "'cd': Segfault risk (3)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_3"
+        },
+        {
+          "name": "'cd': Segfault risk (4)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_cd_segfaultrisk_4"
+        },
+        {
+          "name": "'pipe': Command invalid left",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_left"
+        },
+        {
+          "name": "'pipe': Command invalid right",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_right"
+        },
+        {
+          "name": "'pipe': Command invalid three",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_three"
+        },
+        {
+          "name": "'pipe': Command invalid two invalid one middle",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_twoinval_onemid"
+        },
+        {
+          "name": "'pipe': Command invalid both",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_both"
+        },
+        {
+          "name": "'pipe': Command invalid middle command failure",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_pipe_commandinval_failmid"
+        },
+        {
+          "name": "'setenv': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_toofew"
+        },
+        {
+          "name": "'setenv': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_toomany"
+        },
+        {
+          "name": "'setenv': Wrong keys",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_setenv_wrongkeys"
+        },
+        {
+          "name": "'unsetenv': Too few",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_unsetenv_toofew"
+        },
+        {
+          "name": "'unsetenv': Too many",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/error_handling/7_unsetenv_toomany"
+        }
+      ]
+    },
+    {
+      "name": "exit",
+      "tests": [
+        {
+          "name": "Exit",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/exit/8_exit"
+        },
+        {
+          "name": "Exit with code",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/exit/8_exit_wcode"
+        }
+      ]
+    },
+    {
+      "name": "Redirections",
+      "tests": [
+        {
+          "name": "Simple redirection '>'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_right"
+        },
+        {
+          "name": "Simple redirection '>>'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_append_right"
+        },
+        {
+          "name": "Simple redirection '<'",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/redirection/9_simple_left"
+        }
+      ]
+    },
+    {
+      "name": "Pipes",
+      "tests": [
+        {
+          "name": "Simple (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_simple_1"
+        },
+        {
+          "name": "Simple (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_simple_2"
+        },
+        {
+          "name": "Multiple (1)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_1"
+        },
+        {
+          "name": "Multiple (2)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_2"
+        },        {
+          "name": "Multiple (3)",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/pipes/10_multiple_3"
+        }
+      ]
+    }
+  ]
+}
