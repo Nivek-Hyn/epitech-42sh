@@ -13,17 +13,27 @@
 
     #define MAX_LINE_SIZE 1024
 
+typedef struct tty_s {
+    int history;
+    int cursor;
+    int size;
+    char *current;
+    char *buffer;
+} tty_t;
+
+
 int sh_parse_entry(shell_data_t *shell_data);
 sh_prsent_t *sh_parse_string(const char *string);
-int read_stdin(int *size, char **buffer, int file);
-int my_stdin_getline(char **buf, int file);
+int read_stdin(tty_t *tty, int file, shell_data_t *shell_data);
+int my_stdin_getline(char **buf, int file, shell_data_t *shell_data);
+void handle_history_arr(tty_t *tty, shell_data_t *shell_data, char c);
 
 #endif
 
 #ifndef SH_PARSER_GET_H
     #define SH_PARSER_GET_H
 
-char *sh_get_entry(int file);
+char *sh_get_entry(int file, shell_data_t *shell_data);
 int sh_get_prsent_len(sh_prsent_t *chain);
 int sh_get_prsent_eltslen(sh_prsent_t *chain);
 char *sh_get_prsent_index(sh_prsent_t *chain, int index);
