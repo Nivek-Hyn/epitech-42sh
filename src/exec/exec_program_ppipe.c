@@ -52,7 +52,7 @@ static int check_commands(sh_tasker_t *task)
             task) == FUNC_SEMFAIL)
             status = FUNC_FAILED;
         free(path_str);
-        if (sh_exec_check_access(task->program) == FUNC_FAILED)
+        if (sh_exec_check_access(task->program, TRUE) == FUNC_FAILED)
             status = FUNC_FAILED;
     }
     return status;

@@ -34,6 +34,11 @@ void sh_exec_print_crash(int status)
 void sh_exec_print_execerror(const char *program, int errcode)
 {
     my_putstr_fd(program, STDERR);
+    if (errcode == ENOEXEC) {
+        my_putstr_fd("./program: Exec format error. Wrong Architecture.\n",
+            STDERR);
+        return;
+    }
     if (errcode == ENOENT) {
         my_putstr_fd(": Command not found.\n", STDERR);
         return;
@@ -43,11 +48,12 @@ void sh_exec_print_execerror(const char *program, int errcode)
     my_putstr_fd(".\n", STDERR);
 }
 
-int sh_exec_check_access(const char *program)
+int sh_exec_check_access(const char *program, bool_t show_msg)
 {
     if (program == NULL)
         return FUNC_FAILED;
     if (access(program, X_OK) == FUNC_FAILED) {
+        if (show_msg == TRUE)
         sh_exec_print_execerror(program, errno);
         return FUNC_FAILED;
     }

@@ -29,6 +29,8 @@ int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (task->program == NULL || task->args == NULL)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    if (sh_exec_check_access(task->program, TRUE) == FUNC_FAILED)
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (task->pipes.redir_type != SH_REDIR_UNKNOWN)
         if (pipe(pipe_fd) == FUNC_FAILED)
             return FUNC_FAILED;
