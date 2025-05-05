@@ -27,6 +27,7 @@ sh_prsent_t *sh_parse_string(const char *string);
 int read_stdin(tty_t *tty, int file, shell_data_t *shell_data);
 int my_stdin_getline(char **buf, int file, shell_data_t *shell_data);
 void handle_history_arr(tty_t *tty, shell_data_t *shell_data, char c);
+void handle_tab(tty_t *tty, shell_data_t *shell_data);
 
 #endif
 
@@ -40,6 +41,7 @@ char *sh_get_prsent_index(sh_prsent_t *chain, int index);
 sh_prsent_type_t sh_get_pipe_type(char *shard);
 bool_t sh_parser_is_anypipe(sh_prsent_t *entry);
 bool_t sh_parser_is_spipe(sh_prsent_t *entry);
+char **my_parse(char *str, char *delimiter);
 
 #endif
 
