@@ -6,6 +6,7 @@
 */
 
 #include "shell/parser.h"
+#include "my.h"
 #include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -35,22 +36,44 @@ void disable_raw_mode(struct termios *oldt)
     signal(SIGTSTP, SIG_DFL);
 }
 
-int my_stdin_getline(char **buf, int file)
+static int get_tty_struct(tty_t **tty, shell_data_t *shell_data)
+{
+    if (tty == NULL || shell_data == NULL)
+        return FUNC_FAILED;
+    *tty = malloc(sizeof(tty_t));
+    if (*tty == NULL)
+        return FUNC_FAILED;
+    (*tty)->buffer = malloc(sizeof(char) * 1);
+    (*tty)->size = 0;
+    (*tty)->cursor = 0;
+    (*tty)->current = malloc(sizeof(char) * 1);
+    (*tty)->history = shell_data->user_data->history_len;
+    if ((*tty)->buffer == NULL || (*tty)->current == NULL) {
+        my_vfree(3, (*tty)->buffer, (*tty)->current, (*tty));
+        return FUNC_SEMFAIL;
+    }
+    return FUNC_SUCCESS;
+}
+
+int my_stdin_getline(char **buf, int file, shell_data_t *shell_data)
 {
     struct termios oldt;
-    char *buffer = malloc(sizeof(char) * MAX_LINE_SIZE);
-    int size = 0;
+    tty_t *tty = NULL;
     int res = 0;
 
+    if (buf == NULL || file < 0 || shell_data == NULL)
+        return FUNC_FAILED;
+    if (get_tty_struct(&tty, shell_data) == FUNC_FAILED)
+        return FUNC_FAILED;
     enable_raw_mode(&oldt);
-    res = read_stdin(&size, &buffer, file);
+    res = read_stdin(tty, file, shell_data);
     disable_raw_mode(&oldt);
     if (res <= 0) {
-        free(buffer);
+        my_vfree(3, tty->buffer, tty->current, tty);
         return res;
     }
-    *buf = realloc(buffer, size);
-    if (!*buf)
-        return -1;
-    return size;
+    res = tty->size;
+    *buf = realloc(tty->buffer, res);
+    my_vfree(2, tty->current, tty);
+    return (!*buf) ? FUNC_FAILED : res;
 }
