@@ -12,7 +12,7 @@
     #define SH_PARSER_H
 
     #define MAX_LINE_SIZE 1024
-    #define SPECIAL_CHR(chr) (sh_char_is_sep_sp(chr))
+    #define SPECIAL_CHR(chr) (!sh_char_is_sep_sp(chr))
     #define SEP_CHR(chr)    (sh_char_is_sep(chr))
     #define IS_VALID_QUOTE(str, i) ((i > 0) ? (SEP_CHR(str[i - 1])) : (TRUE))
 
