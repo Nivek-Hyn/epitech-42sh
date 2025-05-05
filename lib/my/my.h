@@ -240,6 +240,15 @@ int is_printable(char chr);
 int is_printable_nospace(char chr);
 
 /*
+** Check if the character is a quote character
+**
+** @note This is a `String Compare Function`
+** @param chr `const char`
+** @return `int` (boolean-like)
+*/
+int is_quote(char chr);
+
+/*
 ** Check if the string `string` is inside the list
 ** of strings `string_list`
 **
