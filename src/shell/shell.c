@@ -54,6 +54,7 @@ static int parse_data(shell_data_t *shell_data)
     }
     if (shell_data->last_excode == EXIT_FAILURE)
         return FUNC_SEMFAIL;
+    sh_alias_check(shell_data);
     sh_build_tasker(shell_data);
     sh_write_into_history(shell_data, shell_data->line);
     sh_tasker_execute(shell_data);

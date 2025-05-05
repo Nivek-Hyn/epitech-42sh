@@ -42,6 +42,7 @@ void sh_data_purge(shell_data_t *shell_data)
         free(shell_data->user_data->user_homedir);
         free(shell_data->user_data->hostname);
         free(shell_data->user_data->user);
+        my_chardict_free_ext(shell_data->user_data->aliases);
         my_tabfree((void **) shell_data->user_data->history);
         free(shell_data->user_data);
     }

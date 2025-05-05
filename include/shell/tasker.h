@@ -35,3 +35,10 @@ void sh_tasker_free(sh_tasker_t *chain);
 void sh_tasker_destroy(sh_tasker_t *chain);
 
 #endif
+
+#ifndef SH_TASKER_SPECIAL_H
+    #define SH_TASKER_SPECIAL_H
+
+int sh_tasker_patch(sh_tasker_t *task);
+
+#endif

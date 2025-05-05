@@ -56,13 +56,11 @@ static char *get_shard(char *line, char **last_stop, bool_t *parser_run)
         return my_chrdup(line[0]);
     }
     for (int i = 0; line[i] != '\0'; i++) {
-        if (line[i] == ' ' || line[i] == '\t' || line[i] == ';' ||
-            line[i] == '&') {
-            *last_stop = (line[i] != ';' && line[i] != '&') ?
-                &line[i + 1] : &line[i];
+        if (SEP_CHR(line[i]) == TRUE) {
+            *last_stop = SPECIAL_CHR(line[i]) ? &line[i + 1] : &line[i];
             return my_strptrdup(line, &line[i]);
         }
-        if (line[i] == '"' || line[i] == '\'')
+        if ((line[i] == '"' || line[i] == '\'') && IS_VALID_QUOTE(line, i))
             return get_quote_shard(line, last_stop, line[i], parser_run);
     }
     *last_stop = "";
