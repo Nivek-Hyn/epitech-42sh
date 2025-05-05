@@ -13,6 +13,7 @@
 #ifndef SH_H
     #define SH_H
 
+int sh_alias_check(shell_data_t *shell_data);
 int sh_write_into_history(shell_data_t *shell_data, const char *string);
 char *sh_get_history_shard(const char *format, shell_data_t *shell_data);
 shell_data_t *init_shell_conf(char **env, sh_st_options_t *options);

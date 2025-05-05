@@ -40,3 +40,10 @@ bool_t sh_char_is_sep(char chr)
         return TRUE;
     return FALSE;
 }
+
+bool_t sh_char_is_sep_sp(char chr)
+{
+    if (chr == ';' || chr == '&')
+        return TRUE;
+    return FALSE;
+}

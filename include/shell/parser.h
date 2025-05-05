@@ -12,7 +12,7 @@
     #define SH_PARSER_H
 
     #define MAX_LINE_SIZE 1024
-    #define SPECIAL_CHR(chr) ((chr != ';') && (chr != '&'))
+    #define SPECIAL_CHR(chr) (sh_char_is_sep_sp(chr))
     #define SEP_CHR(chr)    (sh_char_is_sep(chr))
     #define IS_VALID_QUOTE(str, i) ((i > 0) ? (SEP_CHR(str[i - 1])) : (TRUE))
 
@@ -44,6 +44,7 @@ sh_prsent_type_t sh_get_pipe_type(char *shard);
 bool_t sh_parser_is_anypipe(sh_prsent_t *entry);
 bool_t sh_parser_is_spipe(sh_prsent_t *entry);
 bool_t sh_char_is_sep(char chr);
+bool_t sh_char_is_sep_sp(char chr);
 
 #endif
 
@@ -62,5 +63,13 @@ void sh_prsent_destroy(sh_prsent_t *chain);
 
 char *sh_prsent_to_char_ptr(sh_prsent_t *chain);
 char **sh_prsent_to_char_tab(sh_prsent_t *chain);
+
+#endif
+
+#ifndef SH_PARSER_SPECIAL_H
+    #define SH_PARSER_SPECIAL_H
+
+int sh_parser_override(sh_prsent_t **chain_ptr, sh_prsent_t *new_patch,
+    char **shard_ptr);
 
 #endif
