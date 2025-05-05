@@ -37,7 +37,7 @@ typedef struct {
     char *user;
     char *user_homedir;
     char *hostname;
-    char **path;
+    char_dict_t *aliases;
     int history_len;
     char **history;
 } shell_usr_data_t;
