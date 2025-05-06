@@ -32,6 +32,9 @@ typedef struct {
     #define SH_BLTN_FG "fg", sh_builtin_fg
     #define SH_BLTN_ALIAS "alias", sh_builtin_alias
     #define SH_BLTN_HISTORY "history", sh_builtin_history
+    #define SH_BLTN_H_OR_T "pileouface", sh_builtin_h_or_t
+    #define SH_BLTN_DARK_HUGO "dark_hugo", sh_builtin_dark_hugo
+
 
 extern const sh_builtin_conf_t sh_builtins[];
 
