@@ -33,3 +33,17 @@ bool_t sh_parser_is_anypipe(sh_prsent_t *entry)
         return TRUE;
     return FALSE;
 }
+
+bool_t sh_char_is_sep(char chr)
+{
+    if (chr == ' ' || chr == '\t' || chr == ';' || chr == '&')
+        return TRUE;
+    return FALSE;
+}
+
+bool_t sh_char_is_sep_sp(char chr)
+{
+    if (chr == ';' || chr == '&')
+        return TRUE;
+    return FALSE;
+}
