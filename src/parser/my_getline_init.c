@@ -47,6 +47,7 @@ static int get_tty_struct(tty_t **tty, shell_data_t *shell_data)
     (*tty)->size = 0;
     (*tty)->cursor = 0;
     (*tty)->current = malloc(sizeof(char) * 1);
+    (*tty)->buffer[0] = '\0';
     (*tty)->history = shell_data->user_data->history_len;
     if ((*tty)->buffer == NULL || (*tty)->current == NULL) {
         my_vfree(3, (*tty)->buffer, (*tty)->current, (*tty));

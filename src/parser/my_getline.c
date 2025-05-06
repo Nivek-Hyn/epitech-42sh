@@ -126,7 +126,9 @@ void handle_input_char(char c, tty_t *tty, shell_data_t *shell_data)
         handle_backspace(tty, shell_data);
     if (c == 26)
         write(1, "test", 4);
-    if (c != 27 && c != 8 && c != 127 && c != 26)
+    if (c == '\t')
+        handle_tab(tty, shell_data);
+    if (c != 27 && c != 8 && c != 127 && c != 26 && c != '\t')
         handle_regular_char(c, tty, shell_data);
 }
 
