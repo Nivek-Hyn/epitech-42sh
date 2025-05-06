@@ -47,6 +47,8 @@ static int check_commands(sh_tasker_t *task)
     if (task == NULL)
         return FUNC_FAILED;
     for (; task != NULL; task = task->prog_pipes) {
+        if (task->type == SH_TASKER_BUILTIN)
+            continue;
         path_str = my_strdup(sh_env_get(task->shell_data->env, "PATH"));
         if (sh_is_apart_of_path(path_str,
             task) == FUNC_SEMFAIL)
@@ -60,11 +62,21 @@ static int check_commands(sh_tasker_t *task)
 
 static int is_child(sh_tasker_t *task, int **pipesfd, int iter)
 {
+    int exec_status = FUNC_FAILED;
+
     if (task == NULL || pipesfd == NULL || iter < 0)
         exit(EXIT_FAILURE);
     if (assign_pipes(pipesfd, iter) == FUNC_FAILED) {
         sh_pipesfd_close_all(pipesfd);
         exit(EXIT_FAILURE);
+    }
+    if (task->type == SH_TASKER_BUILTIN) {
+        sh_builtin_exec(task->shell_data, task);
+        exec_status = task->shell_data != NULL ?
+            task->shell_data->last_excode : EXIT_FAILURE;
+        sh_shelldata_destroy(task->shell_data);
+        sh_pipesfd_close_free(pipesfd);
+        exit(exec_status);
     }
     return sh_exec_execute(task, NULL);
 }
