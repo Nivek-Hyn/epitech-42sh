@@ -10,4 +10,5 @@
 
 int sh_render_window(shell_data_t *shell_data);
 
+
 #endif

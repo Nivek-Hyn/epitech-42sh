@@ -130,6 +130,7 @@ static void lauch_function(shell_data_t *shell_data,
         show_this_directory();
     } else
         list_directory(buff, all_path);
+    // fill_buffer(shell_data, tty, buff, all_path);
     sh_render_window(shell_data);
     my_putstr(tty->buffer);
     my_tabfree((void **)all_path);
