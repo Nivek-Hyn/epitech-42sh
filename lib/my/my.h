@@ -276,6 +276,18 @@ bool_t my_isin(const char *string, const char **string_list);
 char *my_strcpy(char *dest, const char *src);
 
 /*
+** Copies string content from `src` to `dest` and
+** returns the pointer to the end of the copy write
+** operation
+**
+** @note This is a `String Transform Function`
+** @param dest `char *`
+** @param src `const char *`
+** @return `char *` (non-malloc)
+*/
+char *my_strcpy_sp(char *dest, const char *src);
+
+/*
 ** Copies string content from `src` to `dest`
 **
 ** Does so until it reaches "`n`" index
@@ -464,6 +476,17 @@ char **my_sepstr(char const *str, const char *sep);
 ** @return `char *` (malloc'd)
 */
 char *my_int_to_str(int number);
+
+/*
+** Implementation of c "memset" function (man memset)
+**
+** @note This is a `String Transform Function`
+** @param s `void`
+** @param c `int`
+** @param n `size_t`
+** @return `char *` (malloc'd)
+*/
+void *my_memset(void *s, int c, size_t n);
 
 #endif
 
@@ -1138,9 +1161,18 @@ int my_tabfree(void **tab);
 **
 ** @note This is a `Pointer Function`
 ** @param tab `char **` (Malloc'd)
-** @return `int`
+** @return `char **`
 */
 char **my_tabdup(char **src);
+
+/*
+** Copies and concatenates the contents of a board to a string
+**
+** @note This is a `Pointer Function`
+** @param tab `const char **` (Malloc'd)
+** @return `char *`
+*/
+char *my_tabtostr(const char **src);
 
 /*
 ** Chains a new char_dict_t chain `chain` inside a char_dict_t `dict`

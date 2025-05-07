@@ -17,6 +17,7 @@ typedef enum {
     SH_PARSER_STOP_PIPE,
     SH_PARSER_BACKGROUND_PIPE,
     SH_PARSER_HISTORY_PIPE,
+    SH_PARSER_GLOBBING_PIPE,
     SH_PARSER_COMMAND
 } sh_prsent_type_t;
 

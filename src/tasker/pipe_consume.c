@@ -45,7 +45,7 @@ static int interpret_pipe(sh_tasker_t *tasker, sh_prsent_t **entry_ptr)
     if (sh_pipes_interpret(tasker, &curr_ent->entry, curr_ent->next
         != NULL ? curr_ent->next->entry : NULL) == FUNC_FAILED)
         return FUNC_FAILED;
-    if (type == SH_PARSER_HISTORY_PIPE)
+    if (type == SH_PARSER_HISTORY_PIPE || type == SH_PARSER_GLOBBING_PIPE)
         *entry_ptr = tasker->parser_entry;
     return FUNC_SUCCESS;
 }
