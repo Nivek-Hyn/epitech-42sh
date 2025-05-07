@@ -29,7 +29,7 @@ void printeur(char *name, int *printed)
     }
 }
 
-static void print_all_names(completion_t *completion_s)
+static void print_every_names(completion_t *completion_s)
 {
     for (int i = 0; completion_s->every_name
         && completion_s->every_name[i]; i++) {
@@ -38,25 +38,31 @@ static void print_all_names(completion_t *completion_s)
     printf("\n");
 }
 
-void check_this(char *prefix, char *typed, completion_t *completion_s)
+void check_this(char *prefix,
+    completion_t *completion_s, tty_t *tty)
 {
     DIR *dir = opendir(prefix);
     int count;
+    int nb_rows = 0;
 
     if (!dir)
         return;
     count = sh_fill_completion_names(dir, completion_s);
     closedir(dir);
     for (int i = 0; i < count; i++) {
-        if (!typed || strlen(typed) == 0)
+        if (strncmp(completion_s->every_name[i],
+            completion_s->typed, strlen(completion_s->typed)) == 0)
+            nb_rows++;
+    }
+    for (int i = 0; i < count; i++) {
+        if (!completion_s->typed || strlen(completion_s->typed) == 0)
             continue;
-        if (strncmp(completion_s->every_name[i], typed, strlen(typed)) == 0)
-            printeur(completion_s->every_name[i], &completion_s->printed);
+        check_is_solo(nb_rows, completion_s, tty, i);
     }
 }
 
 static void check_path_slash(char **all_path, char *path,
-    char *typed, completion_t *completion_s)
+    tty_t *tty, completion_t *completion_s)
 {
     size_t total;
     char *concat;
@@ -67,12 +73,15 @@ static void check_path_slash(char **all_path, char *path,
         if (!concat)
             continue;
         snprintf(concat, total, "%s/%s", all_path[i], path);
-        check_this(all_path[i], typed, completion_s);
+        completion_s->concat = strdup(concat);
+        check_this(all_path[i], completion_s, tty);
         free(concat);
+        free(completion_s->concat);
     }
 }
 
-static void check_path_without_slash(completion_t *completion_s, char *path)
+static void check_path_without_slash(completion_t *completion_s,
+    char *path, tty_t *tty)
 {
     DIR *dir = opendir(path);
 
@@ -80,22 +89,22 @@ static void check_path_without_slash(completion_t *completion_s, char *path)
         return;
     sh_fill_completion_names(dir, completion_s);
     closedir(dir);
-    print_all_names(completion_s);
+    print_all_names(completion_s, tty);
 }
 
-void list_directory(char *path, char **all_path, completion_t *completion_s)
+void list_directory(char *path, char **all_path,
+    completion_t *completion_s, tty_t *tty)
 {
-    char *typed = strdup(path);
-
+    completion_s->typed = strdup(path);
     completion_s->printed = 0;
-    if (!typed)
+    if (!completion_s->typed)
         return;
     my_putchar('\n');
-    if (path[0] != '/')
-        check_path_slash(all_path, path, typed, completion_s);
-    else
-        check_path_without_slash(completion_s, path);
-    free(typed);
+    if (path[0] != '/') {
+        check_path_slash(all_path, path, tty, completion_s);
+    } else
+        check_path_without_slash(completion_s, path, tty);
+    free(completion_s->typed);
 }
 
 void show_this_directory(completion_t *completion_s)
@@ -107,7 +116,7 @@ void show_this_directory(completion_t *completion_s)
     my_putchar('\n');
     sh_fill_completion_names(dir, completion_s);
     closedir(dir);
-    print_all_names(completion_s);
+    print_every_names(completion_s);
 }
 
 static void launch_function(shell_data_t *shell_data,
@@ -122,7 +131,7 @@ static void launch_function(shell_data_t *shell_data,
     if (buff[0] == '\0')
         show_this_directory(completion_s);
     else
-        list_directory(buff, all_path, completion_s);
+        list_directory(buff, all_path, completion_s, tty);
     sh_render_window(shell_data);
     my_putstr(tty->buffer);
     my_tabfree((void **)all_path);
