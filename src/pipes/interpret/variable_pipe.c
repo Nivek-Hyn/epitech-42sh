@@ -63,7 +63,7 @@ static int alter_task(sh_tasker_t *task)
     if (task == NULL)
         return FUNC_FAILED;
     free(task->program);
-    task->program = my_strdup("return");
+    task->program = my_strdup("nothing");
     my_tabfree((void **) task->args);
     task->args = my_tabdup(ref_program);
     if (task->parser_entry != NULL) {
