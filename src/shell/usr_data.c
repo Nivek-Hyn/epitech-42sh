@@ -44,6 +44,7 @@ shell_usr_data_t *sh_usrdata_init(char_dict_t *env)
     shell_usrdata->user_homedir = my_strdup(sh_env_get(env, "HOME"));
     shell_usrdata->hostname = my_strdup(sh_env_get(env, "HOSTNAME"));
     shell_usrdata->aliases = NULL;
+    shell_usrdata->variables = NULL;
     shell_usrdata->history_len = -1;
     shell_usrdata->history = NULL;
     load_user_data(shell_usrdata);

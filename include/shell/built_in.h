@@ -41,6 +41,7 @@ int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_fg(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_alias(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_history(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_nothing(shell_data_t *shell_data, sh_tasker_t *task);
 
 #endif
 

@@ -1313,6 +1313,17 @@ void my_vfree(int n_free, ...);
 void *my_vfree_null(int n_free, ...);
 
 /*
+** Frees `n_free` arguments put inside the variadic function argument
+**
+** @note This is a `Pointer Function`
+** @param dict `char_dict_t *`
+** @param n_free `ìnt`
+** @param ... `void * (Variadic)`
+** @return `int`
+*/
+int my_vfree_int(int code, int n_free, ...);
+
+/*
 ** Reallocates a `src` tab from `tab_size` to `new_size`
 **
 ** @note This is a `Pointer Function`

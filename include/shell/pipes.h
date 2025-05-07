@@ -25,6 +25,7 @@
     #define PIPE_HIST       REG_START "(.*[!])" REG_END
     #define PIPE_HIST_NUM   REG_START "(.*[0-9])!" REG_END
     #define PIPE_GLOB_NUM   REG_START "(.*\\*)" REG_END
+    #define PIPE_VAR        REG_START "(.*=.*)" REG_END
 
     #define GLOB_NOFLAGS    0
 
@@ -45,6 +46,8 @@ int sh_tsk_intprt_bg_pipe(sh_tasker_t *task, char **shard_ptr,
 int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
 int sh_tsk_intprt_globbing_pipe(sh_tasker_t *task, char **shard_ptr,
+    char *next_argument);
+int sh_tsk_intprt_var_pipe(sh_tasker_t *task, char **shard_ptr,
     char *next_argument);
 
 extern const sh_pipe_info_t sh_pipe_info[];
