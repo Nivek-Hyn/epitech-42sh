@@ -6,6 +6,7 @@
 */
 
 #include "../../utils.h"
+#include "job.h"
 
 #ifndef SH_PARSER_TYPES_H
     #define SH_PARSER_TYPES_H
@@ -52,6 +53,7 @@ typedef struct {
     struct sh_tasker_s *tasks;
     sh_exit_code_t last_excode;
     bool_t is_active;
+    jobs_t *jobs;
 } shell_data_t;
 
     #define SH_DATA_DEFAULT NULL, NULL, NULL, -1, TRUE

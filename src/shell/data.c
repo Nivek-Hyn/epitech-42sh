@@ -10,6 +10,7 @@
 #include "shell/shell.h"
 #include "shell/parser.h"
 #include "my.h"
+#include "shell/job.h"
 
 shell_data_t *sh_data_init(char_dict_t *env)
 {
@@ -27,6 +28,7 @@ shell_data_t *sh_data_init(char_dict_t *env)
     shell_data->last_excode = SH_DATA_DEFAULT_EC;
     shell_data->old_pwd = NULL;
     shell_data->pwd = "~";
+    shell_data->jobs = NULL;
     return shell_data;
 }
 
@@ -44,5 +46,6 @@ void sh_data_purge(shell_data_t *shell_data)
     }
     shell_data->tasks = NULL;
     my_chardict_free_ext(shell_data->env);
+    free_jobs(shell_data->jobs);
     free(shell_data);
 }

@@ -14,6 +14,7 @@
 #include "shell/parser.h"
 #include "shell/tasker.h"
 #include "utils.h"
+#include "shell/job.h"
 
 static int shell_tty_mode(shell_data_t *shell_data)
 {
@@ -72,6 +73,8 @@ int shell(shell_data_t *shell_data)
         shell_data->last_excode = SH_DATA_DEFAULT_EC;
         if (parse_data(shell_data) == FUNC_FAILED)
             shell_data->is_active = FALSE;
+        update_jobs_marker(shell_data);
+        check_jobs(shell_data);
     } while (shell_data->is_active);
     shelldata_reset(shell_data);
     return FUNC_SUCCESS;
