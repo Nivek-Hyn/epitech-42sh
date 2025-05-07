@@ -45,16 +45,6 @@ static bool_t reset_pipes(sh_prsent_type_t type)
     }
 }
 
-static bool_t skipping_pipes(sh_prsent_type_t type)
-{
-    switch (type) {
-        case SH_PARSER_VAR_PIPE:
-            return TRUE;
-        default:
-            return FALSE;
-    }
-}
-
 static int interpret_pipe(sh_tasker_t *tasker, sh_prsent_t **entry_ptr)
 {
     sh_prsent_type_t type = SH_PARSER_UNKNOWN;
@@ -68,8 +58,6 @@ static int interpret_pipe(sh_tasker_t *tasker, sh_prsent_t **entry_ptr)
         return FUNC_FAILED;
     if (reset_pipes(type) == TRUE)
         *entry_ptr = tasker->parser_entry;
-    if (skipping_pipes(type) == TRUE)
-        *entry_ptr = (*entry_ptr)->next;
     return FUNC_SUCCESS;
 }
 
@@ -89,9 +77,10 @@ int sh_pipe_consume(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
             return FUNC_FAILED;
         if (curr_ent == NULL)
             break;
-        if (curr_ent->type == SH_PARSER_BACKGROUND_PIPE)
+        if (curr_ent->type == SH_PARSER_BACKGROUND_PIPE ||
+            curr_ent->type == SH_PARSER_VAR_PIPE)
             break;
         *parser_ent = curr_ent->next != NULL ? curr_ent->next->next : NULL;
-        }
+    }
     return FUNC_SUCCESS;
 }
