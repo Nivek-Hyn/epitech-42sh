@@ -22,7 +22,7 @@
     #define PIPE_AND        REG_START "&&" REG_END
     #define PIPE_OR         REG_START PIPE_PROG PIPE_PROG REG_END
     #define PIPE_BG         REG_START "&" REG_END
-    #define PIPE_HIST       REG_START "(.*[!])" REG_END
+    #define PIPE_HIST       REG_START "([!]{1,})" REG_END
     #define PIPE_HIST_NUM   REG_START "(.*[0-9])!" REG_END
     #define PIPE_GLOB_NUM   REG_START "(.*\\*)" REG_END
     #define PIPE_VAR        REG_START "(.*=.*)" REG_END
