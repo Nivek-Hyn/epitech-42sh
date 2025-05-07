@@ -58,7 +58,7 @@ static int insert_into_varsdict(shell_usr_data_t *usr_data, const char *key,
 
 static int alter_task(sh_tasker_t *task)
 {
-    char *ref_program[] = {"return", "0", NULL};
+    char *ref_program[] = {"nothing", NULL};
 
     if (task == NULL)
         return FUNC_FAILED;
@@ -68,7 +68,7 @@ static int alter_task(sh_tasker_t *task)
     task->args = my_tabdup(ref_program);
     if (task->parser_entry != NULL) {
         free(task->parser_entry->entry);
-        task->parser_entry->entry = my_strdup("return 0");
+        task->parser_entry->entry = my_strdup("nothing");
     }
     task->exec_fnc = sh_builtin_exec;
     return FUNC_SUCCESS;
