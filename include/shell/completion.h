@@ -27,5 +27,6 @@ int sh_fill_completion_names(DIR *dir, completion_t *completion_s);
 int fill_buffer(getline_t *gtln_s, char **all_path);
 char *extract_last_word(char *buffer);
 int fill_buffer(getline_t *gtln_s, char **all_path);
+int fill_buffer_slash(getline_t *gtln_s, char **all_path);
 
 #endif /* !COMPLETION_H_ */

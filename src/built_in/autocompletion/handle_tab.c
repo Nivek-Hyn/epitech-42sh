@@ -80,7 +80,7 @@ static void check_path_without_slash(completion_t *completion_s, char *path, get
         return;
     sh_fill_completion_names(dir, completion_s);
     closedir(dir);
-    if (fill_buffer(getline_s, completion_s->every_name) == 0)
+    if (fill_buffer_slash(getline_s, completion_s->every_name) == 0)
         print_all_names(completion_s);
 }
 
