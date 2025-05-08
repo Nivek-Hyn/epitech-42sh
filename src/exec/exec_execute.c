@@ -42,12 +42,6 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     return sh_builtin_success(shell_data, WEXITSTATUS(status));
 }
 
-static void destroy_shell_data(shell_data_t *shell_data)
-{
-    sh_shelldata_reset(shell_data);
-    sh_data_purge(shell_data);
-}
-
 int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
@@ -65,7 +59,7 @@ int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
         if (task->program != NULL)
             sh_exec_print_execerror(task->program, errno);
         my_tabfree((void **) env);
-        destroy_shell_data(task->shell_data);
+        sh_shelldata_destroy(task->shell_data);
         exit(EXIT_FAILURE);
     }
     exit(EXIT_SUCCESS);
