@@ -19,12 +19,12 @@ void run_fg(jobs_t **current)
 {
     int status = 0;
 
+    print_job_command(*current);
+    printf("\n");
     (*current)->is_background = FALSE;
     (*current)->status = RUNNING;
-    tcsetpgrp(STDIN_FILENO, (*current)->pgid);
     kill(-(*current)->pgid, SIGCONT);
     waitpid((*current)->pid, &status, WUNTRACED);
-    tcsetpgrp(STDIN_FILENO, getpgid(0));
     if (WIFSTOPPED(status)) {
         printf("Suspended\n");
         (*current)->status = SUSPENDED;
@@ -35,14 +35,16 @@ void run_fg(jobs_t **current)
 
 int sh_builtin_fg(shell_data_t *shell_data, sh_tasker_t *task)
 {
-    sh_bltin_verify_t prerequisites = {-1, 1};
+    sh_bltin_verify_t prerequisites = {-1, -1};
     jobs_t *current = shell_data->jobs;
 
     if (shell_data == NULL || task == NULL)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (sh_builtin_verify(task->parser_entry, prerequisites) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
-    current = find_target_job(shell_data, task->args);
+    current = (my_tablen((const void **)task->args) > 1) ?
+        find_target_job(shell_data, task->args[0]) :
+        find_target_job(shell_data, NULL);
     if (current == NULL) {
         printf("fg: no such job\n");
         return sh_builtin_fail(shell_data, EXIT_FAILURE);

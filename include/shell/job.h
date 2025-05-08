@@ -15,7 +15,7 @@
 void sh_add_job(shell_data_t *shell_data, sh_tasker_t *task, pid_t pid);
 void check_jobs(shell_data_t *shell_data);
 void update_jobs_marker(shell_data_t *shell_data);
-jobs_t *find_target_job(shell_data_t *shell_data, char **args);
+jobs_t *find_target_job(shell_data_t *shell_data, char *arg);
 
 // Get Job:
 jobs_t *get_last_job(shell_data_t *shell_data);

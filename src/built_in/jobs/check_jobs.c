@@ -10,6 +10,7 @@
 #include "my.h"
 #include <sys/wait.h>
 #include "shell/job.h"
+#include "my_printf.h"
 
 int check_if_job_done(shell_data_t *shell_data,
     jobs_t **current, jobs_t **prev, int status)
@@ -17,10 +18,10 @@ int check_if_job_done(shell_data_t *shell_data,
     if (WIFEXITED(status) || WIFSIGNALED(status)) {
         (*current)->status = DONE;
         if ((*current)->is_background == TRUE) {
-            printf("[%d]  %c Done\t\t\t\t",
+            my_printf("[%d]  %c Done\t\t\t\t",
                 (*current)->id, (*current)->marker);
             print_job_command(*current);
-            printf("\n");
+            my_printf("\n");
         }
         free_job(&shell_data->jobs, current, prev);
         return 1;

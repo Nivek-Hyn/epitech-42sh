@@ -11,17 +11,17 @@
 #include <string.h>
 #include "shell/misc.h"
 
-jobs_t *find_target_job(shell_data_t *shell_data, char **args)
+jobs_t *find_target_job(shell_data_t *shell_data, char *arg)
 {
-    if (my_tablen((const void **)args) > 1 && args[1][0] == '%') {
-        if (strcmp(&args[1][1], "+") == 0)
+    if (arg && arg[0] == '%') {
+        if (strcmp(&arg[1], "+") == 0)
             return get_job_by_mark(shell_data, '+');
-        if (strcmp(&args[1][1], "-") == 0)
+        if (strcmp(&arg[1], "-") == 0)
             return get_job_by_mark(shell_data, '-');
-        if (is_number(&args[1][1])) {
-            return get_job_by_id(shell_data, my_atoi(&args[1][1]));
+        if (is_number(&arg[1])) {
+            return get_job_by_id(shell_data, my_atoi(&arg[1]));
         } else {
-            return get_job_by_name(shell_data, &args[1][1]);
+            return get_job_by_name(shell_data, &arg[1]);
         }
     } else {
         return get_job_by_mark(shell_data, '+');

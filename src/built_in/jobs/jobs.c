@@ -13,25 +13,26 @@
 #include <signal.h>
 #include <stdlib.h>
 #include "shell/job.h"
+#include "my_printf.h"
 
 void print_job(jobs_t *job)
 {
-    printf("[%d]  %c ", job->id, job->marker);
+    my_printf("[%d]  %c ", job->id, job->marker);
     switch (job->status) {
         case RUNNING:
-            printf("%s\t\t\t\t", "Running");
+            my_printf("%s\t\t\t\t", "Running");
             break;
         case SUSPENDED:
-            printf("%s\t\t\t\t", "Suspended");
+            my_printf("%s\t\t\t\t", "Suspended");
             break;
         case TERMINATED:
-            printf("%s\t\t\t\t", "Terminated");
+            my_printf("%s\t\t\t\t", "Terminated");
             break;
         default:
             break;
     }
     print_job_command(job);
-    printf("\n");
+    my_printf("\n");
 }
 
 int sh_builtin_jobs(shell_data_t *shell_data, sh_tasker_t *task)
