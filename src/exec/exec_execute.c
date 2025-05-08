@@ -20,7 +20,6 @@
 #include "shell/env.h"
 #include "shell/misc.h"
 #include "shell/exec.h"
-#include "shell/job.h"
 
 int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     bool_t keep_lastexcode)
@@ -29,9 +28,8 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
 
     if (shell_data == NULL)
         return FUNC_FAILED;
-    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
+    if (waitpid(child_pid, &status, 0) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE_84);
-    sh_sigtstp_manager(shell_data, child_pid, status);
     if (WIFSIGNALED(status)) {
         sh_exec_print_crash(status);
         return sh_builtin_fail(shell_data, status);
@@ -44,14 +42,18 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     return sh_builtin_success(shell_data, WEXITSTATUS(status));
 }
 
+static void destroy_shell_data(shell_data_t *shell_data)
+{
+    sh_shelldata_reset(shell_data);
+    sh_data_purge(shell_data);
+}
+
 int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
-    pid_t pid = getpid();
 
     if (task == NULL)
         exit(EXIT_FAILURE);
-    setpgid(pid, pid);
     if (task->pipes.redir_type != SH_REDIR_UNKNOWN && pipe_fd != NULL)
         if (sh_exec_redirect(task, pipe_fd) == FUNC_FAILED)
             exit(EXIT_FAILURE);
@@ -63,7 +65,7 @@ int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
         if (task->program != NULL)
             sh_exec_print_execerror(task->program, errno);
         my_tabfree((void **) env);
-        sh_shelldata_destroy(task->shell_data);
+        destroy_shell_data(task->shell_data);
         exit(EXIT_FAILURE);
     }
     exit(EXIT_SUCCESS);
