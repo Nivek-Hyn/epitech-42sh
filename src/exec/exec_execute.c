@@ -28,8 +28,9 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
 
     if (shell_data == NULL)
         return FUNC_FAILED;
-    if (waitpid(child_pid, &status, 0) == FUNC_FAILED)
+    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE_84);
+    sigtstp_manager(shell_data, child_pid, status);
     if (WIFSIGNALED(status)) {
         sh_exec_print_crash(status);
         return sh_builtin_fail(shell_data, status);
@@ -45,9 +46,11 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
 int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
+    pid_t pid = getpid();
 
     if (task == NULL)
         exit(EXIT_FAILURE);
+    setpgid(pid, pid);
     if (task->pipes.redir_type != SH_REDIR_UNKNOWN && pipe_fd != NULL)
         if (sh_exec_redirect(task, pipe_fd) == FUNC_FAILED)
             exit(EXIT_FAILURE);
