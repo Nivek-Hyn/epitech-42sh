@@ -139,6 +139,15 @@ static int count_valid_entries(DIR *dir)
     return count;
 }
 
+static void clean_everyname(completion_t *completion_s)
+{
+    if (completion_s == NULL)
+        return;
+    if (completion_s->every_name != NULL)
+        my_tabfree((void **) completion_s->every_name);
+    completion_s->every_name = NULL;
+}
+
 static int fill_entries(DIR *dir, completion_t *completion_s, int count)
 {
     struct dirent *entry;
@@ -146,6 +155,7 @@ static int fill_entries(DIR *dir, completion_t *completion_s, int count)
 
     if (!dir || !completion_s)
         return 0;
+    clean_everyname(completion_s);
     completion_s->every_name = malloc(sizeof(char *) * (count + 1));
     if (!completion_s->every_name)
         return 0;
