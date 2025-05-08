@@ -17,6 +17,8 @@ typedef enum {
     SH_PARSER_STOP_PIPE,
     SH_PARSER_BACKGROUND_PIPE,
     SH_PARSER_HISTORY_PIPE,
+    SH_PARSER_GLOBBING_PIPE,
+    SH_PARSER_VAR_PIPE,
     SH_PARSER_COMMAND
 } sh_prsent_type_t;
 
@@ -38,6 +40,7 @@ typedef struct {
     char *user_homedir;
     char *hostname;
     char_dict_t *aliases;
+    char_dict_t *variables;
     int history_len;
     char **history;
 } shell_usr_data_t;

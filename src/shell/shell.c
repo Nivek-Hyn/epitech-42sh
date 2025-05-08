@@ -27,6 +27,12 @@ void sh_shelldata_reset(shell_data_t *shell_data)
     shell_data->line = NULL;
 }
 
+void sh_shelldata_destroy(shell_data_t *shell_data)
+{
+    sh_shelldata_reset(shell_data);
+    sh_data_purge(shell_data);
+}
+
 static int shell_tty_mode(shell_data_t *shell_data)
 {
     int exec_success = FUNC_SUCCESS;
