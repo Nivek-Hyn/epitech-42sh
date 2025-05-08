@@ -32,7 +32,7 @@ static int validate_repeat_count(char *count_str)
 {
     int count = atoi(count_str);
 
-    if (count <= 0) {
+    if (count <= 0 || count > 500) {
         fprintf(stderr, "repeat: invalid repeat count: %s\n", count_str);
         return -1;
     }
