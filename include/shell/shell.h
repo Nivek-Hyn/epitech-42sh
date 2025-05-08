@@ -21,7 +21,6 @@ shell_data_t *sh_data_init(char_dict_t *env);
 shell_usr_data_t *sh_usrdata_init(char_dict_t *env);
 void sh_data_purge(shell_data_t *shell_data);
 void sh_shelldata_reset(shell_data_t *shell_data);
-void sh_shelldata_destroy(shell_data_t *shell_data);
 int shell(shell_data_t *shell_data);
 
 #endif

@@ -32,7 +32,7 @@ sh_tasker_t *sh_tasker_create(shell_data_t *shell_data, sh_prsent_t *args)
     new_chain->exec_fnc = sh_exec_program;
     new_chain->shell_data = shell_data;
     if (new_chain->type == SH_TASKER_BUILTIN)
-        new_chain->exec_fnc = sh_builtin_exec;
+        new_chain->exec_fnc = sh_get_builtin_exec(args);
     new_chain->next = NULL;
     new_chain->prev = NULL;
     return new_chain;
