@@ -139,9 +139,9 @@ static void launch_function(shell_data_t *shell_data,
         list_directory(buff, all_path, completion_s, tty);
     sh_render_window(shell_data);
     my_putstr(tty->buffer);
-    my_tabfree((void **)all_path);
-    if (completion_s->every_name)
-        my_tabfree((void **)completion_s->every_name);
+    my_tabfree((void **) all_path);
+    if (completion_s->every_name != NULL)
+        my_tabfree((void **) completion_s->every_name);
     free(completion_s);
 }
 
