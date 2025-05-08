@@ -6,6 +6,7 @@
 */
 
 #include <string.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include <dirent.h>
@@ -32,21 +33,22 @@ static int validate_repeat_count(char *count_str)
 {
     int count = atoi(count_str);
 
-    if (count <= 0 || count > 500) {
+    if (count <= 0 || count > INT_MAX) {
         fprintf(stderr, "repeat: invalid repeat count: %s\n", count_str);
         return -1;
     }
     return count;
 }
 
-static int execute_command(char **args)
+static int execute_command(shell_data_t *shell_data, char **args)
 {
     int pid = fork();
 
     if (pid == 0) {
         execvp(args[2], &args[2]);
         perror("execvp");
-        exit(1);
+        sh_shelldata_destroy(shell_data);
+        exit(EXIT_FAILURE);
     } else if (pid < 0) {
         perror("fork");
         return 1;
@@ -76,7 +78,7 @@ int sh_builtin_repeat(shell_data_t *shell_data, sh_tasker_t *task)
     if (count == -1)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     while (i < count) {
-        pid = execute_command(args);
+        pid = execute_command(shell_data, args);
         if (pid < 0)
             return sh_builtin_fail(shell_data, EXIT_FAILURE);
         wait_for_child(pid);
