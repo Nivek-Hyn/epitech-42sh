@@ -5,9 +5,60 @@
 ** 42sh
 */
 
-#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <getopt.h>
+#include <dirent.h>
+#include <stdio.h>
 #include "shell/shell.h"
+#include "shell/render.h"
+#include "shell/built_in.h"
+#include "my.h"
+#include "utils.h"
+#include "shell/env.h"
+#include "shell/completion.h"
+
+static int check_repeat_args(char **args)
+{
+    if (!args[1] || !args[2]) {
+        fprintf(stderr, "repeat: usage: repeat <n> <command>\n");
+        return 1;
+    }
+    return 0;
+}
+
+static int validate_repeat_count(char *count_str)
+{
+    int count = atoi(count_str);
+
+    if (count <= 0) {
+        fprintf(stderr, "repeat: invalid repeat count: %s\n", count_str);
+        return -1;
+    }
+    return count;
+}
+
+static int execute_command(char **args)
+{
+    int pid = fork();
+
+    if (pid == 0) {
+        execvp(args[2], &args[2]);
+        perror("execvp");
+        exit(1);
+    } else if (pid < 0) {
+        perror("fork");
+        return 1;
+    }
+    return pid;
+}
+
+static void wait_for_child(int pid)
+{
+    int status = 0;
+
+    waitpid(pid, &status, 0);
+}
 
 int sh_builtin_repeat(shell_data_t *shell_data, char **args)
 {
@@ -15,28 +66,16 @@ int sh_builtin_repeat(shell_data_t *shell_data, char **args)
     int pid = 0;
     int i = 0;
 
-    if (!args[1] || !args[2]) {
-        fprintf(stderr, "repeat: usage: repeat <n> <command>\n");
+    if (check_repeat_args(args))
         return 1;
-    }
-    count = atoi(args[1]);
-    if (count <= 0) {
-        fprintf(stderr, "repeat: invalid repeat count: %s\n", args[1]);
+    count = validate_repeat_count(args[1]);
+    if (count == -1)
         return 1;
-    }
     while (i < count) {
-        pid = fork();
-        if (pid == 0) {
-            execvp(args[2], &args[2]);
-            perror("execvp");
-            exit(1);
-        } else if (pid < 0) {
-            perror("fork");
+        pid = execute_command(args);
+        if (pid < 0)
             return 1;
-        } else {
-            int status = 0;
-            waitpid(pid, &status, 0);
-        }
+        wait_for_child(pid);
         i++;
     }
     return 0;
