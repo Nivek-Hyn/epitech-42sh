@@ -95,16 +95,21 @@ static void check_path_without_slash(completion_t *completion_s,
 void list_directory(char *path, char **all_path,
     completion_t *completion_s, tty_t *tty)
 {
+    if (!path || !completion_s || !tty)
+        return;
     completion_s->typed = strdup(path);
-    completion_s->printed = 0;
     if (!completion_s->typed)
         return;
+    completion_s->printed = 0;
     my_putchar('\n');
     if (path[0] != '/') {
         check_path_slash(all_path, path, tty, completion_s);
+        if (completion_s->printed == 2)
+            putchar('\n');
     } else
         check_path_without_slash(completion_s, path, tty);
     free(completion_s->typed);
+    completion_s->typed = NULL;
 }
 
 void show_this_directory(completion_t *completion_s)
@@ -124,7 +129,7 @@ static void launch_function(shell_data_t *shell_data,
 {
     completion_t *completion_s = malloc(sizeof(completion_t));
 
-    if (!completion_s)
+    if (!shell_data || !tty || !buff || !all_path || !completion_s)
         return;
     completion_s->every_name = NULL;
     completion_s->printed = 0;
