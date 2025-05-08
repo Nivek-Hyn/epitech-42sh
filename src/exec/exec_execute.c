@@ -21,6 +21,7 @@
 #include "shell/misc.h"
 #include "shell/exec.h"
 #include "shell/job.h"
+#include "shell/job.h"
 
 int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     bool_t keep_lastexcode)
@@ -30,7 +31,9 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     if (shell_data == NULL)
         return FUNC_FAILED;
     if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
+    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE_84);
+    sh_sigtstp_manager(shell_data, child_pid, status);
     sh_sigtstp_manager(shell_data, child_pid, status);
     if (WIFSIGNALED(status)) {
         sh_exec_print_crash(status);
@@ -57,6 +60,7 @@ static void teardown_exec_error(sh_tasker_t *task, char **env)
 int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
+    pid_t pid = getpid();
 
     if (task == NULL)
         exit(EXIT_FAILURE);

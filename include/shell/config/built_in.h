@@ -28,10 +28,12 @@ typedef struct {
     #define SH_BLTN_SETENV "setenv", sh_builtin_setenv
     #define SH_BLTN_UNSETENV "unsetenv", sh_builtin_unsetenv
     #define SH_BLTN_SHELLCUSTOM "shellcustom", sh_builtin_shellcustom
+    #define SH_BLTN_JOBS "jobs", sh_builtin_jobs
     #define SH_BLTN_BG "bg", sh_builtin_bg
     #define SH_BLTN_FG "fg", sh_builtin_fg
     #define SH_BLTN_ALIAS "alias", sh_builtin_alias
     #define SH_BLTN_HISTORY "history", sh_builtin_history
+    #define SH_BLTN_NOTHING "nothing", sh_builtin_nothing
 
 extern const sh_builtin_conf_t sh_builtins[];
 

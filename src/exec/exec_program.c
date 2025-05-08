@@ -20,6 +20,7 @@
 #include "shell/env.h"
 #include "shell/exec.h"
 #include "shell/job.h"
+#include "shell/job.h"
 
 static int handle_job(shell_data_t *shell_data, sh_tasker_t *task,
     int fork_result)
