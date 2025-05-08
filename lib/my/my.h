@@ -113,6 +113,24 @@ bool_t my_str_issnum(const char *str);
 int my_str_islower(const char *str);
 
 /*
+** Check if the string is a lower alphanumeric string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_islowernum(const char *str);
+
+/*
+** Check if the string is a lower printable string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_islowerprintable(const char *str);
+
+/*
 ** Check if the string is an upper alphabetic string
 **
 ** @note This is a `String Compare Function`
@@ -120,6 +138,24 @@ int my_str_islower(const char *str);
 ** @return `int` (boolean-like)
 */
 int my_str_isupper(const char *str);
+
+/*
+** Check if the string is an upper alphanumeric string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_isuppernum(const char *str);
+
+/*
+** Check if the string is an upper printable string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_isupperprintable(const char *str);
 
 /*
 ** Check if the string is an alphanumeric string
