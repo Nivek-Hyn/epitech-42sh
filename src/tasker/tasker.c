@@ -36,6 +36,8 @@ static int build_task(sh_tasker_t **tasker, sh_prsent_t **parser_ent,
 
     if (tasker == NULL || parser_ent == NULL || pre_data == NULL)
         return FUNC_FAILED;
+    if (sh_parser_is_anypipe(*parser_ent) == TRUE)
+        return FUNC_SUCCESS;
     new_task = sh_tasker_create(pre_data->shell_data, *parser_ent);
     if (new_task == NULL)
         return FUNC_FAILED;
