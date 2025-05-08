@@ -38,9 +38,16 @@ int bg_args_loop(shell_data_t *shell_data, sh_tasker_t *task,
     return 0;
 }
 
+static void consume_task(sh_tasker_t *task)
+{
+    if (task == NULL)
+        return;
+}
+
 int bg_no_args(shell_data_t *shell_data, sh_tasker_t *task,
     jobs_t **current)
 {
+    consume_task(task);
     (*current) = find_target_job(shell_data, NULL);
     if ((*current) == NULL) {
         printf("bg: no such job\n");
