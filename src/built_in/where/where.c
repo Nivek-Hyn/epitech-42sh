@@ -7,7 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "shell/shell.h"
+#include "shell/built_in.h"
+#include "shell/env.h"
+#include "my.h"
 
 int sh_builtin_where(shell_data_t *shell_data, char **args)
 {
