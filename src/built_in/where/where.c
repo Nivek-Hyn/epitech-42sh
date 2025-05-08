@@ -34,8 +34,8 @@ static void print_found_path(char **paths, char *cmd)
         if (access(full, X_OK) == 0) {
             printf("%s\n", full);
             free(full);
-        }
-        free(full);
+        } else
+            free(full);
     }
 }
 
@@ -55,20 +55,23 @@ static char **get_paths_from_env(shell_data_t *shell_data)
     return my_sepstr(path, ":");
 }
 
-int sh_builtin_where(shell_data_t *shell_data, char **args)
+int sh_builtin_where(shell_data_t *shell_data, sh_tasker_t *task)
 {
     char **paths = NULL;
     int found = 0;
+    char **args = (task != NULL) ? task->args : NULL;
 
     if (!args[1]) {
         fprintf(stderr, "where: missing argument\n");
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     }
     paths = get_paths_from_env(shell_data);
     if (!paths)
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     print_found_path(paths, args[1]);
-    found = 1;
+    found = sh_builtin_fail(shell_data, EXIT_FAILURE);
     free_paths(paths);
-    return found ? 0 : 1;
+    if (found == 0)
+        sh_builtin_fail(shell_data, EXIT_FAILURE);
+    return sh_builtin_success(shell_data, EXIT_SUCCESS);
 }

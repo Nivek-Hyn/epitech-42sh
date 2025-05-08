@@ -33,6 +33,9 @@ typedef struct {
     #define SH_BLTN_ALIAS "alias", sh_builtin_alias
     #define SH_BLTN_HISTORY "history", sh_builtin_history
     #define SH_BLTN_NOTHING "nothing", sh_builtin_nothing
+    #define SH_BLTN_WHICH "which", sh_builtin_which
+    #define SH_BLTN_WHERE "where", sh_builtin_where
+    #define SH_BLTN_REPEAT "repeat", sh_builtin_repeat
 
 extern const sh_builtin_conf_t sh_builtins[];
 

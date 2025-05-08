@@ -57,22 +57,23 @@ static char **get_paths_from_env(shell_data_t *shell_data)
     return my_sepstr(path, ":");
 }
 
-int sh_builtin_which(shell_data_t *shell_data, char **args)
+int sh_builtin_which(shell_data_t *shell_data, sh_tasker_t *task)
 {
     char **paths = NULL;
+    char **args = (task != NULL) ? task->args : NULL;
 
     if (!args[1]) {
         fprintf(stderr, "which: missing argument\n");
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     }
     paths = get_paths_from_env(shell_data);
     if (!paths)
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (print_command_path(paths, args[1]) == 0) {
         free_paths(paths);
-        return 0;
+        return sh_builtin_success(shell_data, EXIT_SUCCESS);
     }
     free_paths(paths);
     printf("%s: Command not found.\n", args[1]);
-    return 1;
+    return sh_builtin_fail(shell_data, EXIT_FAILURE);
 }

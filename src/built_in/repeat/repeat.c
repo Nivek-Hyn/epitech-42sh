@@ -10,6 +10,7 @@
 #include <getopt.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <sys/wait.h>
 #include "shell/shell.h"
 #include "shell/render.h"
 #include "shell/built_in.h"
@@ -60,23 +61,26 @@ static void wait_for_child(int pid)
     waitpid(pid, &status, 0);
 }
 
-int sh_builtin_repeat(shell_data_t *shell_data, char **args)
+int sh_builtin_repeat(shell_data_t *shell_data, sh_tasker_t *task)
 {
     int count = 0;
     int pid = 0;
     int i = 0;
+    char **args = (task != NULL) ? task->args : NULL;
 
+    if (shell_data == NULL || task == NULL)
+        return FUNC_FAILED;
     if (check_repeat_args(args))
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     count = validate_repeat_count(args[1]);
     if (count == -1)
-        return 1;
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
     while (i < count) {
         pid = execute_command(args);
         if (pid < 0)
-            return 1;
+            return sh_builtin_fail(shell_data, EXIT_FAILURE);
         wait_for_child(pid);
         i++;
     }
-    return 0;
+    return sh_builtin_success(shell_data, EXIT_SUCCESS);
 }
