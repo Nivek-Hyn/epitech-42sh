@@ -60,7 +60,6 @@ static void teardown_exec_error(sh_tasker_t *task, char **env)
 int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
-    pid_t pid = getpid();
 
     if (task == NULL)
         exit(EXIT_FAILURE);
