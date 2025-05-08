@@ -19,6 +19,7 @@
 #include "shell/shell.h"
 #include "shell/env.h"
 #include "shell/exec.h"
+#include "shell/job.h"
 
 int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task)
 {
@@ -39,5 +40,12 @@ int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (fork_result == 0)
         sh_exec_execute(task, pipe_fd);
+    setpgid(fork_result, fork_result);
+    sh_add_job(shell_data, task, fork_result);
+    if (task->pipes.background == TRUE) {
+        printf("[%d] %d\n", get_job_by_pid(shell_data, fork_result)->id,
+            get_job_by_pid(shell_data, fork_result)->pid);
+        return sh_builtin_success(shell_data, EXIT_SUCCESS);
+    }
     return sh_exec_monitor(shell_data, fork_result, FALSE);
 }

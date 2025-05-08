@@ -21,7 +21,8 @@ static void move_to_next_command(sh_prsent_t **parser_ent)
         return;
     curr_ent = *parser_ent;
     for (; curr_ent != NULL; curr_ent = curr_ent->next)
-        if (sh_parser_is_anypipe(curr_ent) == TRUE) {
+        if (sh_parser_is_anypipe(curr_ent) == TRUE
+            && curr_ent->type != SH_PARSER_VAR_PIPE) {
             *parser_ent = curr_ent->next;
             return;
         }
