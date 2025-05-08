@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include "shell/shell.h"
 #include "shell/parser.h"
-#include "shell/pipes.h"
 #include "utils.h"
 
 bool_t sh_parser_is_spipe(sh_prsent_t *entry)
@@ -24,10 +23,14 @@ bool_t sh_parser_is_anypipe(sh_prsent_t *entry)
 {
     if (entry == NULL)
         return FALSE;
-    for (int i = 0; sh_pipe_info[i].type != SH_PARSER_UNKNOWN; i++) {
-        if (entry->type == sh_pipe_info[i].type)
-            return TRUE;
-    }
+    if (entry->type == SH_PARSER_PIPE)
+        return TRUE;
+    if (entry->type == SH_PARSER_PROG_PIPE)
+        return TRUE;
+    if (entry->type == SH_PARSER_STOP_PIPE)
+        return TRUE;
+    if (entry->type == SH_PARSER_BACKGROUND_PIPE)
+        return TRUE;
     return FALSE;
 }
 
