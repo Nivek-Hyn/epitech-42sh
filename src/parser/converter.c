@@ -61,7 +61,9 @@ char *sh_prsent_to_char_ptr(sh_prsent_t *chain)
         return NULL;
     memset(result, ' ', chain_elts_len + chain_gaps);
     result[chain_elts_len + chain_gaps] = '\0';
-    return convert_to_char_ptr(result, chain);
+    result = convert_to_char_ptr(result, chain);
+    result[chain_elts_len + chain_gaps] = '\0';
+    return result;
 }
 
 char **sh_prsent_to_char_tab(sh_prsent_t *chain)
