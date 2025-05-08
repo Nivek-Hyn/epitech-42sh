@@ -53,6 +53,12 @@ const sh_pipe_info_t sh_pipe_info[] = {
         },
         sh_tsk_intprt_var_pipe
     },
+    {SH_PARSER_VAR_INSERT_PIPE,
+        (char *[]) {
+            PIPE_VAR_INS, NULL
+        },
+        sh_tsk_intprt_var_pipe_insert
+    },
     {SH_PARSER_UNKNOWN,
         NULL,
         NULL

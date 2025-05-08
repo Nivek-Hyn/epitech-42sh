@@ -19,3 +19,24 @@ int my_str_islower(const char *str)
             return FALSE;
     return TRUE;
 }
+
+int my_str_islowernum(const char *str)
+{
+    if (str == NULL)
+        return FALSE;
+    for (int i = 0; str[i] != '\0'; i++)
+        if ((str[i] < 'a' || str[i] > 'z') &&
+            (str[i] < '0' || str[i] > '9'))
+            return FALSE;
+    return TRUE;
+}
+
+int my_str_islowerprintable(const char *str)
+{
+    if (str == NULL)
+        return FALSE;
+    for (int i = 0; str[i] != '\0'; i++)
+        if ((str[i] >= 'A') && (str[i] <= 'Z'))
+            return FALSE;
+    return TRUE;
+}

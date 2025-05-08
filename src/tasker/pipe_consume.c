@@ -39,6 +39,7 @@ static bool_t reset_pipes(sh_prsent_type_t type)
     switch (type) {
         case SH_PARSER_HISTORY_PIPE:
         case SH_PARSER_GLOBBING_PIPE:
+        case SH_PARSER_VAR_INSERT_PIPE:
             return TRUE;
         default:
             return FALSE;
