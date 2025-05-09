@@ -10,5 +10,9 @@
 
 const sh_def_aliases_t sh_default_aliases[] = {
     {"ls", "ls --color=auto"},
+    {"grep", "grep --color=auto"},
+    {"ll", "ls -l"},
+    {"gp", "git push"},
+    {"gpull", "git pull"},
     {NULL, NULL}
 };
