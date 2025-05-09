@@ -48,6 +48,7 @@ int sh_builtin_nothing(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_which(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_where(shell_data_t *shell_data, sh_tasker_t *task);
 int sh_builtin_repeat(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_builtin_clear_history(shell_data_t *shell_data, sh_tasker_t *task);
 
 #endif
 

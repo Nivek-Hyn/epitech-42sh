@@ -39,6 +39,7 @@ typedef struct {
     #define SH_BLTN_REPEAT "repeat", sh_builtin_repeat
     #define SH_BLTN_H_OR_T "pileouface", sh_builtin_h_or_t
     #define SH_BLTN_DARK_HUGO "dark_hugo", sh_builtin_dark_hugo
+    #define SH_BLTN_CLEAR_HISTORY "clear_history", sh_builtin_clear_history
 
 
 extern const sh_builtin_conf_t sh_builtins[];

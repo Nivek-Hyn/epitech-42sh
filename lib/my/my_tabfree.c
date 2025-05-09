@@ -18,5 +18,6 @@ int my_tabfree(void **tab)
     for (int i = 0; tab[i] != NULL; i++)
         free(tab[i]);
     free(tab);
+    tab = NULL;
     return FUNC_SUCCESS;
 }
