@@ -21,9 +21,12 @@ const sh_builtin_conf_t sh_builtins[] = {
     {SH_BLTN_SHELLCUSTOM},
     {SH_BLTN_ALIAS},
     {SH_BLTN_HISTORY},
+    {SH_BLTN_H_OR_T},
+    {SH_BLTN_DARK_HUGO},
     {SH_BLTN_NOTHING},
     {SH_BLTN_WHICH},
     {SH_BLTN_WHERE},
     {SH_BLTN_REPEAT},
+    {SH_BLTN_CLEAR_HISTORY},
     {SH_BLTN_BLANK}
 };

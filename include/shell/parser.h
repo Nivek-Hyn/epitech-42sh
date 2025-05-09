@@ -30,6 +30,7 @@ int read_stdin(tty_t *tty, int file, shell_data_t *shell_data);
 int my_stdin_getline(char **buf, int file, shell_data_t *shell_data);
 void handle_history_arr(tty_t *tty, shell_data_t *shell_data, char c);
 void handle_tab(tty_t *tty, shell_data_t *shell_data);
+void handle_regular_char(char c, tty_t *tty, shell_data_t *data);
 
 #endif
 
