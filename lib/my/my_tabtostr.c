@@ -50,6 +50,7 @@ char *my_tabtostr(const char **src)
     if (src == NULL || tab_len < 0 || chr_len <= 0)
         return NULL;
     new_str = malloc(sizeof(char) * (chr_len + tab_len + 1));
+    my_memset(new_str, '\0', chr_len + tab_len + 1);
     if (new_str == NULL)
         return NULL;
     if (write_string(src, new_str) == FUNC_FAILED) {
