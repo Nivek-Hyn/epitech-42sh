@@ -15,6 +15,8 @@
 typedef struct completion_s {
     int printed;
     char **every_name;
+    char *typed;
+    char *concat;
 } completion_t;
 
 typedef struct getline_s {
@@ -26,7 +28,9 @@ typedef struct getline_s {
 int sh_fill_completion_names(DIR *dir, completion_t *completion_s);
 int fill_buffer(getline_t *gtln_s, char **all_path);
 char *extract_last_word(char *buffer);
-int fill_buffer(getline_t *gtln_s, char **all_path);
+void print_all_names(completion_t *completion_s, tty_t *tty);
+void printeur(char *name, int *printed);
+void check_is_solo(int nb_rows, completion_t *completion_s, tty_t *tty, int i);
 int fill_buffer_slash(getline_t *gtln_s, char **all_path);
 
 #endif /* !COMPLETION_H_ */
