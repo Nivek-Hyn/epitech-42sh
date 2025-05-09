@@ -37,6 +37,6 @@ int sh_render_window(shell_data_t *shell_data)
     if (shell_data->last_excode > 0)
         my_printf(COL_RED_B "(%s%d) ", shell_data->last_excode == 0 ?
             "✔ " : "✘ ", shell_data->last_excode);
-    my_printf(COL_MAG_B "> " COL_BLU_B "%s" COL_RESET "$ " , shell_data->pwd);
+    my_printf(COL_MAG_B "> " COL_BLU_B "%s" COL_RESET "$ ", shell_data->pwd);
     return FUNC_SUCCESS;
 }
