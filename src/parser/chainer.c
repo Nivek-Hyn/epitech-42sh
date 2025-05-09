@@ -22,6 +22,7 @@ sh_prsent_t *sh_prsent_create(char *entry, sh_prsent_type_t type)
     new_chain->entry = entry;
     new_chain->type = type;
     new_chain->next = NULL;
+    new_chain->prev = NULL;
     return new_chain;
 }
 
@@ -38,6 +39,7 @@ int sh_prsent_chain(sh_prsent_t **start, sh_prsent_t *chain)
     curr_chain = *start;
     for (; curr_chain->next != NULL; curr_chain = curr_chain->next);
     curr_chain->next = chain;
+    chain->prev = curr_chain;
     return FUNC_SUCCESS;
 }
 

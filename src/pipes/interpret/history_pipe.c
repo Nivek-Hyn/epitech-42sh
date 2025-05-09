@@ -45,8 +45,9 @@ int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char **shard_ptr,
         return FUNC_FAILED;
     }
     recursion_depth_safeguard(hist_shard);
-    sh_parser_override(&task->parser_entry, sh_parse_string(hist_shard),
-        shard_ptr);
+    if (sh_parser_override(&task->parser_entry, sh_parse_string(hist_shard),
+        shard_ptr) == FUNC_FAILED)
+        return my_vfree_int(FUNC_FAILED, 1, hist_shard);
     free(hist_shard);
     sh_tasker_patch(task);
     consume_next_argument(next_argument);

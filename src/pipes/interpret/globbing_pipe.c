@@ -55,8 +55,9 @@ int sh_tsk_intprt_globbing_pipe(sh_tasker_t *task, char **shard_ptr,
     if (all_globbings == NULL)
         all_globbings = my_strdup("<ERROR>");
     my_tabfree((void **) globbers);
-    sh_parser_override(&task->parser_entry, sh_parse_string(all_globbings),
-        shard_ptr);
+    if (sh_parser_override(&task->parser_entry, sh_parse_string(all_globbings),
+        shard_ptr) == FUNC_FAILED)
+        return my_vfree_int(FUNC_FAILED, 1, all_globbings);
     free(all_globbings);
     sh_tasker_patch(task);
     consume_next_argument(next_argument);

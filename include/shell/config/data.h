@@ -28,6 +28,7 @@ typedef struct sh_prsent_s {
     char *entry;
     sh_prsent_type_t type;
     struct sh_prsent_s *next;
+    struct sh_prsent_s *prev;
 } sh_prsent_t;
 
 #endif
