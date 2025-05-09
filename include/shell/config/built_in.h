@@ -31,6 +31,7 @@ typedef struct {
     #define SH_BLTN_JOBS "jobs", sh_builtin_jobs
     #define SH_BLTN_BG "bg", sh_builtin_bg
     #define SH_BLTN_FG "fg", sh_builtin_fg
+    #define SH_BLTN_KILL_JOB "kill_job", sh_builtin_kill_job
     #define SH_BLTN_ALIAS "alias", sh_builtin_alias
     #define SH_BLTN_HISTORY "history", sh_builtin_history
     #define SH_BLTN_NOTHING "nothing", sh_builtin_nothing
