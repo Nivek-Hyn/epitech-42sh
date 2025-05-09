@@ -13,7 +13,7 @@
 
 int sh_builtin_help(shell_data_t *shell_data, sh_tasker_t *task)
 {
-    char *filepath = "./ascii_art/help_prompt.txt";
+    char *filepath = "./src/ascii_art/help_prompt.txt";
     FILE *file = fopen(filepath, "r");
     char *line = NULL;
     size_t len = 0;

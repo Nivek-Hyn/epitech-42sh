@@ -23,7 +23,6 @@ static void sigtstp_handler(int signo)
             current; current = current->next) {
         if (current->is_background == FALSE) {
             kill(-current->pgid, SIGSTOP);
-            my_printf("\n");
         }
     }
 }

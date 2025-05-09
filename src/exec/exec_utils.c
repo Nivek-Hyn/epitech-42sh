@@ -67,7 +67,7 @@ void sh_sigtstp_manager(shell_data_t *shell_data, pid_t child_pid, int status)
     jobs_t *job = NULL;
 
     if (WIFSTOPPED(status)) {
-        my_printf("Suspended\n");
+        my_printf("\nSuspended\n");
         job = get_job_by_pid(shell_data, child_pid);
         job->status = SUSPENDED;
         job->is_background = TRUE;
