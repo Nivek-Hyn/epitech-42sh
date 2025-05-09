@@ -21,7 +21,6 @@
 #include "shell/misc.h"
 #include "shell/exec.h"
 #include "shell/job.h"
-#include "shell/job.h"
 
 int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     bool_t keep_lastexcode)
@@ -61,7 +60,6 @@ int sh_exec_execute(sh_tasker_t *task, int pipe_fd[2])
 
     if (task == NULL)
         exit(EXIT_FAILURE);
-    setpgid(getpid(), getpid());
     if (task->pipes.redir_type != SH_REDIR_UNKNOWN && pipe_fd != NULL)
         if (sh_exec_redirect(task, pipe_fd) == FUNC_FAILED)
             exit(EXIT_FAILURE);
