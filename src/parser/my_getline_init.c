@@ -74,7 +74,7 @@ int my_stdin_getline(char **buf, int file, shell_data_t *shell_data)
         return res;
     }
     res = tty->size;
-    *buf = realloc(tty->buffer, res);
+    *buf = realloc(tty->buffer, res + 1);
     my_vfree(2, tty->current, tty);
     return (!*buf) ? FUNC_FAILED : res;
 }

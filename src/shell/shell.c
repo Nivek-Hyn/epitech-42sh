@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "my.h"
 #include "shell/shell.h"
 #include "shell/render.h"
@@ -15,6 +16,22 @@
 #include "shell/tasker.h"
 #include "utils.h"
 #include "shell/job.h"
+
+static void write_entry_prompt(void)
+{
+    char *filepath = "./ascii_art/entry_prompt.txt";
+    FILE *file = fopen(filepath, "r");
+    char *line = NULL;
+    size_t len = 0;
+
+    if (file == NULL)
+        return;
+    while (getline(&line, &len, file) != -1) {
+        write(1, line, strlen(line));
+    }
+    free(line);
+    fclose(file);
+}
 
 void sh_shelldata_reset(shell_data_t *shell_data)
 {
@@ -74,6 +91,7 @@ int shell(shell_data_t *shell_data)
         return FUNC_FAILED;
     if (isatty(STDIN) == FALSE)
         return shell_tty_mode(shell_data);
+    write_entry_prompt();
     do {
         sh_shelldata_reset(shell_data);
         sh_render_window(shell_data);
