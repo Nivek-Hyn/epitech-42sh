@@ -70,8 +70,9 @@ int sh_tsk_intprt_var_pipe_insert(sh_tasker_t *task, char **shard_ptr,
     if (variable == NULL || my_strcmp(shard, variable) == CMP_EXACT)
         entry->type = SH_PARSER_COMMAND;
     else
-        sh_parser_override(&task->parser_entry, sh_parse_string(variable),
-            shard_ptr);
+        if (sh_parser_override(&task->parser_entry, sh_parse_string(variable),
+            shard_ptr) == FUNC_FAILED)
+            return FUNC_FAILED;
     sh_tasker_patch(task);
     consume_next_argument(next_argument);
     return FUNC_SUCCESS;

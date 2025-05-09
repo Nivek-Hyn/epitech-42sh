@@ -22,6 +22,11 @@ int (*sh_get_builtin_exec(sh_prsent_t *parser_entry))(shell_data_t *,
 
     if (parser_entry == NULL)
         return NULL;
+    for (; parser_entry != NULL; parser_entry = parser_entry->next)
+        if (my_strcmp(parser_entry->entry, "") != CMP_EXACT)
+            break;
+    if (parser_entry == NULL)
+        return NULL;
     if (parser_entry->entry == NULL)
         return NULL;
     entry = parser_entry->entry;

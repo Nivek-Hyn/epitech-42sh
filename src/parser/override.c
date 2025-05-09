@@ -35,3 +35,13 @@ int sh_parser_override(sh_prsent_t **chain_ptr, sh_prsent_t *new_patch,
     }
     return FUNC_SUCCESS;
 }
+
+void sh_parser_override_var(sh_prsent_t *entry)
+{
+    if (entry == NULL)
+        return;
+    if (entry->prev == NULL || entry->type != SH_PARSER_VAR_PIPE)
+        return;
+    if (entry->prev->type == SH_PARSER_COMMAND)
+        entry->type = SH_PARSER_COMMAND;
+}

@@ -73,5 +73,6 @@ char **sh_prsent_to_char_tab(sh_prsent_t *chain);
 
 int sh_parser_override(sh_prsent_t **chain_ptr, sh_prsent_t *new_patch,
     char **shard_ptr);
+void sh_parser_override_var(sh_prsent_t *entry);
 
 #endif

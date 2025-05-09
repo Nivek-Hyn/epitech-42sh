@@ -89,12 +89,12 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         shard = get_shard(last_stop, &last_stop, &argument_parser_run);
         if (shard == NULL)
             return (argument_parser_run) ? FUNC_SUCCESS : FUNC_SEMFAIL;
-        if (is_supported_pipe(shard) == TRUE)
-            curr_chain = sh_prsent_create(shard, sh_pipe_type(shard));
-        else
-            curr_chain = sh_prsent_create(shard, SH_PARSER_COMMAND);
+        curr_chain = sh_prsent_create(shard, SH_PARSER_COMMAND);
         if (sh_prsent_chain(chain, curr_chain) == FUNC_FAILED)
             return FUNC_FAILED;
+        if (is_supported_pipe(shard) == TRUE && curr_chain != NULL)
+            curr_chain->type = sh_pipe_type(shard);
+        sh_parser_override_var(curr_chain);
         shard = last_stop;
     }
     return FUNC_FAILED;

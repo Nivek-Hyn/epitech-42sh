@@ -427,6 +427,20 @@
           "executable": "./42sh",
           "args": [],
           "input_file": ".grindme/test_files/known_issues/22"
+        },
+        {
+          "name": "Issue #30",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/30"
+        },
+        {
+          "name": "Issue #32",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/32"
         }
       ]
     }
