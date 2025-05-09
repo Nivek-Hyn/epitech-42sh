@@ -21,7 +21,8 @@ static void move_to_next_command(sh_prsent_t **parser_ent)
         return;
     curr_ent = *parser_ent;
     for (; curr_ent != NULL; curr_ent = curr_ent->next)
-        if (sh_parser_is_anypipe(curr_ent) == TRUE) {
+        if (sh_parser_is_anypipe(curr_ent) == TRUE
+            && curr_ent->type != SH_PARSER_VAR_PIPE) {
             *parser_ent = curr_ent->next;
             return;
         }
@@ -35,6 +36,8 @@ static int build_task(sh_tasker_t **tasker, sh_prsent_t **parser_ent,
 
     if (tasker == NULL || parser_ent == NULL || pre_data == NULL)
         return FUNC_FAILED;
+    if (sh_parser_is_anypipe(*parser_ent) == TRUE)
+        return FUNC_SUCCESS;
     new_task = sh_tasker_create(pre_data->shell_data, *parser_ent);
     if (new_task == NULL)
         return FUNC_FAILED;

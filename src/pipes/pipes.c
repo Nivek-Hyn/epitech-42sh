@@ -41,6 +41,24 @@ const sh_pipe_info_t sh_pipe_info[] = {
         },
         sh_tsk_intprt_history_pipe
     },
+    {SH_PARSER_GLOBBING_PIPE,
+        (char *[]) {
+            PIPE_GLOB_NUM, NULL
+        },
+        sh_tsk_intprt_globbing_pipe
+    },
+    {SH_PARSER_VAR_PIPE,
+        (char *[]) {
+            PIPE_VAR, NULL
+        },
+        sh_tsk_intprt_var_pipe
+    },
+    {SH_PARSER_VAR_INSERT_PIPE,
+        (char *[]) {
+            PIPE_VAR_INS, NULL
+        },
+        sh_tsk_intprt_var_pipe_insert
+    },
     {SH_PARSER_UNKNOWN,
         NULL,
         NULL

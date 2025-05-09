@@ -19,6 +19,7 @@
 #include "shell/shell.h"
 #include "shell/env.h"
 #include "shell/misc.h"
+#include "shell/job.h"
 
 void sh_exec_print_crash(int status)
 {
@@ -35,7 +36,7 @@ void sh_exec_print_execerror(const char *program, int errcode)
 {
     my_putstr_fd(program, STDERR);
     if (errcode == ENOEXEC) {
-        my_putstr_fd("./program: Exec format error. Wrong Architecture.\n",
+        my_putstr_fd(": Exec format error. Wrong Architecture.\n",
             STDERR);
         return;
     }
@@ -58,4 +59,13 @@ int sh_exec_check_access(const char *program, bool_t show_msg)
         return FUNC_FAILED;
     }
     return FUNC_SUCCESS;
+}
+
+void sh_sigtstp_manager(shell_data_t *shell_data, pid_t child_pid, int status)
+{
+    if (WIFSTOPPED(status)) {
+        printf("Suspended\n");
+        get_job_by_pid(shell_data, child_pid)->status = SUSPENDED;
+    }
+    remove_job_by_pid(shell_data, child_pid);
 }

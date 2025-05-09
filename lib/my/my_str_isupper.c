@@ -19,3 +19,24 @@ int my_str_isupper(const char *str)
             return FALSE;
     return TRUE;
 }
+
+int my_str_isuppernum(const char *str)
+{
+    if (str == NULL)
+        return FALSE;
+    for (int i = 0; str[i] != '\0'; i++)
+        if ((str[i] < 'A' || str[i] > 'Z') &&
+            (str[i] < '0' || str[i] > '9'))
+            return FALSE;
+    return TRUE;
+}
+
+int my_str_isupperprintable(const char *str)
+{
+    if (str == NULL)
+        return FALSE;
+    for (int i = 0; str[i] != '\0'; i++)
+        if ((str[i] >= 'a') && (str[i] <= 'z'))
+            return FALSE;
+    return TRUE;
+}

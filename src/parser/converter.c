@@ -12,7 +12,7 @@
 #include "shell/parser.h"
 #include "utils.h"
 
-static char *convert_to_char_ptr(char *result, sh_prsent_t *chain)
+static char *convert_to_char_ptr(char *result, int size, sh_prsent_t *chain)
 {
     int index = 0;
 
@@ -23,7 +23,7 @@ static char *convert_to_char_ptr(char *result, sh_prsent_t *chain)
             return result;
         my_strcat(&result[index], chain->entry);
         index += my_strlen(chain->entry);
-        if (chain->next != NULL && result[index] != '\0') {
+        if (chain->next != NULL && index < size) {
             result[index] = ' ';
             index++;
         }
@@ -60,8 +60,9 @@ char *sh_prsent_to_char_ptr(sh_prsent_t *chain)
     if (result == NULL)
         return NULL;
     memset(result, ' ', chain_elts_len + chain_gaps);
+    result = convert_to_char_ptr(result, chain_elts_len + chain_gaps, chain);
     result[chain_elts_len + chain_gaps] = '\0';
-    return convert_to_char_ptr(result, chain);
+    return result;
 }
 
 char **sh_prsent_to_char_tab(sh_prsent_t *chain)

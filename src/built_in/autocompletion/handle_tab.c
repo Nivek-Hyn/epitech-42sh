@@ -95,16 +95,21 @@ static void check_path_without_slash(completion_t *completion_s, char *path, get
 void list_directory(char *path, char **all_path,
     completion_t *completion_s, getline_t *getline_s)
 {
+    if (!path || !completion_s || !tty)
+        return;
     completion_s->typed = strdup(path);
-    completion_s->printed = 0;
     if (!completion_s->typed)
         return;
+    completion_s->printed = 0;
     my_putchar('\n');
     if (path[0] != '/') {
-        check_path_slash(all_path, path, completion_s->typed, completion_s);
+        check_path_slash(all_path, path, tty, completion_s);
+        if (completion_s->printed == 2)
+            putchar('\n');
     } else
         check_path_without_slash(completion_s, path, getline_s);
     free(completion_s->typed);
+    completion_s->typed = NULL;
 }
 
 void show_this_directory(completion_t *completion_s, getline_t *getline_s)
@@ -123,16 +128,16 @@ static void launch_function(getline_t *getline_s, char **all_path)
 {
     completion_t *completion_s = malloc(sizeof(completion_t));
 
-    if (!completion_s)
+    if (!shell_data || !tty || !buff || !all_path || !completion_s)
         return;
     completion_s->every_name = NULL;
     completion_s->printed = 0;
     if (getline_s->buff[0] == '\0')
         show_this_directory(completion_s, getline_s);
     else
-        list_directory(getline_s->buff, all_path, completion_s, getline_s);
-    sh_render_window(getline_s->data);
-    my_putstr(getline_s->tty->buffer);
+        list_directory(buff, all_path, completion_s, tty);
+    sh_render_window(shell_data);
+    my_putstr(tty->buffer);
     my_tabfree((void **)all_path);
     if (completion_s->every_name)
         my_tabfree((void **)completion_s->every_name);

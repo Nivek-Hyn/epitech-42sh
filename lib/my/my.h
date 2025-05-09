@@ -113,6 +113,24 @@ bool_t my_str_issnum(const char *str);
 int my_str_islower(const char *str);
 
 /*
+** Check if the string is a lower alphanumeric string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_islowernum(const char *str);
+
+/*
+** Check if the string is a lower printable string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_islowerprintable(const char *str);
+
+/*
 ** Check if the string is an upper alphabetic string
 **
 ** @note This is a `String Compare Function`
@@ -120,6 +138,24 @@ int my_str_islower(const char *str);
 ** @return `int` (boolean-like)
 */
 int my_str_isupper(const char *str);
+
+/*
+** Check if the string is an upper alphanumeric string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_isuppernum(const char *str);
+
+/*
+** Check if the string is an upper printable string
+**
+** @note This is a `String Compare Function`
+** @param str `const char *`
+** @return `int` (boolean-like)
+*/
+int my_str_isupperprintable(const char *str);
 
 /*
 ** Check if the string is an alphanumeric string
@@ -274,6 +310,18 @@ bool_t my_isin(const char *string, const char **string_list);
 ** @return `char *` (non-malloc)
 */
 char *my_strcpy(char *dest, const char *src);
+
+/*
+** Copies string content from `src` to `dest` and
+** returns the pointer to the end of the copy write
+** operation
+**
+** @note This is a `String Transform Function`
+** @param dest `char *`
+** @param src `const char *`
+** @return `char *` (non-malloc)
+*/
+char *my_strcpy_sp(char *dest, const char *src);
 
 /*
 ** Copies string content from `src` to `dest`
@@ -464,6 +512,17 @@ char **my_sepstr(char const *str, const char *sep);
 ** @return `char *` (malloc'd)
 */
 char *my_int_to_str(int number);
+
+/*
+** Implementation of c "memset" function (man memset)
+**
+** @note This is a `String Transform Function`
+** @param s `void`
+** @param c `int`
+** @param n `size_t`
+** @return `char *` (malloc'd)
+*/
+void *my_memset(void *s, int c, size_t n);
 
 #endif
 
@@ -1138,9 +1197,18 @@ int my_tabfree(void **tab);
 **
 ** @note This is a `Pointer Function`
 ** @param tab `char **` (Malloc'd)
-** @return `int`
+** @return `char **`
 */
 char **my_tabdup(char **src);
+
+/*
+** Copies and concatenates the contents of a board to a string
+**
+** @note This is a `Pointer Function`
+** @param tab `const char **` (Malloc'd)
+** @return `char *`
+*/
+char *my_tabtostr(const char **src);
 
 /*
 ** Chains a new char_dict_t chain `chain` inside a char_dict_t `dict`
@@ -1279,6 +1347,17 @@ void my_vfree(int n_free, ...);
 ** @return `void *`
 */
 void *my_vfree_null(int n_free, ...);
+
+/*
+** Frees `n_free` arguments put inside the variadic function argument
+**
+** @note This is a `Pointer Function`
+** @param dict `char_dict_t *`
+** @param n_free `ìnt`
+** @param ... `void * (Variadic)`
+** @return `int`
+*/
+int my_vfree_int(int code, int n_free, ...);
 
 /*
 ** Reallocates a `src` tab from `tab_size` to `new_size`
