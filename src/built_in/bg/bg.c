@@ -12,15 +12,16 @@
 #include "utils.h"
 #include <signal.h>
 #include "shell/job.h"
+#include "my_printf.h"
 
 void run_bg(jobs_t **current)
 {
     (*current)->is_background = TRUE;
     (*current)->status = RUNNING;
     kill(-(*current)->pgid, SIGCONT);
-    printf("[%d]    ", (*current)->id);
+    my_printf("[%d]    ", (*current)->id);
     print_job_command(*current);
-    printf("\n");
+    my_printf("\n");
 }
 
 int bg_args_loop(shell_data_t *shell_data, sh_tasker_t *task,
@@ -29,7 +30,7 @@ int bg_args_loop(shell_data_t *shell_data, sh_tasker_t *task,
     for (int i = 1; task->args[i] != NULL; i++) {
         (*current) = find_target_job(shell_data, task->args[i]);
         if ((*current) == NULL) {
-            printf("bg: no such job\n");
+            my_printf("bg: no such job\n");
             return EXIT_FAILURE;
         }
         run_bg(&(*current));
@@ -50,7 +51,7 @@ int bg_no_args(shell_data_t *shell_data, sh_tasker_t *task,
     consume_task(task);
     (*current) = find_target_job(shell_data, NULL);
     if ((*current) == NULL) {
-        printf("bg: no such job\n");
+        my_printf("bg: no such job\n");
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     }
     run_bg(&(*current));
@@ -67,6 +68,7 @@ int sh_builtin_bg(shell_data_t *shell_data, sh_tasker_t *task)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (sh_builtin_verify(task->parser_entry, prerequisites) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    g_jobs = shell_data->jobs;
     if (my_tablen((const void **)task->args) > 1) {
         if (bg_args_loop(shell_data, task, &current) == EXIT_FAILURE)
             return sh_builtin_fail(shell_data, EXIT_FAILURE);

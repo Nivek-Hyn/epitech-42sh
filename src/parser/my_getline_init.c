@@ -12,11 +12,20 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include "my_printf.h"
 
 static void sigtstp_handler(int signo)
 {
     (void)signo;
-    write(1, "test\n", 5);
+    if (g_jobs == NULL)
+        return;
+    for (jobs_t *current = (jobs_t *)g_jobs;
+            current; current = current->next) {
+        if (current->is_background == FALSE) {
+            kill(-current->pgid, SIGSTOP);
+            my_printf("\n");
+        }
+    }
 }
 
 void enable_raw_mode(struct termios *oldt)
@@ -33,7 +42,7 @@ void enable_raw_mode(struct termios *oldt)
 void disable_raw_mode(struct termios *oldt)
 {
     tcsetattr(STDIN_FILENO, TCSANOW, oldt);
-    signal(SIGTSTP, SIG_DFL);
+    signal(SIGTSTP, sigtstp_handler);
 }
 
 static int get_tty_struct(tty_t **tty, shell_data_t *shell_data)

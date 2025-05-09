@@ -30,4 +30,6 @@ typedef struct jobs_s {
     struct jobs_s *next;
 } jobs_t;
 
+extern const jobs_t *g_jobs;
+
 #endif

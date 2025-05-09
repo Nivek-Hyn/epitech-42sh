@@ -21,13 +21,14 @@
 #include "shell/exec.h"
 #include "shell/job.h"
 #include "shell/job.h"
+#include "my_printf.h"
 
 static int handle_job(shell_data_t *shell_data, sh_tasker_t *task,
     int fork_result)
 {
     if (shell_data == NULL || task == NULL)
         return FUNC_FAILED;
-    printf("[%d] %d\n", get_job_by_pid(shell_data, fork_result)->id,
+    my_printf("[%d] %d\n", get_job_by_pid(shell_data, fork_result)->id,
         get_job_by_pid(shell_data, fork_result)->pid);
     return sh_builtin_success(shell_data, EXIT_SUCCESS);
 }
@@ -63,5 +64,6 @@ int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task)
     sh_add_job(shell_data, task, fork_result);
     if (task->pipes.background == TRUE)
         return handle_job(shell_data, task, fork_result);
+    g_jobs = shell_data->jobs;
     return sh_exec_monitor(shell_data, fork_result, FALSE);
 }

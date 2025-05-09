@@ -14,19 +14,20 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include "shell/job.h"
+#include "my_printf.h"
 
 void run_fg(jobs_t **current)
 {
     int status = 0;
 
     print_job_command(*current);
-    printf("\n");
+    my_printf("\n");
     (*current)->is_background = FALSE;
     (*current)->status = RUNNING;
     kill(-(*current)->pgid, SIGCONT);
     waitpid((*current)->pid, &status, WUNTRACED);
     if (WIFSTOPPED(status)) {
-        printf("Suspended\n");
+        my_printf("Suspended\n");
         (*current)->status = SUSPENDED;
     } else {
         (*current)->status = DONE;
@@ -42,11 +43,12 @@ int sh_builtin_fg(shell_data_t *shell_data, sh_tasker_t *task)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     if (sh_builtin_verify(task->parser_entry, prerequisites) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    g_jobs = shell_data->jobs;
     current = (my_tablen((const void **)task->args) > 1) ?
         find_target_job(shell_data, task->args[0]) :
         find_target_job(shell_data, NULL);
     if (current == NULL) {
-        printf("fg: no such job\n");
+        my_printf("fg: no such job\n");
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
     }
     run_fg(&current);

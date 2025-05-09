@@ -26,6 +26,8 @@ void free_job(jobs_t **jobs, jobs_t **current, jobs_t **prev)
     my_tabfree((void **)to_delete->command);
     if (to_delete)
         free(to_delete);
+    to_delete = NULL;
+    g_jobs = *jobs;
 }
 
 void remove_job_by_id(shell_data_t *shell_data, int id)
@@ -86,4 +88,5 @@ void remove_finished_jobs(shell_data_t *shell_data)
         prev = current;
         current = current->next;
     }
+    g_jobs = shell_data->jobs;
 }
