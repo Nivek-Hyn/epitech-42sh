@@ -11,6 +11,7 @@
 #include "shell/env.h"
 #include "shell/parser.h"
 #include "shell/misc.h"
+#include "shell/alias.h"
 #include "my.h"
 
 static int load_user_data(shell_usr_data_t *user_data)
@@ -43,7 +44,7 @@ shell_usr_data_t *sh_usrdata_init(char_dict_t *env)
     shell_usrdata->user = sh_get_user_color();
     shell_usrdata->user_homedir = my_strdup(sh_env_get(env, "HOME"));
     shell_usrdata->hostname = sh_get_host_color();
-    shell_usrdata->aliases = NULL;
+    shell_usrdata->aliases = sh_load_def_aliases();
     shell_usrdata->variables = NULL;
     shell_usrdata->history_len = -1;
     shell_usrdata->history = NULL;

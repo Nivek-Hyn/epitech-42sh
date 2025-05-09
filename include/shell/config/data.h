@@ -161,4 +161,9 @@ typedef struct {
     #define SH_EXEC_MSTRICT(rd_data) (SH_EXEC_MODE(rd_data) == SH_EXEC_STRICT)
     #define SH_EXEC_MLAX(rd_data)    (SH_EXEC_MODE(rd_data) == SH_EXEC_LAX)
 
+typedef struct {
+    char *base;
+    char *target;
+} sh_def_aliases_t;
+
 #endif
