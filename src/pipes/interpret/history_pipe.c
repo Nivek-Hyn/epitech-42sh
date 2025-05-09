@@ -11,6 +11,7 @@
 #include "shell/pipes.h"
 #include "shell/parser.h"
 #include "shell/tasker.h"
+#include "shell/exec.h"
 #include "utils.h"
 
 static void consume_next_argument(char *next_argument)
@@ -38,8 +39,11 @@ int sh_tsk_intprt_history_pipe(sh_tasker_t *task, char **shard_ptr,
         shard_ptr == NULL)
         return FUNC_FAILED;
     hist_shard = sh_get_history_shard(shard, task->shell_data);
-    if (hist_shard == NULL)
-        hist_shard = my_strdup("");
+    if (hist_shard == NULL) {
+        my_putstr_fd(shard, STDERR);
+        my_putstr_fd(": History file parsing failed.\n", STDERR);
+        return FUNC_FAILED;
+    }
     recursion_depth_safeguard(hist_shard);
     sh_parser_override(&task->parser_entry, sh_parse_string(hist_shard),
         shard_ptr);
