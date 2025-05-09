@@ -12,6 +12,8 @@
 #include "shell/config/types.h"
 #include "utils.h"
 
+const jobs_t *g_jobs = NULL;
+
 static int configure_options(shell_data_t *shell_data,
     sh_st_options_t *options)
 {

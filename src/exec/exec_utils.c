@@ -20,6 +20,7 @@
 #include "shell/env.h"
 #include "shell/misc.h"
 #include "shell/job.h"
+#include "my_printf.h"
 
 void sh_exec_print_crash(int status)
 {
@@ -63,9 +64,14 @@ int sh_exec_check_access(const char *program, bool_t show_msg)
 
 void sh_sigtstp_manager(shell_data_t *shell_data, pid_t child_pid, int status)
 {
+    jobs_t *job = NULL;
+
     if (WIFSTOPPED(status)) {
-        printf("Suspended\n");
-        get_job_by_pid(shell_data, child_pid)->status = SUSPENDED;
+        my_printf("Suspended\n");
+        job = get_job_by_pid(shell_data, child_pid);
+        job->status = SUSPENDED;
+        job->is_background = TRUE;
+    } else {
+        remove_job_by_pid(shell_data, child_pid);
     }
-    remove_job_by_pid(shell_data, child_pid);
 }
