@@ -32,6 +32,8 @@ shell_data_t *sh_data_init(char_dict_t *env)
     if (shell_data->user_data != NULL)
         shell_data->pwd = my_strdup(shell_data->user_data->user_homedir);
     shell_data->jobs = NULL;
+    shell_data->shell_pgid = getpid();
+    setpgid(shell_data->shell_pgid, shell_data->shell_pgid);
     return shell_data;
 }
 
