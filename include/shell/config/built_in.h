@@ -40,6 +40,8 @@ typedef struct {
     #define SH_BLTN_H_OR_T "pileouface", sh_builtin_h_or_t
     #define SH_BLTN_DARK_HUGO "dark_hugo", sh_builtin_dark_hugo
     #define SH_BLTN_CLEAR_HISTORY "clear_history", sh_builtin_clear_history
+    #define SH_BLTN_HELP "help", sh_builtin_help
+
 
 
 extern const sh_builtin_conf_t sh_builtins[];

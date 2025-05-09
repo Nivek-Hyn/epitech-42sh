@@ -1,0 +1,39 @@
+
+[1;36mShell Built-in Commands:[0m
+
+[1;33m🔧 Shell control:[0m
+  - [1;32mexit[0m             : Quit the shell
+  - [1;32mreturn[0m           : Return from a sourced script or subshell
+  - [1;32mclear[0m            : Clear the terminal screen
+  - [1;32mshellcustom[0m      : Display information about the custom shell
+
+[1;33m📁 File & Directory management:[0m
+  - [1;32mcd <dir>[0m         : Change the current directory
+
+[1;33m🌍 Environment variables:[0m
+  - [1;32menv[0m              : Show environment variables
+  - [1;32msetenv VAR VALUE[0m : Set an environment variable
+  - [1;32munsetenv VAR[0m     : Unset an environment variable
+
+[1;33m📜 Aliases & History:[0m
+  - [1;32malias NAME='CMD'[0m : Define or display aliases
+  - [1;32mhistory[0m          : Show command history
+  - [1;32mclear_history[0m    : Clear the command history
+
+[1;33m🔎 Command location:[0m
+  - [1;32mwhich CMD[0m        : Show the full path of CMD if it's executable
+  - [1;32mwhere CMD[0m        : Show all paths for CMD including aliases and built-ins
+
+[1;33m🔁 Command control:[0m
+  - [1;32mrepeat N CMD[0m     : Repeat CMD N times
+  - [1;32mnothing[0m          : Do absolutely nothing
+
+[1;33m🎭 Job control:[0m
+  - [1;32mjobs[0m             : List background jobs
+  - [1;32mbg %n[0m            : Resume a job in the background
+  - [1;32mfg %n[0m            : Resume a job in the foreground
+
+[1;33m🎲 Fun commands:[0m
+  - [1;32mpileouface[0m       : Flip a coin
+  - [1;32mdark_hugo[0m        : Summon Hugo Sorgues' image (experimental)
+
