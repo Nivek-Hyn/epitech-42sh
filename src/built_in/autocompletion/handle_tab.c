@@ -80,7 +80,8 @@ static void check_path_slash(char **all_path, char *path,
     }
 }
 
-static void check_path_without_slash(completion_t *completion_s, char *path, getline_t *getline_s)
+static void check_path_without_slash(completion_t *completion_s,
+    char *path, tty_t *tty)
 {
     DIR *dir = opendir(path);
 
@@ -88,12 +89,11 @@ static void check_path_without_slash(completion_t *completion_s, char *path, get
         return;
     sh_fill_completion_names(dir, completion_s);
     closedir(dir);
-    if (fill_buffer_slash(getline_s, completion_s->every_name) == 0)
-        print_all_names(completion_s, getline_s->tty);
+    print_all_names(completion_s, tty);
 }
 
 void list_directory(char *path, char **all_path,
-    completion_t *completion_s, getline_t *getline_s)
+    completion_t *completion_s, tty_t *tty)
 {
     if (!path || !completion_s || !tty)
         return;
@@ -107,12 +107,12 @@ void list_directory(char *path, char **all_path,
         if (completion_s->printed == 2)
             putchar('\n');
     } else
-        check_path_without_slash(completion_s, path, getline_s);
+        check_path_without_slash(completion_s, path, tty);
     free(completion_s->typed);
     completion_s->typed = NULL;
 }
 
-void show_this_directory(completion_t *completion_s, getline_t *getline_s)
+void show_this_directory(completion_t *completion_s)
 {
     DIR *dir = opendir(".");
 
@@ -124,7 +124,8 @@ void show_this_directory(completion_t *completion_s, getline_t *getline_s)
     print_every_names(completion_s);
 }
 
-static void launch_function(getline_t *getline_s, char **all_path)
+static void launch_function(shell_data_t *shell_data,
+    tty_t *tty, char *buff, char **all_path)
 {
     completion_t *completion_s = malloc(sizeof(completion_t));
 
@@ -132,21 +133,22 @@ static void launch_function(getline_t *getline_s, char **all_path)
         return;
     completion_s->every_name = NULL;
     completion_s->printed = 0;
-    if (getline_s->buff[0] == '\0')
-        show_this_directory(completion_s, getline_s);
+    if (buff[0] == '\0')
+        show_this_directory(completion_s);
     else
         list_directory(buff, all_path, completion_s, tty);
     sh_render_window(shell_data);
     my_putstr(tty->buffer);
-    my_tabfree((void **)all_path);
-    if (completion_s->every_name)
-        my_tabfree((void **)completion_s->every_name);
+    my_tabfree((void **) all_path);
+    if (completion_s->every_name != NULL)
+        my_tabfree((void **) completion_s->every_name);
     free(completion_s);
 }
 
-static void process_completion(getline_t *getline_s)
+static void process_completion(shell_data_t *shell_data,
+    tty_t *tty, char *buff)
 {
-    char *every_path = sh_env_get(getline_s->data->env, "PATH");
+    char *every_path = sh_env_get(shell_data->env, "PATH");
     char **all_path = NULL;
 
     if (!every_path)
@@ -154,24 +156,18 @@ static void process_completion(getline_t *getline_s)
     all_path = my_sepstr(every_path, ":");
     if (!all_path)
         return;
-    launch_function(getline_s, all_path);
+    launch_function(shell_data, tty, buff, all_path);
 }
 
 void handle_tab(tty_t *tty, shell_data_t *shell_data)
 {
     char *buff = NULL;
-    getline_t *getline_struct = NULL;
 
     if (!tty)
         return;
     buff = extract_last_word(tty->buffer);
     if (!buff)
         return;
-    getline_struct = malloc(sizeof(getline_t));
-    getline_struct->buff = buff;
-    getline_struct->data = shell_data;
-    getline_struct->tty = tty;
-    process_completion(getline_struct);
-    free(getline_struct);
+    process_completion(shell_data, tty, buff);
     free(buff);
 }
