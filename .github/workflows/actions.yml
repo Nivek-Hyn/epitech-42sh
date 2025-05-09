@@ -119,7 +119,7 @@ jobs:
       run: "make fclean"
 
   run_grind_me:
-    timeout-minutes: 20
+    timeout-minutes: 15
     runs-on: self-hosted
     needs: check_program_compilation
     container:
@@ -135,7 +135,7 @@ jobs:
       run: make unit_tests
 
     - name: "[TESTS] Execute GrindMe tests"
-      timeout-minutes: 10
+      timeout-minutes: 5
       run: grindme --github-action
 
     - name: "[POST-RUN] Clean workspace"
