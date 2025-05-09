@@ -36,7 +36,7 @@ void sh_exec_print_execerror(const char *program, int errcode)
 {
     my_putstr_fd(program, STDERR);
     if (errcode == ENOEXEC) {
-        my_putstr_fd("./program: Exec format error. Wrong Architecture.\n",
+        my_putstr_fd(": Exec format error. Wrong Architecture.\n",
             STDERR);
         return;
     }

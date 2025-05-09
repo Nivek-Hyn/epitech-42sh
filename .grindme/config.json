@@ -396,6 +396,39 @@
           "input_file": ".grindme/test_files/pipes/10_multiple_3"
         }
       ]
+    },
+    {
+      "name": "Known issues",
+      "tests": [
+        {
+          "name": "Issue #19",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/19"
+        },
+        {
+          "name": "Issue #20",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/20"
+        },
+        {
+          "name": "Issue #21 & #25",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/21"
+        },
+        {
+          "name": "Issue #22",
+          "description": "",
+          "executable": "./42sh",
+          "args": [],
+          "input_file": ".grindme/test_files/known_issues/22"
+        }
+      ]
     }
   ]
 }
