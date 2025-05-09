@@ -22,6 +22,18 @@
 #include "shell/exec.h"
 #include "shell/job.h"
 
+int sh_wait_process(shell_data_t *shell_data, pid_t child_pid, int *status)
+{
+    signal(SIGTTOU, SIG_IGN);
+    signal(SIGTTIN, SIG_IGN);
+    setpgid(child_pid, child_pid);
+    tcsetpgrp(STDIN_FILENO, child_pid);
+    if (waitpid(child_pid, &(*status), WUNTRACED) == FUNC_FAILED)
+        return EXIT_FAILURE;
+    tcsetpgrp(STDIN_FILENO, shell_data->shell_pgid);
+    return 0;
+}
+
 int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     bool_t keep_lastexcode)
 {
@@ -29,10 +41,8 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
 
     if (shell_data == NULL)
         return FUNC_FAILED;
-    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
-    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
+    if (sh_wait_process(shell_data, child_pid, &status) == EXIT_FAILURE)
         return sh_builtin_fail(shell_data, EXIT_FAILURE_84);
-    sh_sigtstp_manager(shell_data, child_pid, status);
     sh_sigtstp_manager(shell_data, child_pid, status);
     if (WIFSIGNALED(status)) {
         sh_exec_print_crash(status);

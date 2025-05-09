@@ -58,6 +58,7 @@ typedef struct {
     sh_exit_code_t last_excode;
     bool_t is_active;
     jobs_t *jobs;
+    pid_t shell_pgid;
 } shell_data_t;
 
     #define SH_DATA_DEFAULT            NULL, NULL, NULL, -1, TRUE
