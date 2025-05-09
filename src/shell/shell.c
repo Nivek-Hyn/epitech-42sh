@@ -19,7 +19,7 @@
 
 static void write_entry_prompt(void)
 {
-    char *filepath = "./ascii_art/entry_prompt.txt";
+    char *filepath = "./src/ascii_art/entry_prompt.txt";
     FILE *file = fopen(filepath, "r");
     char *line = NULL;
     size_t len = 0;
