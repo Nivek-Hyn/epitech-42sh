@@ -31,9 +31,7 @@ int sh_exec_monitor(shell_data_t *shell_data, pid_t child_pid,
     if (shell_data == NULL)
         return FUNC_FAILED;
     if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
-    if (waitpid(child_pid, &status, WUNTRACED) == FUNC_FAILED)
         return sh_builtin_fail(shell_data, EXIT_FAILURE_84);
-    sh_sigtstp_manager(shell_data, child_pid, status);
     sh_sigtstp_manager(shell_data, child_pid, status);
     if (WIFSIGNALED(status)) {
         sh_exec_print_crash(status);
