@@ -18,7 +18,9 @@ void my_vfree(int n_free, ...)
     va_start(args, n_free);
     for (int i = 0; i < n_free; i++) {
         value = va_arg(args, void *);
-        free(value);
+        if (value != NULL)
+            free(value);
+        value = NULL;
     }
     va_end(args);
 }

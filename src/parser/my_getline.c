@@ -148,6 +148,5 @@ int read_stdin(tty_t *tty, int file, shell_data_t *shell_data)
         }
         handle_input_char(c, tty, shell_data);
     }
-    free(tty->current);
     return tty->size;
 }
