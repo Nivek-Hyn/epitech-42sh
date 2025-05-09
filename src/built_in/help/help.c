@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "shell/built_in.h"
 #include "shell/config/data.h"
 
 int sh_builtin_help(shell_data_t *shell_data, sh_tasker_t *task)
@@ -18,12 +19,14 @@ int sh_builtin_help(shell_data_t *shell_data, sh_tasker_t *task)
     char *line = NULL;
     size_t len = 0;
 
-    if (!file || !shell_data || !task)
+    if (!shell_data || !task)
         return FUNC_FAILED;
-    while (getline(&line, &len, file) != -1) {
+    if (!file)
+        return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    while (getline(&line, &len, file) != FUNC_FAILED) {
         write(1, line, strlen(line));
     }
     free(line);
     fclose(file);
-    return FUNC_SUCCESS;
+    return sh_builtin_success(shell_data, EXIT_SUCCESS);
 }
