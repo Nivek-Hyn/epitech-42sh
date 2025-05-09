@@ -28,7 +28,9 @@ shell_data_t *sh_data_init(char_dict_t *env)
     shell_data->is_active = TRUE;
     shell_data->user_data = sh_usrdata_init(env);
     shell_data->last_excode = SH_DATA_DEFAULT_EC;
-    shell_data->pwd = sh_get_pwd_color();
+    shell_data->pwd = NULL;
+    if (shell_data->user_data != NULL)
+        shell_data->pwd = my_strdup(shell_data->user_data->user_homedir);
     shell_data->jobs = NULL;
     return shell_data;
 }

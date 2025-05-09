@@ -10,7 +10,8 @@
 #ifndef MISC_H
     #define MISC_H
 
-    #define MAX_HOSTNAME_LEN 500
+    #define MAX_HOSTNAME_LEN    500
+    #define PWD_UNKNOWN         COL_RED_B "<unknown path>" COL_RESET
 
 void sh_vclose(int n, ...);
 int sh_vclose_ret(int code, int n, ...);
