@@ -6,38 +6,37 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "my.h"
 #include "my_printf.h"
 #include "shell/shell.h"
+#include "colors.h"
+#include "shell/misc.h"
 #include "utils.h"
 
 static int update_datas(shell_data_t *shell_data)
 {
-    char_dict_t *buffer = NULL;
-
     if (shell_data == NULL)
         return FUNC_FAILED;
-    buffer = my_chardict_find_dict(shell_data->env,
-        "PWD", my_chardict_find_key);
-    shell_data->pwd = buffer != NULL ? buffer->value : NULL;
-    buffer = my_chardict_find_dict(shell_data->env,
-        "PWD", my_chardict_find_key);
-    shell_data->old_pwd = buffer != NULL ? buffer->value : NULL;
+    free(shell_data->pwd);
+    shell_data->pwd = sh_get_pwd_color();
     return FUNC_SUCCESS;
 }
 
 int sh_render_window(shell_data_t *shell_data)
 {
+    const char *usr_string = COL_GRN_B "%s" COL_MAG_B " @ " COL_CYN_B "%s ";
+
     if (shell_data == NULL)
         return FUNC_FAILED;
     if (isatty(STDIN) == FALSE || shell_data->user_data == NULL)
         return FUNC_FAILED;
     update_datas(shell_data);
-    my_printf("[%s@%s", shell_data->user_data->user,
+    my_printf((char *) usr_string, shell_data->user_data->user,
         shell_data->user_data->hostname, shell_data->pwd);
     if (shell_data->last_excode > 0)
-        my_printf(" (%s%d)", shell_data->last_excode == 0 ? "✔ " : "✘ ",
-            shell_data->last_excode);
-    my_printf(" %s]$ ", shell_data->pwd);
+        my_printf(COL_RED_B "(%s%d) ", shell_data->last_excode == 0 ?
+            "✔ " : "✘ ", shell_data->last_excode);
+    my_printf(COL_MAG_B "> " COL_BLU_B "%s" COL_RESET "$ " , shell_data->pwd);
     return FUNC_SUCCESS;
 }

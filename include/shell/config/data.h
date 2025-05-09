@@ -50,7 +50,6 @@ typedef struct {
 
 typedef struct {
     char *pwd;
-    char *old_pwd;
     char_dict_t *env;
     char *line;
     sh_prsent_t *command_chain;
