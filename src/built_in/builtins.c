@@ -28,5 +28,6 @@ const sh_builtin_conf_t sh_builtins[] = {
     {SH_BLTN_WHERE},
     {SH_BLTN_REPEAT},
     {SH_BLTN_CLEAR_HISTORY},
+    {SH_BLTN_HELP},
     {SH_BLTN_BLANK}
 };
