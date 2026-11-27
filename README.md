@@ -1,33 +1,48 @@
-
 # 42sh
 
-An Epitech project aiming to recreate the TCSH System in C, using the standard LibC and Ncurses.
+A Unix shell written in C, modelled on tcsh: it reads a command line, splits it into commands, starts the matching processes, connects them and keeps track of them.
 
+![A session: a pipeline, redirections, a background job, Ctrl+Z, jobs and fg](docs/media/42sh-demo.gif)
+
+**C · Unix system calls (fork, exec, pipe, dup2, wait, signals) · Make · Criterion**
+
+Epitech project, team of 5.
 
 ## Features
 
-- A simple yet complete user interface
-- Standard built-ins along with new exclusive features
-- Ncurses system to display the terminal
-- Colored display
+- Pipes (`|`) and command separators (`;`).
+- Redirections to and from files (`>`, `>>`, `<`).
+- Job control: background jobs with `&`, suspending the foreground job with `Ctrl+Z`, and the `jobs`, `fg`, `bg` built-ins.
+- Built-ins: `cd`, `env`, `setenv`, `unsetenv`, `alias`, `history`, `which`, `where`, `repeat`, `exit` and more.
+- Line editing with history on the arrow keys, tab completion and aliases.
+- A coloured prompt showing the user, the host, the directory and the exit status of the last command when it failed.
 
+## Build & run
 
-## Documentation
+Requires `gcc` and `make`.
 
-Documentation may be found as a [github wiki](https://github.com/EpitechPGEPromo2029/B-PSU-200-MAR-2-1-42sh-hugo.sorgues/wiki). \
-The code is self-documented, with some comments in the headers describing the use of most function.
+```sh
+make            # builds ./42sh and its small libraries
+./42sh
+make tests_run  # unit tests and the shell tester
+make fclean     # remove objects, libraries and the binary
+```
 
-The C components follow the [2025 Epitech Coding Style](https://github.com/Epitech/coding-style-checker).
-## Acknowledgements
+## Project layout
 
- - [Standard LibC](https://www.gnu.org/software/libc/)
- - [Ncurses Lib](https://github.com/mirror/ncurses)
- - [GNU Make](https://www.gnu.org/software/make/)
- - [Epitech](https://www.epitech.eu/)
-## Authors
+- `main.c` - entry point.
+- `src/parser/` - line editing, history navigation and splitting a line into commands.
+- `src/tasker/`, `src/pipes/` - turning commands into tasks, pipes and redirections.
+- `src/exec/` - starting processes and waiting for them.
+- `src/built_in/` - one folder per built-in, including `jobs`, `fg` and `bg`.
+- `src/history/`, `src/alias/` - history and aliases.
+- `lib/` - small C libraries written for the project (strings, files, arguments).
+- `tests/` - unit tests and a shell tester that compares the output with tcsh.
 
-- [Valentin PORTEFAIX](https://github.com/PORTEFAIXv)
-- [Liam COLLE](https://github.com/liam-colle-archivist)
-- [Kevin HUYNH](https://github.com/KEV-Huynh-0)
-- [Hatim HOUADI](https://github.com/ColoMiel)
-- [Hugo SORGUES](https://github.com/Hexoneer)
+The C code follows the [Epitech coding style](https://github.com/Epitech/coding-style-checker).
+
+## Team
+
+Valentin Portefaix, Liam Colle, Kevin Huynh ([@Nivek-Hyn](https://github.com/Nivek-Hyn)), Hatim Ouaadi, Hugo Sorgues.
+
+My part was job control: background jobs with `&`, the `jobs`, `fg` and `bg` built-ins, suspending a program with `Ctrl+Z`, and killing jobs.
